@@ -1,0 +1,83 @@
+.typing-div {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 40px;
+  text-align: left;
+  white-space: pre-wrap;
+  line-height: 2em;
+  /* position: relative; */
+  padding-top: 20%;
+}
+
+.typing-div>button {
+  padding: 10px;
+  border-radius: 20px;
+  border: 2px solid black;
+  background-color: rgb(32, 32, 32);
+  color: white;
+}
+
+
+.background-text {
+  display: none;
+  color: grey;
+  flex-wrap: wrap;
+  z-index: -1;
+  user-select: none;
+  pointer-events: none;
+}
+
+#input {
+  cursor: default;
+  user-select: none;
+  display: flex;
+  flex-wrap: wrap;
+  caret-color: white;
+  background-color: transparent;
+}
+
+#input:focus {
+  outline:none
+}
+
+
+.good-letter {
+  color: white;
+}
+
+.off-word-letter {
+  color: darkred;
+}
+
+.actual-letter{
+  position: relative;
+  color: red;
+}
+
+.actual-letter::after{
+  content: var(--before-content, "_");
+  position: absolute;
+  top: 0.5em;
+  left:0;
+  color: grey;
+}
+
+.actual-letter-span{
+  position: relative;
+  color: red;
+}
+
+.word {
+  margin-right: 0.5em;
+  color: grey;
+}
+
+#caret {
+  user-select: none;
+  color: yellow;
+  position: absolute;
+  line-height: normal;
+}
+
+.invisible {
+  display: none;
+}

@@ -1,6 +1,14 @@
+import TypingInput from "../../components/TypingInput/TypingInput.jsx"
+import Header from "../../components/Header/Header";
 
 function Home() {
-    return <h1>Home</h1>;
+
+    return (
+        <div>
+            <Header></Header>
+            <TypingInput></TypingInput>
+        </div>
+        );
 }
 
 export default Home;
