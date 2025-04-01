@@ -1,8 +1,5 @@
 .nav {
-    width: 500px;
-    /* align-self: center; */
-    /* justify-content: center; */
-    
+    width: 500px;    
 }
 
 .link {
@@ -14,8 +11,9 @@
     align-self: center;
 }
 
-.header-main {
+.footer-main {
+    /* width: 80%; */
     height: 50px;
-    padding-bottom: 50px;
+    padding-top: 50px;
     vertical-align: middle;
 }

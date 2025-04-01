@@ -1,13 +1,11 @@
-import "./Header.css"
+import "./Footer.css"
 
-import Logo from "../Logo/Logo";
 import "../../main.css"
 
-function Header() {
+function Footer() {
     return (
-        <div className="jst-btw header-main">
+        <div className="jst-btw footer-main">
             <div className="jst-btw nav">
-                <Logo></Logo>
                 <p className="link">keyboard</p>
                 <p className="link">crown</p>
                 <p className="link">info</p>
@@ -21,4 +19,4 @@ function Header() {
     );
 }
 
-export default Header;
+export default Footer;
