@@ -2,6 +2,10 @@
     --bg-color: #323437;
 }
 
+* {
+    color: #d1d0c5;
+}
+
 #root {
     width: 80%;
     max-width: 1200px;
@@ -16,4 +20,8 @@ body {
 .jst-btw {
     display: flex;
     justify-content: space-between;
+}
+
+.flex {
+    display: flex;
 }

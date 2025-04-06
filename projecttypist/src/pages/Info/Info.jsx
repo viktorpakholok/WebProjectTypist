@@ -4,8 +4,27 @@ import Footer from "../../components/Footer/Footer";
 import Graph from "../../components/Graph/Graph";
 
 import "./Info.css";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 function Info() {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        function handleKeyDown(event) {
+            console.log(event.key)
+            if (event.key == "Tab") {   
+                navigate("/")
+            }
+        }
+
+        document.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+        }
+    }, [])
+
     return (
         <div>
             <Header></Header>

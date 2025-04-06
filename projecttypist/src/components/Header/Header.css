@@ -12,6 +12,7 @@
 .sign-in {
     width: 100px;
     align-self: center;
+    justify-content: end;
 }
 
 .header-main {
