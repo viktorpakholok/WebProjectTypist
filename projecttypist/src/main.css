@@ -25,3 +25,7 @@ body {
 .flex {
     display: flex;
 }
+
+.center_vmauto {
+    margin: auto 0;
+}

@@ -6,6 +6,16 @@
 .graph {
     width: 80%;
     height: 300px;
-    background-color: aquamarine;
+    background-color: #404246;
     color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bigtext {
+    /* color: black; */
+    margin: auto 0;
+    text-align: center;
+    font-size: 144px;
 }
