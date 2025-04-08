@@ -13,7 +13,7 @@ function Stats(props) {
 
     const timeSeconds = props.time ?? 0;
 
-    const acc = charCorr / charCorr + charIncorr;
+    const acc = charCorr / (charCorr + charIncorr);
     const wpm = wordsCorr / (timeSeconds / 60);
     const raw_wpm = (wordsCorr + wordsIncorr) / (timeSeconds / 60);
 

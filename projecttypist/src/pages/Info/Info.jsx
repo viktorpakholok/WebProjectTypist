@@ -18,10 +18,16 @@ function Info() {
             }
         }
 
+        function handleReload() {
+            navigate("/");
+        }
+
         document.addEventListener("keydown", handleKeyDown);
+        document.addEventListener("onbeforeunload", handleReload)
 
         return () => {
             document.removeEventListener("keydown", handleKeyDown);
+            document.removeEventListener("onbeforeunload", handleReload)
         }
     }, [])
 

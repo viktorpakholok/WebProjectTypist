@@ -19,7 +19,6 @@ function Header() {
                 <Link to="/" className="link">
                     <Keyboard width="40px" height="40px" color="#d1d0c5"></Keyboard>
                 </Link>
-                <p className="link">crown</p>
                 <Link to="/info" className="link">
                     <Info width="30px" height="30px" color="#d1d0c5"></Info>
                 </Link>
