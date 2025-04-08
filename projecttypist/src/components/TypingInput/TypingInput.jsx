@@ -9,11 +9,14 @@ const words = [
   "puzzle", "quartz", "raven", "sapphire", "tornado"
 ];
 
+const startingWordsCount = 10
 
 
-function TypingInput() {
+
+function TypingInput({ wordsCount, timeLimit }) {
   const navigate = useNavigate();
   const [typingWords, setTypingWords] = useState(getNewWords())
+  const [timeTyping, setTimeTyping] = useState(0)
   // const [typingText, setTypingText] = useState(typingWords.join(" "))
 
   function createTypingText() {
@@ -42,6 +45,8 @@ function TypingInput() {
   }
 
   useEffect(() => {
+    // if (wordsCount == null && time == null)
+    timeTypingId = setInterval(() => setTimeTyping((prev) => prev + 1), 1000);
     
     function handleKeyDown(event) {
       if (event.key === "Tab") {
@@ -61,8 +66,9 @@ function TypingInput() {
     document.addEventListener("click", handleMouseClick)
     document.addEventListener("keydown", handleKeyDown)
     return () => {
-    document.removeEventListener("click", handleMouseClick)
-    document.removeEventListener("keydown", handleKeyDown)
+      document.removeEventListener("click", handleMouseClick)
+      document.removeEventListener("keydown", handleKeyDown)
+      clearInterval(timeTypingId)
     };
   }, [])
 
@@ -74,6 +80,13 @@ function TypingInput() {
       updateCaretPos()
     },
     [typingWords]
+  )
+
+  useEffect(
+    () => {
+      if (timeTyping == timeLimit) renderResultPage()
+    },
+    [timeTyping]
   )
 
   function focus() {
@@ -104,8 +117,8 @@ function TypingInput() {
 
   function getNewWords() {
     let newWords = []
-    let wordsCount = 5
-    for (let i = 0; i < wordsCount; i++) {
+    const curWordsCount = wordsCount ?? startingWordsCount
+    for (let i = 0; i < curWordsCount; i++) {
       newWords.push(getRandomWord())
     }
     return newWords
@@ -298,12 +311,19 @@ function TypingInput() {
     else {
       curLetterEl.className = "good-letter"
       curLetterEl.textContent = curChar
+      if (getNextLetter(curLetterEl) == null) {
+        if (wordsCount == 0) {
+          setTypingWords((prevWords) => prevWords + [getRandomWord()])
+        }
+        renderResultPage()
+      }
     }
   }
 
   return (
     <>
       <div className='typing-div'>
+        <p>time: {timeTyping}s</p>
         <button onClick={() => setTypingWords(getNewWords())}>new text</button>
         <div ref={caretRef} id="caret">|</div>
         <div ref={inputRef} id='input' onKeyDown={handleInputKeyDown}></div>

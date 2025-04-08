@@ -6,7 +6,7 @@ function Home() {
     return (
         <div>
             <Header></Header>
-            <TypingInput></TypingInput>
+            <TypingInput wordsCount={4} timeLimit={0}></TypingInput>
         </div>
         );
 }
