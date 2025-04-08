@@ -35,7 +35,7 @@ function Registration() {
 
                         <div className="informationPlaceholder-right-providers">
                             <Button text="Google" image="google" className="googleButton" />
-                            <Button text="Grinder" image="facebook" className="facebookButton" />
+                            <Button text="BOHDANISTHEBEST" image="facebook" className="facebookButton" />
                         </div>
 
                         <div className="informationPlaceholder-right-or">
