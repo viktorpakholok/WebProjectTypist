@@ -2,7 +2,7 @@ import "./Input.css"
 
 function Input(props) {
     return (
-        <input type="text" placeholder={props.placeholderText}/>
+        < input type="text" className="BohdanInput" placeholder={props.placeholderText}/>
     );
 }
 

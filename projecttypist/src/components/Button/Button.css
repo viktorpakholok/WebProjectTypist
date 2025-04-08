@@ -1,17 +1,17 @@
 .customButton {
     width: 320px;
+    height: 40px;
     padding: 10px;
+    font-size: 1em;
     background-color: #2b2b2b;
     border: none;
-    border-radius: 5px;
+    border-radius: 4%;
     color: #757575;
-    font-size: 18px;
-    font-style: italic;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: not-allowed;
-    opacity: 0.6;
+    opacity: 0.8;
+    margin-top: 10px;
 }
 
 .customButton i {

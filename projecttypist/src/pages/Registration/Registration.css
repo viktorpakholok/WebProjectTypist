@@ -1,0 +1,70 @@
+.informationPlaceholder {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 10% 0 10%;
+}
+
+.informationPlaceholder-right,
+.informationPlaceholder-left {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+}
+
+.informationPlaceholder-right-or{
+    margin-top: 10px;
+    width: 320px;
+    display: flex;
+    justify-content: center;
+}
+
+.informationPlaceholder-right-rememberMe {
+    margin-top: 10px;
+}
+
+
+
+.rememberMeCheckbox {
+    margin-left: 20px;
+}
+
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+  .checkbox-container input[type="checkbox"] {
+    display: none;
+}
+
+  .checkmark {
+    width: 20px;
+    height: 20px;
+    background-color: #2b2b2b;
+    border-radius: 4px;
+    margin-right: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+  .checkbox-container input[type="checkbox"]:checked + .checkmark::before {
+    content: "✔";
+    color: #fbbc04;
+    font-size: 14px;
+}
+
+.label-text {
+    font-size: 14px;
+    color: #ccc;
+}
+
+.informationPlaceholder-right-forgotPassword {
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
