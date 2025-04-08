@@ -61,8 +61,10 @@ function TypingInput({ wordsCount, timeLimit }) {
   }
 
   useEffect(() => {
-    // if (wordsCount == null && time == null)
+    resetTypingInput()
+  }, [wordsCount, timeLimit])
 
+  useEffect(() => {
     function handleMouseClick(event) {
       let clickOnInput = inputRef.current.contains(event.target);
       clickOnInput ? focus() : blur();
@@ -79,8 +81,9 @@ function TypingInput({ wordsCount, timeLimit }) {
     if (hasStarted) return;
     fillInputHTML();
     lastSelectedRef.current = null;
-    focus();
     updateCaretPos();
+    if (document.activeElement != null) return
+    focus();
   }, [typingWords]);
 
   const handleKeyDown = useCallback((event) => {
@@ -89,7 +92,7 @@ function TypingInput({ wordsCount, timeLimit }) {
       resetTypingInput();
       return;
     }
-    if (!inputRef.current.focused) return;
+    if (inputRef.current.focused === "") return;
     handleInputKeyDown(event);
   }, [hasStarted, typingWords, timeTyping]);
 
@@ -128,6 +131,7 @@ function TypingInput({ wordsCount, timeLimit }) {
   }
 
   function focus() {
+    if (document.activeElement) document.activeElement.blur()
     inputRef.current.focused = "1";
     caretRef.current.className = "";
   }
@@ -312,6 +316,7 @@ function TypingInput({ wordsCount, timeLimit }) {
       updateCaretPos();
       return;
     }
+    if (event.key === " ") event.preventDefault()
     if (event.key === " " && lastSelectedRef.current != null) {
       if (lastSelectedRef.current.nextElementSibling == null) {
         spacePressedRef.current = true;
@@ -339,22 +344,40 @@ function TypingInput({ wordsCount, timeLimit }) {
   }
 
   function updateCaretPos() {
-    const width = caretRef.current.offsetWidth;
+    const width = inputRef.current.firstElementChild.firstElementChild.offsetWidth;
+    const root = document.documentElement;
     if (lastSelectedRef.current == null) {
       const targetEl = inputRef.current.firstElementChild.firstElementChild;
+      console.log(targetEl, width)
       const rect = targetEl.getBoundingClientRect();
-      setCaretPos(rect.top, rect.left - width / 2);
+
+      setCaretPos(rect.top + root.scrollTop, rect.left - width / 2);
+      window.scrollTo({
+        top: 0,  // Y position
+        left: 0,   // X position
+        behavior: 'smooth'  // Optional for smooth scrolling
+      });
     } else if (
       getNextInWordLetter(lastSelectedRef.current) == null &&
       spacePressedRef.current
     ) {
       const targetEl = getNextLetter(lastSelectedRef.current);
       const rect = targetEl.getBoundingClientRect();
-      setCaretPos(rect.top, rect.left - width / 2);
+      setCaretPos(rect.top + root.scrollTop, rect.left - width / 2);
+      window.scrollTo({
+        top: rect.top + root.scrollTop - 400,  // Y position
+        left: 0,   // X position
+        behavior: 'smooth'  // Optional for smooth scrolling
+      });
     } else {
       const targetEl = lastSelectedRef.current;
       const rect = targetEl.getBoundingClientRect();
-      setCaretPos(rect.top, rect.right - width / 2);
+      setCaretPos(rect.top + root.scrollTop, rect.right - width / 2);
+      window.scrollTo({
+        top: rect.top + root.scrollTop - 400,  // Y position
+        left: 0,   // X position
+        behavior: 'smooth'  // Optional for smooth scrolling
+      });
     }
   }
 
