@@ -6,6 +6,7 @@ import ButtonIcon from "../ButtonIcon/ButtonIcon";
 import Keyboard from "../SVG/Keyboard/Keyboard";
 import Info from "../SVG/Info/Info";
 import Settings from "../SVG/Settings/Settings";
+import Profile from "../SVG/Profile/Profile";
 
 import { Link } from "react-router-dom";
 
@@ -28,7 +29,9 @@ function Header() {
             </div>
             <div className="flex sign-in">
                 {/* <p>bell</p> */}
-                <p>cabinet</p>
+                <Link className="link">
+                    <Profile width="30px" height="30px" color="#d1d0c5"></Profile>
+                </Link>
             </div>
             {/* <div className="keyboard"></div> */}
             {/* <img className="keyboard" src={KeyBoardIcon} alt="" /> */}
