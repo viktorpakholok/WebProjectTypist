@@ -4,15 +4,15 @@ import Footer from "../../components/Footer/Footer";
 import Stats from "../../components/Stats/Stats";
 
 import "./Info.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 function Info() {
     const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         function handleKeyDown(event) {
-            console.log(event.key)
             if (event.key == "Tab") {   
                 navigate("/")
             }
@@ -34,7 +34,7 @@ function Info() {
     return (
         <div>
             <Header></Header>
-            <Stats></Stats>
+            <Stats {...location.state}></Stats>
             {/* <Footer></Footer> */}
         </div>
     );

@@ -8,6 +8,10 @@
   padding-top: 20%;
 }
 
+span {
+  color:#565861;
+}
+
 .typing-div>button {
   padding: 10px;
   border-radius: 20px;
@@ -17,14 +21,6 @@
 }
 
 
-.background-text {
-  display: none;
-  color: grey;
-  flex-wrap: wrap;
-  z-index: -1;
-  user-select: none;
-  pointer-events: none;
-}
 
 #input {
   cursor: default;

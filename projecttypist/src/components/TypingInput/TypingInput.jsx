@@ -81,35 +81,36 @@ function TypingInput({ wordsCount, timeLimit }) {
     lastSelectedRef.current = null;
     focus();
     updateCaretPos();
-    setHasStarted(true)
   }, [typingWords]);
 
   const handleKeyDown = useCallback((event) => {
-    console.log("down");
     if (event.key === "Tab") {
       event.preventDefault();
       resetTypingInput();
       return;
     }
     if (!inputRef.current.focused) return;
-    console.log("started:", hasStarted);
     handleInputKeyDown(event);
-  }, [hasStarted, typingWords]); // Add dependencies if needed
+  }, [hasStarted, typingWords]);
 
   useEffect(() => {
-    document.addEventListener("keydown", handleKeyDown);
-    if (!hasStarted) return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
+    if (!hasStarted) return;
+
     const timeTypingId = setInterval(
       () => setTimeTyping((prev) => prev + 1),
       1000
     );
     return () => {
       clearInterval(timeTypingId);
+    };
+  }, [hasStarted]);
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [handleKeyDown, hasStarted]); // Ensure `handleKeyDown` is stable
+  }, [handleKeyDown]);
 
   useEffect(() => {
     if (timeLimit == 0) return;
@@ -173,8 +174,7 @@ function TypingInput({ wordsCount, timeLimit }) {
   function deleteOne(prevLetterFunc) {
     if (lastSelectedRef.current == null) return;
     if (lastSelectedRef.current.getAttribute("actualLetter") != null) {
-      lastSelectedRef.current.innerHTML =
-        lastSelectedRef.current.getAttribute("actualLetter");
+      lastSelectedRef.current.innerHTML = lastSelectedRef.current.getAttribute("actualLetter");
       lastSelectedRef.current.className = "untyped-letter";
       lastSelectedRef.current = prevLetterFunc(lastSelectedRef.current);
       return;
@@ -190,7 +190,8 @@ function TypingInput({ wordsCount, timeLimit }) {
     temp.remove();
   }
 
-  function hadleDeletion(event) {
+  function handleDeletion(event) {
+    if (!lastSelectedRef.current) return;
     const prevParent = lastSelectedRef.current.parentElement;
     if (!event.altKey) {
       deleteOne(getPrevLetter);
@@ -279,12 +280,17 @@ function TypingInput({ wordsCount, timeLimit }) {
   }
 
   function renderResultPage() {
-    console.log("rendering")
-    // props: {characters: {correct, incorrect, extra}, words: {correct, incorrect}, time}
-
+    if (!hasStarted) {
+      navigate("/info", { state: { 
+        characters: {correct: 0, incorrect: 0, extra: 0},
+        words: {correct: 0, incorrect: 0},
+        time: 0 }
+      });
+      return
+    }
     const characters = {
       correct: countCharactersWithClass("good-letter"),
-      incorrect: countCharactersWithClass("bad-letter"),
+      incorrect: countCharactersWithClass("actual-letter"),
       extra: countCharactersWithClass("off-word-letter"),
     };
 
@@ -294,14 +300,13 @@ function TypingInput({ wordsCount, timeLimit }) {
       correct: typedWords - wrongWords,
       incorrect: wrongWords,
     };
-    console.log({ characters, words })
-    navigate("/info", { state: { characters, words, time: time } });
-    // setTypingWords(getNewWords())
+    navigate("/info", { state: { characters, words, time: timeTyping } });
+    // setTypingWords(getNewWords())c
   }
 
   function handleInputKeyDown(event) {
     if (event.key === "Backspace" || event.key === "Delete") {
-      hadleDeletion(event);
+      handleDeletion(event);
       updateCaretPos();
       return;
     }
@@ -366,6 +371,7 @@ function TypingInput({ wordsCount, timeLimit }) {
   }
 
   function writeToInput(curChar) {
+    if (!hasStarted) setHasStarted(true)
     const curLetterEl = getCurLetterEl();
     if (curLetterEl == null) {
       writeOffLetter(curChar);
@@ -377,15 +383,12 @@ function TypingInput({ wordsCount, timeLimit }) {
     const curWordIndex = Array.from(inputRef.current.childNodes).indexOf(
       curLetterEl.parentElement
     );
-    console.log(typingWords)
-    console.log(typingWords.length, curWordIndex)
 
     if (
       wordsCount == 0 &&
       typingWords.length - curWordIndex < 3
     ) {
       const newWord = getRandomWord();
-      console.log(hasStarted)
       setTypingWords((prevWords) => [...prevWords, newWord]);
       appendWordsToInput([newWord]);
     }
