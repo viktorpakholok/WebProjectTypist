@@ -1,0 +1,25 @@
+  
+  .good-letter {
+    color: white;
+  }
+  
+  .off-word-letter {
+    color: darkred;
+  }
+  
+  .actual-letter{
+    position: relative;
+    color: red;
+  }
+  
+  .actual-letter::after{
+    content: var(--before-content, "_");
+    position: absolute;
+    top: 0.5em;
+    left:0;
+    color: grey;
+  }
+  
+  .invisible {
+    display: none;
+  }
