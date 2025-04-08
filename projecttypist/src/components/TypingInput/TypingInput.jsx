@@ -299,15 +299,13 @@ function TypingInput({ wordsCount, timeLimit }) {
     };
 
     let typedWords = getWordIndex();
-    if (getNextInWordLetter(lastSelectedRef.current) == null && spacePressedRef.current) typedWords += 1;
+    if (getNextLetter(lastSelectedRef.current) == null || getNextInWordLetter(lastSelectedRef.current) == null && spacePressedRef.current) typedWords += 1;
     const wrongWords = countWordsWithErrors();
     const words = {
       correct: typedWords - wrongWords,
       incorrect: wrongWords,
     };
-    console.log(timeTyping)
     navigate("/info", { state: { characters, words, time: timeTyping } });
-    // setTypingWords(getNewWords())c
   }
 
   function handleInputKeyDown(event) {
@@ -348,14 +346,13 @@ function TypingInput({ wordsCount, timeLimit }) {
     const root = document.documentElement;
     if (lastSelectedRef.current == null) {
       const targetEl = inputRef.current.firstElementChild.firstElementChild;
-      console.log(targetEl, width)
       const rect = targetEl.getBoundingClientRect();
 
       setCaretPos(rect.top + root.scrollTop, rect.left - width / 2);
       window.scrollTo({
-        top: 0,  // Y position
-        left: 0,   // X position
-        behavior: 'smooth'  // Optional for smooth scrolling
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
       });
     } else if (
       getNextInWordLetter(lastSelectedRef.current) == null &&
@@ -365,18 +362,18 @@ function TypingInput({ wordsCount, timeLimit }) {
       const rect = targetEl.getBoundingClientRect();
       setCaretPos(rect.top + root.scrollTop, rect.left - width / 2);
       window.scrollTo({
-        top: rect.top + root.scrollTop - 400,  // Y position
-        left: 0,   // X position
-        behavior: 'smooth'  // Optional for smooth scrolling
+        top: rect.top + root.scrollTop - 400,
+        left: 0,
+        behavior: 'smooth'
       });
     } else {
       const targetEl = lastSelectedRef.current;
       const rect = targetEl.getBoundingClientRect();
       setCaretPos(rect.top + root.scrollTop, rect.right - width / 2);
       window.scrollTo({
-        top: rect.top + root.scrollTop - 400,  // Y position
-        left: 0,   // X position
-        behavior: 'smooth'  // Optional for smooth scrolling
+        top: rect.top + root.scrollTop - 400,
+        left: 0,
+        behavior: 'smooth'
       });
     }
   }
