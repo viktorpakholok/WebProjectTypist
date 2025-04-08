@@ -1,13 +1,12 @@
-import TypingInput from "../../components/TypingInput/TypingInput.jsx"
-import TypingLetter from "../../components/TypingLetter/TypingLetter.jsx"
 import Header from "../../components/Header/Header";
+import TypingElement from "../../components/TypingElement/TypingElement.jsx";
 
 function Home() {
 
     return (
         <div>
             <Header></Header>
-            <TypingInput wordsCount={0} timeLimit={10}></TypingInput>
+            <TypingElement></TypingElement>
         </div>
         );
 }

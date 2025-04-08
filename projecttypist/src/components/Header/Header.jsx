@@ -28,7 +28,7 @@ function Header() {
             </div>
             <div className="flex sign-in">
                 {/* <p>bell</p> */}
-                <Link className="link">
+                <Link to="/registration" className="link">
                     <Profile width="30px" height="30px" color="#d1d0c5"></Profile>
                 </Link>
             </div>

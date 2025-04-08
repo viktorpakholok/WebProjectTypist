@@ -91,7 +91,7 @@ function TypingInput({ wordsCount, timeLimit }) {
     }
     if (!inputRef.current.focused) return;
     handleInputKeyDown(event);
-  }, [hasStarted, typingWords]);
+  }, [hasStarted, typingWords, timeTyping]);
 
   useEffect(() => {
     if (!hasStarted) return;
@@ -294,12 +294,14 @@ function TypingInput({ wordsCount, timeLimit }) {
       extra: countCharactersWithClass("off-word-letter"),
     };
 
-    const typedWords = getWordIndex() + 1;
+    let typedWords = getWordIndex();
+    if (getNextInWordLetter(lastSelectedRef.current) == null && spacePressedRef.current) typedWords += 1;
     const wrongWords = countWordsWithErrors();
     const words = {
       correct: typedWords - wrongWords,
       incorrect: wrongWords,
     };
+    console.log(timeTyping)
     navigate("/info", { state: { characters, words, time: timeTyping } });
     // setTypingWords(getNewWords())c
   }
