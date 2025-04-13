@@ -37,14 +37,3 @@
   margin-right: 0.5em;
   color: grey;
 }
-
-#caret {
-  user-select: none;
-  color: yellow;
-  position: absolute;
-  line-height: normal;
-}
-
-.invisible {
-  display: none;
-}

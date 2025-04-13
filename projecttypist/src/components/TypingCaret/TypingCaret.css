@@ -1,0 +1,10 @@
+#caret {
+  user-select: none;
+  color: yellow;
+  position: absolute;
+  line-height: normal;
+}
+
+.invisible {
+  display: none;
+}
