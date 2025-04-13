@@ -1,25 +1,28 @@
-  
-  .good-letter {
-    color: white;
-  }
-  
-  .off-word-letter {
-    color: darkred;
-  }
-  
-  .actual-letter{
-    position: relative;
-    color: red;
-  }
-  
-  .actual-letter::after{
-    content: var(--before-content, "_");
-    position: absolute;
-    top: 0.5em;
-    left:0;
-    color: grey;
-  }
-  
-  .invisible {
-    display: none;
-  }
+span {
+  color:#565861;
+}
+
+.good-letter {
+  color: white;
+}
+
+.off-word-letter {
+  color: darkred;
+}
+
+.actual-letter{
+  position: relative;
+  color: red;
+}
+
+.actual-letter::after{
+  content: var(--hint_letter, "_");
+  position: absolute;
+  top: 0.5em;
+  left:0;
+  color: grey;
+}
+
+.invisible {
+  display: none;
+}

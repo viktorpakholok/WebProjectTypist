@@ -1,24 +1,32 @@
-import { useEffect, useRef, useState } from "react"
+import "./TypingLetter.css"
+import { useEffect, useState } from "react"
 
 function TypingLetter({actualLetter, typedLetter}) {
-    const [letter, setLetter] = useState(actualLetter);
-    const [hintLetter, setHintLetter] = useState(typedLetter);
-    const thisRef = useRef()
+    const [letter, setLetter] = useState();
+    const [hintLetter, setHintLetter] = useState();
+    const [curClassName, setCurClassName] = useState()
 
     useEffect(() => {
-        if (thisRef.current.className == "off-word-letter") {
+        setLetter(actualLetter)
+        setHintLetter(typedLetter)
+        const newClassName = getClassName()
+        setCurClassName(newClassName)
+        if (newClassName === "off-word-letter") {
             setLetter(typedLetter)
-            setHintLetter(actualLetter)
         }
     }, [actualLetter, typedLetter])
 
+
+
     function getClassName() {
-        if (actualLetter == "") return "off-word-letter"
-        if (actualLetter == typedLetter) return "good-letter"
+        if (typedLetter === null) return "untyped-letter"
+        if (actualLetter === null) return "off-word-letter"
+        if (actualLetter === typedLetter) return "good-letter"
         return "actual-letter"
     }
 
-    return <span ref={thisRef} style={{ '--before-content': `"${hintLetter}"` }} className={getClassName()}>{letter}</span>
+
+    return <span style={{'--hint_letter': `"${hintLetter}"`}} className={curClassName}>{letter}</span>
 }
 
 export default TypingLetter;

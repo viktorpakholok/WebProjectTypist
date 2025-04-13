@@ -7,9 +7,7 @@
   /* position: relative; */
 }
 
-span {
-  color:#565861;
-}
+
 
 .typing-div>button {
   padding: 10px;
@@ -34,32 +32,6 @@ span {
   outline:none
 }
 
-
-.good-letter {
-  color: white;
-}
-
-.off-word-letter {
-  color: darkred;
-}
-
-.actual-letter{
-  position: relative;
-  color: red;
-}
-
-.actual-letter::after{
-  content: var(--before-content, "_");
-  position: absolute;
-  top: 0.5em;
-  left:0;
-  color: grey;
-}
-
-.actual-letter-span{
-  position: relative;
-  color: red;
-}
 
 .word {
   margin-right: 0.5em;
