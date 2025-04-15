@@ -344,13 +344,15 @@ function TypingInput({ wordsCount, timeLimit }) {
       navigate("/info", { state: { 
         characters: {correct: 0, incorrect: 0, extra: 0},
         words: {correct: 0, incorrect: 0},
-        time: 0 }
+        time: 0, 
+        timeSteps: []
+      }
       });
       return
     }
     const [characters, words] = getStats()
     console.log(timeStats.current)
-    navigate("/info", { state: { characters, words, time: timeTyping } });
+    navigate("/info", { state: { characters, words, time: timeTyping, timeSteps: timeStats.current } });
   }
 
   function handleInputKeyDown(event) {
