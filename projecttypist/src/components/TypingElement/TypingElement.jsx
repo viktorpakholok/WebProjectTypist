@@ -68,7 +68,7 @@ function TypingElement() {
     return <>
         <div className="modes-manager">
             <button className={wordsClass} value="words" onClick={(e) => changeMode(e)}>words</button>
-            <button className={`words-mode ${timeClass}`} value="time" onClick={(e) => changeMode(e)}>time</button>
+            <button className={timeClass} value="time" onClick={(e) => changeMode(e)}>time</button>
             <input type="text" onChange={(e) => updateInputValue(e)} />
             <div>{wrongInputText}</div>
             <div style={{fontSize: "30px"}}>cur mode: {mode}, {curTimeLimit || curWordsCount}</div>

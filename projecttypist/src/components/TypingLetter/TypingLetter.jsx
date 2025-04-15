@@ -29,6 +29,8 @@ const TypingLetter = memo(function TypingLetter({actualLetter, typedLetter}) {
         return "actual-letter"
     }
 
+    // console.log("rendering", actualLetter, typedLetter)
+
     return <span style={{'--hint_letter': `"${hintLetter}"`}} className={curClassName}>{letter}</span>
 })
 

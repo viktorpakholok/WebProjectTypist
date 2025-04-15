@@ -3,6 +3,7 @@ import "./TypingInput.css";
 import { useNavigate } from "react-router-dom";
 import TypingLetter from "../TypingLetter/TypingLetter";
 import TypingCaret from "../TypingCaret/TypingCaret";
+import TypingWord from "../TypingWord/TypingWord";
 
 const dictionaryWords = [
   "apple",
@@ -49,8 +50,7 @@ function TypingInput({ wordsCount, timeLimit }) {
   const [caretTop, setCaretTop] = useState(0);
   const [closed, setClosed] = useState(false)
   
-  const incorrectLetters = useRef(0)
-  const totalLetters = useRef(0)
+  const timeStats = useRef([])
 
 
 
@@ -75,19 +75,60 @@ function TypingInput({ wordsCount, timeLimit }) {
   }, []);
 
   useEffect(() => {
+    if (hasStarted) return
     setActualWords(getActualWords())
     setTypedWords(getTypedWords())
-    if (hasStarted) return;
-    // updateCaretPos();
-    if (document.activeElement != null) return
-    focus();
   }, [typingWords]);
+
+  const getStats = useCallback(() => {
+    const characters = {
+      correct: 0,
+      incorrect: 0,
+      extra: 0,
+    };
+
+    let wrongWords = 0;
+    let totalWords = 0;
+    for (const i in actualWords) {
+      let wordHasMistake = false
+      let wasFullyWritten = true
+      for (const k in actualWords[i]) {
+        const actualLetter = actualWords[i][k]
+        const typedLetter = typedWords[i][k]
+        if (typedLetter === null) {
+          wasFullyWritten = false
+          break
+        }
+        if (actualLetter === typedLetter) {
+          characters.correct++
+          continue
+        }
+        wordHasMistake = true;
+        if (actualLetter === null) characters.extra++
+        else {
+          characters.incorrect++
+        }
+      }
+      if (!wasFullyWritten) break
+      if (wordHasMistake) wrongWords++
+      totalWords++
+    }
+    
+    const words = {
+      correct: totalWords - wrongWords,
+      incorrect: wrongWords,
+    };
+    return [characters, words]
+  }, [index, actualWords, typedWords, spacePressed])
 
   useEffect(() => {
     if (!hasStarted) return;
+    timeStats.current = []
 
     const timeTypingId = setInterval(
-      () => setTimeTyping((prev) => prev + 1),
+      () => {
+        setTimeTyping((prev) => prev + 1)
+      },
       1000
     );
     return () => {
@@ -113,6 +154,17 @@ function TypingInput({ wordsCount, timeLimit }) {
     };
   }, [handleKeyDown]);
 
+  
+  useEffect(() => {
+    const words = getStats()[1]
+    // console.log(words)
+    let wpm = Math.round(words.correct/timeTyping*60)
+    wpm = (isNaN(wpm)) ? 0: wpm
+    let rawwpm = Math.round((words.correct + words.incorrect) / timeTyping * 60)
+    rawwpm = (isNaN(rawwpm)) ? 0: rawwpm
+    timeStats.current.push([timeTyping, wpm, rawwpm])
+  }, [timeTyping]);
+
   useEffect(() => {
     if (timeLimit == 0) return;
     if (timeTyping >= timeLimit) renderResultPage();
@@ -120,9 +172,9 @@ function TypingInput({ wordsCount, timeLimit }) {
 
   
   useEffect(() => {
-    if (index.word < lastIndex.word && lastLetterInWord(index.word, index.letter)) {
-      setSpacePressed(true)
-    }
+    // if (index.word < lastIndex.word && lastLetterInWord(index.word, index.letter)) {
+    //   setSpacePressed(true)
+    // }
     setLastIndex(index)
   }, [index])
 
@@ -151,9 +203,10 @@ function TypingInput({ wordsCount, timeLimit }) {
   
   function resetTypingInput() {
     setHasStarted(false)
+    setSpacePressed(false)
     setTimeTyping(0);
     setIndex({word: -1, letter: -1})
-    setTypingWords(getNewWords());
+    setTypingWords(() => getNewWords());
   }
 
   function focus() {
@@ -214,24 +267,27 @@ function TypingInput({ wordsCount, timeLimit }) {
     actualWordsCopy, typedWordsCopy, givenWordIndex, givenLetterIndex
   ) {
     if (actualWordsCopy[givenWordIndex][givenLetterIndex] === null) {
-      incorrectLetters.current--;
       actualWordsCopy[givenWordIndex].pop()
       typedWordsCopy[givenWordIndex].pop()
     }
     else {
       typedWordsCopy[givenWordIndex][givenLetterIndex] = null;
     }
-    totalLetters.current--;
   }
 
   function deleteOne() {
     if (index.word == -1) return;
+    if (spacePressed) {
+      setSpacePressed(false)
+      return
+    }
 
     const typedWordsCopy = structuredClone(typedWords);
     const actualWordsCopy = structuredClone(actualWords);
     removeLetter(actualWordsCopy, typedWordsCopy, index.word, index.letter)
     setActualWords(actualWordsCopy)
     setTypedWords(typedWordsCopy)
+    if (index.letter === 0 && index.word >= 0) setSpacePressed(true) 
     setIndex((prev) => getNewIndex(prev, prevLetterIndex(prev.letter)))
   }
 
@@ -242,8 +298,9 @@ function TypingInput({ wordsCount, timeLimit }) {
     } else {
       deleteWord();
     }
-  }
 
+  }
+  
   function deleteWord() {
     let curWordIndex = index.word;
     let curLetterIndex = index.letter;
@@ -277,6 +334,7 @@ function TypingInput({ wordsCount, timeLimit }) {
     }
     setActualWords(actualWordsCopy)
     setTypedWords(typedWordsCopy)
+    if (index.word > curWordIndex) setSpacePressed(true) 
     setIndex({word: curWordIndex, letter: curLetterIndex})
   }
 
@@ -290,41 +348,8 @@ function TypingInput({ wordsCount, timeLimit }) {
       });
       return
     }
-    const characters = {
-      correct: 0,
-      incorrect: 0,
-      extra: 0,
-    };
-
-    let wrongWords = 0;
-    for (const i in actualWords) {
-      let wordHasMistake = false
-      for (const k in actualWords[i]) {
-        const actualLetter = actualWords[i][k]
-        const typedLetter = typedWords[i][k]
-        if (typedLetter === null) break
-        if (actualLetter === typedLetter) {
-          characters.correct++
-          continue
-        }
-        wordHasMistake = true;
-        if (actualLetter === null) characters.extra++
-        else {
-          characters.incorrect++
-        }
-      }
-      if (wordHasMistake) wrongWords++
-    }
-
-    let totalTypedWords = index.word;
-    if (lastLetterInWord(index.word, index.word) && spacePressed) {
-      totalTypedWords++;
-    }
-    
-    const words = {
-      correct: totalTypedWords - wrongWords,
-      incorrect: wrongWords,
-    };
+    const [characters, words] = getStats()
+    console.log(timeStats.current)
     navigate("/info", { state: { characters, words, time: timeTyping } });
   }
 
@@ -347,6 +372,9 @@ function TypingInput({ wordsCount, timeLimit }) {
 
 
   function updateCaretPos() {
+    if (inputRef.current.childNodes?.length == null) {
+      return
+    }
     const width = inputRef.current.firstElementChild.firstElementChild.offsetWidth;
     
 
@@ -434,7 +462,6 @@ function TypingInput({ wordsCount, timeLimit }) {
       }
       typedWordsCopy[newWordIndex][newLetterIndex] = typedLetter
     }
-    totalLetters.current++;
     setTypedWords(typedWordsCopy)
     setIndex({word: newWordIndex, letter: newLetterIndex})
     
@@ -449,27 +476,36 @@ function TypingInput({ wordsCount, timeLimit }) {
     if (!hasStarted) setHasStarted(true)
     addLetter(typedLetter)
 
-    // if (
-    //   wordsCount == 0 &&
-    //   typingWords.length - curWordIndex < 3
-    // ) {
-    //   const newWord = getRandomWord();
-    //   setTypingWords((prevWords) => [...prevWords, newWord]);
-    //   appendWordsToInput([newWord]);
-    // }
+    if (
+      wordsCount === 0 &&
+      typingWords.length - index.word < 3
+    ) {
+      const newWord = getRandomWord();
+      setTypingWords((prev) => [...prev, newWord])
+      setActualWords((prev) => [...prev, newWord.split("")])
+      setTypedWords((prev) => [...prev, Array.from({length: newWord.length}, () => null)])
+      // setTypingWords((prevWords) => [...prevWords, newWord]);
+      // appendWordsToInput([newWord]);
+    }
   }
 
   function getTypingElements () {
-    let words = []
+    let wordsComponents = []
     for (let i in actualWords) {
-      const word = actualWords[i]
-      let curLetters = []
-      for (let k in word) {
-        curLetters.push(<TypingLetter key={k} actualLetter={actualWords[i][k]} typedLetter={typedWords[i][k]}></TypingLetter>)
-      }
-      words.push(<span key={i} className="word">{curLetters}</span>)
+      if (i > index.word + 50) break
+      wordsComponents.push(<TypingWord key={i} actualLetters={actualWords[i]} typedLetters={typedWords[i]}></TypingWord>)
     }
-    return words;
+    return wordsComponents
+    // let words = []
+    // for (let i in actualWords) {
+    //   const word = actualWords[i]
+    //   let curLetters = []
+    //   for (let k in word) {
+    //     curLetters.push(<TypingLetter key={k} actualLetter={actualWords[i][k]} typedLetter={typedWords[i][k]}></TypingLetter>)
+    //   }
+    //   words.push(<span key={i} className="word">{curLetters}</span>)
+    // }
+    // return words;
   }
 
   // function updateIncorrectLetters(value) {
@@ -489,7 +525,14 @@ function TypingInput({ wordsCount, timeLimit }) {
         <p>time: {timeTyping}s</p>
 
         <TypingCaret className={caretClassName} left={caretLeft} top={caretTop}></TypingCaret>
-        <div ref={inputRef} id="input">{getTypingElements()}</div>
+
+        
+        <div ref={inputRef} id="input">
+          {getTypingElements()}
+          {/* {actualWords.map((word, i) => (
+            <TypingWord key={i} actualLetters={word} typedLetters={typedWords[i]}></TypingWord>
+          ))} */}
+        </div>
       </div>
     </>
   );
