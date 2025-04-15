@@ -13,6 +13,13 @@
       "username": "bohdan",
       "email": "bohdan@nd",
       "password": "1"
+    },
+    {
+      "id": "ad2c",
+      "idNumber": 0,
+      "username": "sth",
+      "email": "sth@ua",
+      "password": "sth"
     }
   ]
 }

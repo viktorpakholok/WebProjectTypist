@@ -17,20 +17,22 @@ function Stats(props) {
     const wpm = wordsCorr / (timeSeconds / 60);
     const raw_wpm = (wordsCorr + wordsIncorr) / (timeSeconds / 60);
 
+    console.log(props);
+
     return (
         <div>
             <div className="jst-btw main-info">
                 <div className="jst-btw big-stats">
                     <div>
                         <h2>wpm</h2>
-                        <h1>{wpm ?? "Null"}</h1>
+                        <h1>{wpm.toFixed(2) ?? "Null"}</h1>
                     </div>
                     <div>
                         <h2>acc</h2>
-                        <h1>{acc ?? "Null"}%</h1>
+                        <h1>{acc.toFixed(0) ?? "Null"}%</h1>
                     </div>
                 </div>
-                <Graph></Graph>
+                <Graph timeSteps={props.timeSteps}></Graph>
             </div>
             <div className="jst-btw stats">
                 <div>
@@ -40,7 +42,7 @@ function Stats(props) {
                 </div>
                 <div>
                     <p>raw</p>
-                    <h3>{raw_wpm ?? "Null"}</h3>
+                    <h3>{raw_wpm.toFixed(2) ?? "Null"}</h3>
                 </div>
                 <div>
                     <p>characters</p>
