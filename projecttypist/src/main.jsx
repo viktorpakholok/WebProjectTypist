@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createContext, useContext, useState } from "react";
 // import ReactDOM from "react-dom/client"
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -27,9 +27,27 @@ const router = createBrowserRouter([
     },
 ]);
 
+const ModeContext = createContext()
+
+function Main() {
+    const [mode, setMode] = useState("words")
+    const [value, setValue] = useState(5)
+    return <>
+        <React.StrictMode>
+        <ModeContext.Provider value={{mode: mode, setMode: setMode, value: value, setValue: setValue}}>
+            <RouterProvider router={router} />
+        </ModeContext.Provider>
+            {/* <Home></Home> */}
+        </React.StrictMode>
+    </>
+}
+
+
+
+console.log("main")
+
 createRoot(document.getElementById("root")).render(
-    <React.StrictMode>
-        <RouterProvider router={router} />
-        {/* <Home></Home> */}
-    </React.StrictMode>
+    <Main></Main>
 );
+
+export {ModeContext}

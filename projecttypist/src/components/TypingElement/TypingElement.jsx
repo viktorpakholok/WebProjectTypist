@@ -1,19 +1,21 @@
 import TypingInput from "../../components/TypingInput/TypingInput.jsx"
 import "./TypingElement.css"
-import { useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { ModeContext } from "../../main.jsx";
 
 function TypingElement() {
-    const [curWordsCount, setCurWordsCount] = useState(5);
-    const [curTimeLimit, setCurTimeLimit] = useState(0);
-    const [mode, setMode] = useState("words")
-    const [inputValue, setInputValue] = useState("5")
+    const modeValues = useContext(ModeContext);
+    console.log("context", modeValues)
+    const [curWordsCount, setCurWordsCount] = useState();
+    const [curTimeLimit, setCurTimeLimit] = useState((modeValues.mode === "time") ? modeValues.value : 0);
+    const [inputValue, setInputValue] = useState(`${modeValues.value}`)
     const [wrongInputText, setWrongInputText] = useState("")
     const [wordsClass, setWordsClass] = useState("")
     const [timeClass, setTimeClass] = useState("")
 
 
     useEffect(() => {
-        if (mode === "words") {
+        if (modeValues.mode === "words") {
             setWordsClass("active")
             setTimeClass("")
         }
@@ -22,7 +24,7 @@ function TypingElement() {
             setWordsClass("")
         }
         if (!inputValue) return
-        const parsedValue = inputValue
+        const parsedValue = parseInt(inputValue)
         if (isNaN(parsedValue)) {
             setWrongInputText("Wrong input")
             return
@@ -35,34 +37,26 @@ function TypingElement() {
             setWrongInputText("input value is smaller than 1")
             return
         }
+        modeValues.setValue(parsedValue)
         setWrongInputText("")
-        if (mode === "words") {
-            setCurWordsCount(parsedValue)
-            setCurTimeLimit(0)
-        }
-        else {
-            setCurTimeLimit(parsedValue)
-            setCurWordsCount(0)
-        }
-    }, [mode, inputValue])
+    }, [modeValues.mode, inputValue])
 
     function changeMode(event) {
-        if (!inputValue) {
-            setWrongInputText("input is empty")
-            return
-        }
-        if (isNaN(parseInt(inputValue))) {
-            setWrongInputText("Wrong input")
-            return
-        }
-        console.log(curTimeLimit, curWordsCount)
-        console.log(event.target.value)
-        
-        setMode(event.target.value)
+        const newMode = event.target.value
+        if (newMode === modeValues.mode) return
+        modeValues.setMode(event.target.value)
     }
 
     function updateInputValue(event) {
         setInputValue(event.target.value)
+    }
+
+    function getTimeValue() {
+        return (modeValues.mode === "time") ? modeValues.value : 0
+    }
+
+    function getWordsValue() {
+        return (modeValues.mode === "words") ? modeValues.value : 0
     }
 
     return <>
@@ -75,7 +69,7 @@ function TypingElement() {
 
         </div>
 
-        <TypingInput wordsCount={curWordsCount} timeLimit={curTimeLimit}></TypingInput>
+        <TypingInput wordsCount={getWordsValue()} timeLimit={getTimeValue()}></TypingInput>
     </>
     
 }
