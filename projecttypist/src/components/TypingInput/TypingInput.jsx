@@ -1,32 +1,21 @@
 import { useState, useEffect, useRef, useLayoutEffect, useCallback, Fragment } from "react";
 import "./TypingInput.css";
 import { useNavigate } from "react-router-dom";
-import TypingLetter from "../TypingLetter/TypingLetter";
+// import TypingLetter from "../TypingLetter/TypingLetter";
 import TypingCaret from "../TypingCaret/TypingCaret";
 import TypingWord from "../TypingWord/TypingWord";
 
-const dictionaryWords = [
-  "apple",
-  "breeze",
-  "candle",
-  "dragon",
-  "eclipse",
-  "forest",
-  "galaxy",
-  "horizon",
-  "island",
-  "jungle",
-  "knight",
-  "lantern",
-  "meteor",
-  "nebula",
-  "ocean",
-  "puzzle",
-  "quartz",
-  "raven",
-  "sapphire",
-  "tornado",
-];
+
+// console.log(new Date())
+const dictionaryWords = await fetch("/english1000.txt")
+          .then((res) => res.text())
+          .then((res) => {
+            return res.split("\n")
+          })
+// console.log("read")
+// console.log(new Date())
+// console.log(dictionaryWords)
+
 
 const startingWordsCount = 3;
 

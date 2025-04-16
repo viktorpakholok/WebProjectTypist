@@ -6,7 +6,7 @@ function TypingElement() {
     const [curWordsCount, setCurWordsCount] = useState(5);
     const [curTimeLimit, setCurTimeLimit] = useState(0);
     const [mode, setMode] = useState("words")
-    const [inputValue, setInputValue] = useState("")
+    const [inputValue, setInputValue] = useState("5")
     const [wrongInputText, setWrongInputText] = useState("")
     const [wordsClass, setWordsClass] = useState("")
     const [timeClass, setTimeClass] = useState("")
@@ -69,9 +69,9 @@ function TypingElement() {
         <div className="modes-manager">
             <button className={wordsClass} value="words" onClick={(e) => changeMode(e)}>words</button>
             <button className={timeClass} value="time" onClick={(e) => changeMode(e)}>time</button>
-            <input type="text" onChange={(e) => updateInputValue(e)} />
+            <input type="text" onChange={(e) => updateInputValue(e)} value={inputValue} />
             <div>{wrongInputText}</div>
-            <div style={{fontSize: "30px"}}>cur mode: {mode}, {curTimeLimit || curWordsCount}</div>
+            {/* <div style={{fontSize: "30px"}}>cur mode: {mode}, {curTimeLimit || curWordsCount}</div> */}
 
         </div>
 
