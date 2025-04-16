@@ -10,7 +10,7 @@ import TypingWord from "../TypingWord/TypingWord";
 const dictionaryWords = await fetch("/english1000.txt")
           .then((res) => res.text())
           .then((res) => {
-            return res.split("\n")
+            return res.split(/\n|\r\n/)
           })
 // console.log("read")
 // console.log(new Date())
@@ -109,6 +109,10 @@ function TypingInput({ wordsCount, timeLimit }) {
     };
     return [characters, words]
   }, [index, actualWords, typedWords, spacePressed])
+
+  useEffect(()=>{
+    console.log(spacePressed)
+  }, [spacePressed])
 
   useEffect(() => {
     if (!hasStarted) return;
@@ -351,6 +355,9 @@ function TypingInput({ wordsCount, timeLimit }) {
     }
     if (event.key.length > 1) return;
     if (event.key === " ") event.preventDefault()
+    if (event.key === " ") {
+        console.log(spacePressed, nextLetterIndex(index.letter), index.letter, actualWords)
+    }
     if (event.key === " " && !spacePressed && nextLetterIndex(index.letter) <= index.letter) {
       setSpacePressed(true)
       if (nextLetterIndex(index.letter) === index.letter) {
