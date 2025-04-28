@@ -1,6 +1,8 @@
 import { useEffect } from "react";
-import { Chart as ChartJs } from "chart.js/auto";
+import { Chart as ChartJs, plugins } from "chart.js/auto";
 import { Line } from "react-chartjs-2";
+
+import "./MyChart.css";
 
 function LineChart(props) {
     useEffect(() => {
@@ -13,17 +15,23 @@ function LineChart(props) {
 
     const arr = props.timeSteps;
 
-    console.log('inside mychart');
-    console.log(arr);
+    // console.log("inside mychart");
+    // console.log(arr);
 
-    const xValues = []
-    const objArr = []
-    const colors = ['red', 'green', 'blue']
+    const xValues = [];
+    const objArr = [];
+    const colors = ["red", "green", "blue"];
+    const labels = ["wpm", "raw wpm"];
 
-    const stepLen = arr[0].length-1;
+    const stepLen = arr[0].length - 1;
 
     for (let i = 0; i < stepLen; i++) {
-        objArr.push({data: [], fill: false, borderColor: colors[i%colors.length]});
+        objArr.push({
+            data: [],
+            fill: false,
+            borderColor: colors[i % colors.length],
+            label: labels[i % 2],
+        });
     }
 
     for (let i = 0; i < arr.length; i++) {
@@ -32,16 +40,40 @@ function LineChart(props) {
         elem = elem.filter((_, idx) => idx !== 0);
 
         for (let j = 0; j < stepLen; j++) {
-            objArr[j]['data'].push(elem[j]);
+            objArr[j]["data"].push(elem[j]);
         }
     }
 
-    console.log('here');
-    console.log(objArr);
-    console.log(xValues);
+    // console.log("here");
+    // console.log(objArr);
+    // console.log(xValues);
 
     const options = {
         legend: { display: false },
+        plugins: {
+            customCanvasBackgroundColor: {
+                // color: "lightGreen",
+            },
+            legend: {
+                labels: {
+                    font: {
+                        fontColor: "#d1d0c5",
+                    },
+                },
+            },
+            title: {
+                display: true,
+                text: "WPM by time",
+            },
+        },
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: "Time"
+                }
+            }
+        }
     };
 
     const data = {
@@ -49,6 +81,9 @@ function LineChart(props) {
         datasets: objArr,
     };
 
-    return <Line options={options} data={data} />;
-};
+    ChartJs.defaults.color = "#d1d0c5";
+    ChartJs.defaults.borderColor = "#36A2EB";
+
+    return <Line className="right" options={options} data={data} />;
+}
 export default LineChart;

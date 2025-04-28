@@ -4,13 +4,13 @@ import LineChart from "../MyChart/MyChart";
 
 function Graph(props) {
     
-    console.log("inside graph");
-    console.log(props)
+    // console.log("inside graph");
+    // console.log(props)
 
     return (
         <div className="graph">
             {/* <p className="bigtext">Graph</p> */}
-            <LineChart timeSteps={props.timeSteps}></LineChart>
+            <LineChart className='right' timeSteps={props.timeSteps}></LineChart>
         </div>
     );
 }

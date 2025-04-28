@@ -1,3 +1,16 @@
-button {
+/* button {
     background-color: ;
+} */
+
+.right {
+    margin: 0;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    /* -ms-transform: translateY(-50%); */
+    transform: translateY(-50%);
+}
+
+.main {
+    position: relative;
 }

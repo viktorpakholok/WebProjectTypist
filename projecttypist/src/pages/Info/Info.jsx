@@ -20,22 +20,25 @@ function Info() {
         }
 
         function handleReload() {
-            navigate("/");
+            const [nav] = performance.getEntriesByType("navigation");
+            if (nav && nav.type === "reload") {
+                navigate("/");
+            }
         }
 
         document.addEventListener("keydown", handleKeyDown);
-        document.addEventListener("onbeforeunload", handleReload)
+        window.addEventListener("load", handleReload)
 
         return () => {
             document.removeEventListener("keydown", handleKeyDown);
-            document.removeEventListener("onbeforeunload", handleReload)
+            window.removeEventListener("load", handleReload)
         }
     }, [])
 
     return (
-        <div>
+        <div className="main">
             <Header></Header>
-            <Stats {...location.state}></Stats>
+            <Stats className='right' {...location.state}></Stats>
             {/* <Footer></Footer> */}
         </div>
     );
