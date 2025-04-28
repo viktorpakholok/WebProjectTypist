@@ -1,4 +1,12 @@
 import "./Registration.css";
+import personImage from "../../assets/person_login.svg";
+import loginImage from "../../assets/regular_login.svg";
+import facebookLogin from "../../assets/facebook_login.svg"
+import googleLogin from "../../assets/google_login.svg"
+
+
+// import registerIcon from "../../assets/register-icon.svg";
+
 import React, { useState } from "react";
 import axios from "axios";
 import Input from "../../components/Input/Input";
@@ -85,61 +93,27 @@ function Registration() {
       <section className="informationPlaceholder">
         <form className="informationPlaceholder-left" onSubmit={handleSubmit}>
           <div className="informationPlaceholder-left-text">
-            <img className="register-image" src="../../assets/person.png" alt="Register" />
+            <img className="register-image" src={personImage} alt="personRegister" />
             <Text text="register" />
           </div>
 
-          <Input
-            name="username"
-            placeholderText="username"
-            value={formData.username}
-            onChange={handleChange}
-          />
-          <Input
-            name="email"
-            type="email"
-            placeholderText="email"
-            value={formData.email}
-            onChange={handleChange}
-          />
-          <Input
-            name="verifyEmail"
-            type="email"
-            placeholderText="verify email"
-            value={formData.verifyEmail}
-            onChange={handleChange}
-          />
-          <Input
-            name="password"
-            type="password"
-            placeholderText="password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-          <Input
-            name="verifyPassword"
-            type="password"
-            placeholderText="verify password"
-            value={formData.verifyPassword}
-            onChange={handleChange}
-          />
-          <Button
-            type="submit"
-            text="sign up"
-            image="../../assets/person.png"
-            className="registerButton"
-          />
+          <Input name="username" placeholderText="username" value={formData.username} onChange={handleChange}/>
+          <Input name="email" type="email" placeholderText="email" value={formData.email} onChange={handleChange}/>
+          <Input name="verifyEmail" type="email" placeholderText="verify email" value={formData.verifyEmail} onChange={handleChange}/>
+          <Input name="password" type="password" placeholderText="password" value={formData.password} onChange={handleChange}/>
+          <Input name="verifyPassword" type="password" placeholderText="verify password" value={formData.verifyPassword} onChange={handleChange} />
+          <Button type="submit" text="sign up" image={personImage} className="registerButton" />
         </form>
 
         <aside className="informationPlaceholder-right">
           <div className="informationPlaceholder-right-text">
-            <img className="logIn-image" src="../../assets/person.png" alt="Login" />
+            <img className="logIn-image" src={loginImage} alt="Login" />
             <Text text="login" />
           </div>
 
           <div className="informationPlaceholder-right-providers">
-            <Button text="Google" image="google" className="googleButton" />
-            <Button text="BOHDANISTHEBEST" image="facebook" className="facebookButton" />
+            <Button text="Google" image={googleLogin} className="googleButton" />
+            <Button text="Facebook" image={facebookLogin} className="facebookButton" />
           </div>
 
           <div className="informationPlaceholder-right-or">
@@ -159,12 +133,7 @@ function Registration() {
             </label>
           </div>
 
-          <Button
-            text="sign in"
-            image=""
-            className="loginButton"
-            onClick={() => alert("Login functionality not implemented yet.")}
-          />
+          <Button text="sign in" image={loginImage} className="loginButton" onClick={() => alert("Login functionality not implemented yet.")} />
           <a href="#" className="informationPlaceholder-right-forgotPassword">
             forgot password?
           </a>
