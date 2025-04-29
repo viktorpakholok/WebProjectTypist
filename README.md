@@ -1,5 +1,1 @@
 # WebProjectTypist
-
-
-
-© Fyoletoviy Mykhailo
