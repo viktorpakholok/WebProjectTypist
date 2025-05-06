@@ -1,7 +1,8 @@
+import "../../../main.css"
+
 function Keyboard(props) {
     return (
-        <svg
-            fill={props.color}
+        <svg className="icons"
             height={props.height}
             width={props.width}
             version="1.1"

@@ -1,9 +1,11 @@
 :root {
     --bg-color: #323437;
+    --ft-color: #d1d0c5;
+    --ic-color: #d1d0c5;
 }
 
 * {
-    color: #d1d0c5;
+    color: var(--ft-color)
 }
 
 #root {
@@ -28,4 +30,12 @@ body {
 
 .center_vmauto {
     margin: auto 0;
+}
+
+.icons {
+    fill: var(--ic-color);
+}
+
+.text_auto {
+    color: var(--ft-color);
 }

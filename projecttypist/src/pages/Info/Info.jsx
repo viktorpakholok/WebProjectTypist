@@ -10,7 +10,7 @@ import { useEffect } from "react";
 function Info() {
     const navigate = useNavigate();
     const location = useLocation();
-    console.log(location.state)
+    // console.log(location.state)
 
     useEffect(() => {
         function handleKeyDown(event) {

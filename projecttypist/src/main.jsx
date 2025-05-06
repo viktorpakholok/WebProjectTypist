@@ -10,6 +10,9 @@ import Home from "./pages/Home/Home.jsx";
 import Info from "./pages/Info/Info.jsx";
 import Registration from "./pages/Registration/Registration.jsx";
 import ErrorPage from "./pages/ErrorPage/ErrorPage.jsx";
+import LogsPerUser from "./pages/LogsPerUser/LogsPerUser.jsx";
+import Settings from "./pages/Settings/Settings.jsx";
+import AboutUs from "./pages/AboutUs/AboutUs.jsx";
 
 const router = createBrowserRouter([
     {
@@ -25,6 +28,18 @@ const router = createBrowserRouter([
         path: '/registration',
         element: <Registration />,
     },
+    {
+        path: '/logs',
+        element: <LogsPerUser/ >,
+    },
+    {
+        path: '/settings',
+        element: <Settings/ >,
+    },
+    {
+        path: '/aboutus',
+        element: <AboutUs/>,
+    }
 ]);
 
 const ModeContext = createContext()
@@ -44,7 +59,7 @@ function Main() {
 
 
 
-console.log("main")
+// console.log("main")
 
 createRoot(document.getElementById("root")).render(
     <Main></Main>

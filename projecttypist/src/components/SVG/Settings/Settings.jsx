@@ -1,7 +1,6 @@
 function Settings(props) {
     return (
-        <svg
-            fill={props.color}
+        <svg className="icons"
             height={props.height}
             width={props.width}
             version="1.1"

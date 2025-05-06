@@ -1,7 +1,6 @@
 function Profile(props) {
     return (
-        <svg
-            // fill={props.color}
+        <svg className="icons"
             height={props.height}
             width={props.width}
             viewBox="0 0 32 32"

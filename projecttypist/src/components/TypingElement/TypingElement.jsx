@@ -5,7 +5,7 @@ import { ModeContext } from "../../main.jsx";
 
 function TypingElement() {
     const modeValues = useContext(ModeContext);
-    console.log("context", modeValues)
+    // console.log("context", modeValues)
     const [curWordsCount, setCurWordsCount] = useState();
     const [curTimeLimit, setCurTimeLimit] = useState((modeValues.mode === "time") ? modeValues.value : 0);
     const [inputValue, setInputValue] = useState(`${modeValues.value}`)

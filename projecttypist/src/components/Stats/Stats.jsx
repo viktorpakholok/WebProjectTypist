@@ -17,7 +17,7 @@ function Stats(props) {
     const wpm = wordsCorr / (timeSeconds / 60);
     const raw_wpm = (wordsCorr + wordsIncorr) / (timeSeconds / 60);
 
-    console.log(props);
+    // console.log(props);
 
     return (
         <div>
@@ -48,13 +48,14 @@ function Stats(props) {
                     <p>characters</p>
                     <h3>
                         {charCorr ?? "Null"}/{charIncorr ?? "Null"}/
-                        {charExtra ?? "Null"}/{props.number ?? "Null"}
+                        {charExtra ?? "Null"}
+                        {/* /{props.number ?? "Null"} */}
                     </h3>
                 </div>
-                <div>
+                {/* <div>
                     <p>consistency</p>
                     <h3>{props.number ?? "Null"}%</h3>
-                </div>
+                </div> */}
                 <div>
                     <p>time</p>
                     <h3>{timeSeconds ?? "Null"}s</h3>

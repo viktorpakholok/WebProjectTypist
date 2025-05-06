@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import TypingCaret from "../TypingCaret/TypingCaret";
 import TypingWord from "../TypingWord/TypingWord";
 
+import axios from "axios";
 
 // console.log(new Date())
 const dictionaryWords = await fetch("/english1000.txt")
@@ -111,7 +112,7 @@ function TypingInput({ wordsCount, timeLimit }) {
   }, [index, actualWords, typedWords, spacePressed])
 
   useEffect(()=>{
-    console.log(spacePressed)
+    // console.log(spacePressed)
   }, [spacePressed])
 
   useEffect(() => {
@@ -344,9 +345,27 @@ function TypingInput({ wordsCount, timeLimit }) {
       return
     }
     const [characters, words] = getStats()
-    console.log(timeStats.current)
+    // console.log(timeStats.current)
+    async function saveStats() {
+      // console.log("saved")
+      const wpm = Math.round(words.correct / timeTyping * 60 * 100) / 100
+      const rawwpm = Math.round((words.correct + words.incorrect) / timeTyping * 60 * 100) / 100
+      const accuracy = Math.round(characters.correct / (characters.correct + characters.incorrect) * 100) / 100
+
+      let res = await axios.get(`http://localhost:3001/statsExample?email=good`)
+      // console.log("last data", res.data)
+      let prevArr = res.data[0]
+      prevArr.WPM.push(wpm)
+      prevArr.rawWPM.push(rawwpm)
+      prevArr.accuracy.push(accuracy)
+      // console.log("new arr", prevArr)
+      await axios.put(`http://localhost:3001/statsExample/${prevArr.id}`, prevArr);
+    }
+    // console.log("saving")
+    saveStats()
     navigate("/info", { state: { characters, words, time: timeTyping, timeSteps: timeStats.current } });
   }
+
 
   function handleInputKeyDown(event) {
     if (event.key === "Backspace" || event.key === "Delete") {
@@ -356,7 +375,7 @@ function TypingInput({ wordsCount, timeLimit }) {
     if (event.key.length > 1) return;
     if (event.key === " ") event.preventDefault()
     if (event.key === " ") {
-        console.log(spacePressed, nextLetterIndex(index.letter), index.letter, actualWords)
+        // console.log(spacePressed, nextLetterIndex(index.letter), index.letter, actualWords)
     }
     if (event.key === " " && !spacePressed && nextLetterIndex(index.letter) <= index.letter) {
       setSpacePressed(true)
