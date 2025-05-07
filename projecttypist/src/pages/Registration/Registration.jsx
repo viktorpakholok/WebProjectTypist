@@ -14,7 +14,7 @@ import Button from "../../components/Button/Button";
 import Header from "../../components/Header/Header";
 import Text from "../../components/Text/Text";
 import Footer from "../../components/Footer/Footer";
-let idNumber = 0;
+
 function Registration() {
   const [formData, setFormData] = useState({
     username: "",
@@ -65,12 +65,10 @@ function Registration() {
 
       // Send registration to JSON server
       await axios.post("http://localhost:3001/users", {
-        idNumber,
         username,
         email,
         password,
       });
-      idNumber += 1;
 
       alert("Registration successful!");
 
@@ -111,14 +109,14 @@ function Registration() {
             <Text text="login" />
           </div>
 
-          <div className="informationPlaceholder-right-providers">
+          {/* <div className="informationPlaceholder-right-providers">
             <Button text="Google" image={googleLogin} className="googleButton" />
             <Button text="Facebook" image={facebookLogin} className="facebookButton" />
-          </div>
-
+          </div> */}
+{/* 
           <div className="informationPlaceholder-right-or">
             <Text text="or" />
-          </div>
+          </div> */}
 
           <div className="informationPlaceholder-right-submit">
             <Input placeholderText="login" />
@@ -139,7 +137,7 @@ function Registration() {
           </a>
         </aside>
       </section>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

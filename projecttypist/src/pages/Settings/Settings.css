@@ -1,0 +1,30 @@
+.theme-bth {
+    width: 200px;
+    height: 50px;
+    border-radius: 3px;
+    font-size: 30px;
+    color: #d1d0c5;
+    background-color: #323437;
+}
+
+.pad-bot-20 {
+    padding-bottom: 20px;
+}
+
+.pad-bot-10 {
+    padding-bottom: 10px;
+}
+
+.theme-bth:hover {
+    cursor: pointer;
+}
+
+.theme-0 {
+    background-color: #323437;;
+    color: #d1d0c5;
+}
+
+.theme-1 {
+    background-color: white;
+    color: pink;
+}

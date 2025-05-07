@@ -20,6 +20,12 @@
       "username": "sth",
       "email": "sth@ua",
       "password": "sth"
+    },
+    {
+      "id": "2c07",
+      "username": "who?",
+      "email": "bohdan@ndm",
+      "password": "123"
     }
   ],
   "statsExample": [
@@ -74,6 +80,26 @@
         1,
         1,
         1,
+        1,
+        1
+      ]
+    },
+    {
+      "id": "9ddf",
+      "email": "bohdan@nd",
+      "dates": [
+        "10:24:11 07.05.2025",
+        "10:24:42 07.05.2025"
+      ],
+      "WPM": [
+        50,
+        42.86
+      ],
+      "rawWPM": [
+        50,
+        42.86
+      ],
+      "accuracy": [
         1,
         1
       ]

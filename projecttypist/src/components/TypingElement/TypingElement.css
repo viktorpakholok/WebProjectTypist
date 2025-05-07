@@ -3,7 +3,7 @@
   /* margin-top: 20%; */
 /* }  */
 
-button {
+.button-type {
     padding: 10px;
     margin-right: 10px;
     margin-bottom: 10px;
@@ -13,11 +13,11 @@ button {
     color: grey;
 }
 
-button:hover {
+.button-type:hover {
     color: white;
 }
 
-button.active {
+.button-type.active {
     color: orange;
 }
 

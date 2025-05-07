@@ -19,6 +19,10 @@ body {
     background-color: var(--bg-color);
 }
 
+button {
+    border-width: 0;
+}
+
 .jst-btw {
     display: flex;
     justify-content: space-between;
@@ -28,12 +32,20 @@ body {
     display: flex;
 }
 
+.gap-20 {
+    gap: 20px;
+}
+
 .center_vmauto {
     margin: auto 0;
 }
 
 .icons {
     fill: var(--ic-color);
+}
+
+.ic-stroke {
+    stroke: var(--ic-color);
 }
 
 .text_auto {

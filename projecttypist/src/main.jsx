@@ -43,14 +43,19 @@ const router = createBrowserRouter([
 ]);
 
 const ModeContext = createContext()
+const EmailContext = createContext()
 
 function Main() {
     const [mode, setMode] = useState("words")
     const [value, setValue] = useState(5)
+    const [email, setEmail] = useState("bohdan@nd")
+
     return <>
         <React.StrictMode>
         <ModeContext.Provider value={{mode: mode, setMode: setMode, value: value, setValue: setValue}}>
-            <RouterProvider router={router} />
+            <EmailContext.Provider  value={{email: email, setEmail: setEmail}}>
+                <RouterProvider router={router} />
+            </EmailContext.Provider>
         </ModeContext.Provider>
             {/* <Home></Home> */}
         </React.StrictMode>
@@ -65,4 +70,4 @@ createRoot(document.getElementById("root")).render(
     <Main></Main>
 );
 
-export {ModeContext}
+export {ModeContext, EmailContext}
