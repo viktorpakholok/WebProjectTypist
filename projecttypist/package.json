@@ -4,11 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "sh ./dev.sh",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "server": "json-server --watch jsonServerDB/db.json --port 3001"
+    "json-server": "json-server jsonServerDB/db.json --port 3001" 
   },
   "dependencies": {
     "axios": "^1.8.4",
