@@ -1,6 +1,5 @@
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import Logs from "../../components/Logs/Logs";
 
 import "./Settings.css"
 

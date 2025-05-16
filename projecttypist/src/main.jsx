@@ -10,7 +10,7 @@ import Home from "./pages/Home/Home.jsx";
 import Info from "./pages/Info/Info.jsx";
 import Registration from "./pages/Registration/Registration.jsx";
 import ErrorPage from "./pages/ErrorPage/ErrorPage.jsx";
-import LogsPerUser from "./pages/LogsPerUser/LogsPerUser.jsx";
+import HistoryPerUser from "./pages/HistoryPerUser/HistoryPerUser.jsx";
 import Settings from "./pages/Settings/Settings.jsx";
 import AboutUs from "./pages/AboutUs/AboutUs.jsx";
 
@@ -30,7 +30,7 @@ const router = createBrowserRouter([
     },
     {
         path: '/logs',
-        element: <LogsPerUser/ >,
+        element: <HistoryPerUser/ >,
     },
     {
         path: '/settings',

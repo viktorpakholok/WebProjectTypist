@@ -1,13 +1,13 @@
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
-import Logs from "../../components/Logs/Logs";
+import Header from "../../components/Header/Header.jsx";
+import Footer from "../../components/Footer/Footer.jsx";
+import HistoryTable from "../../components/HistoryTable/HistoryTable.jsx";
 
 import { useState, useEffect, useRef, useContext,useLayoutEffect, useCallback, Fragment } from "react";
 import axios from "axios";
 
 import { EmailContext } from "../../main.jsx";
 
-function LogsPerUser() {
+function HistoryPerUser() {
 
     const emailContext = useContext(EmailContext);
     const [arr, setArr] = useState(null)
@@ -30,11 +30,11 @@ function LogsPerUser() {
             <Header></Header>
             <h1>Here you can see your stats:</h1>
 
-            <Logs data={arr}></Logs>
+            <HistoryTable data={arr}></HistoryTable>
 
             {/* <Footer></Footer> */}
         </div>
     );
 }
 
-export default LogsPerUser;
+export default HistoryPerUser;
