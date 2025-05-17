@@ -1,10 +1,7 @@
-import React, { createContext, useContext, useState } from "react";
-// import ReactDOM from "react-dom/client"
-
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import { createRoot } from "react-dom/client";
-
-import "./main.css"
+import "./main.css";
 
 import Home from "./pages/Home/Home.jsx";
 import Info from "./pages/Info/Info.jsx";
@@ -14,60 +11,88 @@ import HistoryPerUser from "./pages/HistoryPerUser/HistoryPerUser.jsx";
 import Settings from "./pages/Settings/Settings.jsx";
 import AboutUs from "./pages/AboutUs/AboutUs.jsx";
 
-const router = createBrowserRouter([
-    {
-        path: '/',
-        element: <Home />,
-        errorElement: <ErrorPage />,
-    },
-    {
-        path: '/info',
-        element: <Info />,
-    },
-    {
-        path: '/registration',
-        element: <Registration />,
-    },
-    {
-        path: '/logs',
-        element: <HistoryPerUser/ >,
-    },
-    {
-        path: '/settings',
-        element: <Settings/ >,
-    },
-    {
-        path: '/aboutus',
-        element: <AboutUs/>,
-    }
-]);
+export const UserContext = createContext({ user: null, setUser: () => {} });
+export const ModeContext = createContext();
+export const EmailContext = createContext();
 
-const ModeContext = createContext()
-const EmailContext = createContext()
-
-function Main() {
-    const [mode, setMode] = useState("words")
-    const [value, setValue] = useState(5)
-    const [email, setEmail] = useState("bohdan@nd")
-
-    return <>
-        <React.StrictMode>
-        <ModeContext.Provider value={{mode: mode, setMode: setMode, value: value, setValue: setValue}}>
-            <EmailContext.Provider  value={{email: email, setEmail: setEmail}}>
-                <RouterProvider router={router} />
-            </EmailContext.Provider>
-        </ModeContext.Provider>
-            {/* <Home></Home> */}
-        </React.StrictMode>
-    </>
+function ProtectedRoute({ children }) {
+  const { user } = useContext(UserContext);
+  return user ? children : <Navigate to="/registration" replace />;
 }
 
+function Main() {
+  const [mode, setMode] = useState("words");
+  const [value, setValue] = useState(5);
+  const [email, setEmail] = useState("bohdan@nd");
 
+  const [user, setUser] = useState(() => {
+    const saved = localStorage.getItem("user");
+    return saved ? JSON.parse(saved) : null;
+  });
 
-// console.log("main")
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+    } else {
+      localStorage.removeItem("user");
+    }
+  }, [user]);
 
-createRoot(document.getElementById("root")).render(
-    <Main></Main>
-);
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: (
+        <ProtectedRoute>
+          <Home />
+        </ProtectedRoute>
+      ),
+      errorElement: <ErrorPage />,
+    },
+    {
+      path: '/info',
+      element: (
+        <ProtectedRoute>
+          <Info />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: '/registration',
+      element: <Registration />,
+    },
+    {
+      path: '/logs',
+      element: (
+        <ProtectedRoute>
+          <HistoryPerUser />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: '/settings',
+      element: (
+        <ProtectedRoute>
+          <Settings />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: '/aboutus',
+      element: <AboutUs />,
+    }
+  ]);
 
-export {ModeContext, EmailContext}
+  return (
+    <React.StrictMode>
+      <UserContext.Provider value={{ user, setUser }}>
+        <ModeContext.Provider value={{ mode, setMode, value, setValue }}>
+          <EmailContext.Provider value={{ email, setEmail }}>
+            <RouterProvider router={router} />
+          </EmailContext.Provider>
+        </ModeContext.Provider>
+      </UserContext.Provider>
+    </React.StrictMode>
+  );
+}
+
+createRoot(document.getElementById("root")).render(<Main />);
