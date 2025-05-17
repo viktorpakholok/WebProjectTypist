@@ -23,7 +23,7 @@ function ProtectedRoute({ children }) {
 function Main() {
   const [mode, setMode] = useState("words");
   const [value, setValue] = useState(5);
-  const [email, setEmail] = useState("bohdan@nd");
+  
 
   const [user, setUser] = useState(() => {
     const saved = localStorage.getItem("user");
@@ -37,6 +37,8 @@ function Main() {
       localStorage.removeItem("user");
     }
   }, [user]);
+
+  const [email, setEmail] = useState(user.email);
 
   const router = createBrowserRouter([
     {
