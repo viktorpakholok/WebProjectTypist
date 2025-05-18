@@ -2,6 +2,7 @@ import "./Header.css";
 import "../../main.css";
 
 import Logo from "../Logo/Logo";
+import LogOut from "../../assets/log_out.svg"
 
 import { Link } from "react-router-dom";
 
@@ -12,6 +13,7 @@ function Header() {
     const { user, setUser } = useContext(UserContext); 
     // console.log("USER:")
     // console.log(user.email)
+    // const navigate = useNavigate();
 
     let currentPath = window.location.pathname;
 
@@ -167,10 +169,11 @@ function Header() {
             </div>
             <div className="flex sign-in">
                 {user ? (  
-                    
-                <><a href="/registration"></a><button onClick={handleLogout} className="logout-button">Logout</button></>
-
-                    ) : (
+                // Paste the LogOut svg here that will redirect to log out action from the line delow
+                <button className="logout-btn icon" onClick={handleLogout}>
+        <img src={LogOut} alt="Log out" className="icons" />
+    </button>
+) : (
                      <Link aria-label="registration" to="/registration" className={"link" + (currentPath == "/registration" ? " disabled" : " icon")}>
                     <svg
                         className="icons ic-stroke"
