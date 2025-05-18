@@ -169,7 +169,7 @@ function Header() {
                 <><a href="/registration"></a><button onClick={handleLogout} className="logout-button">Logout</button></>
 
                     ) : (
-                     <Link aria-label="profile" to="/profile" className="link">
+                     <Link aria-label="registration" to="/registration" className="link">
                     <svg
                         className="icons ic-stroke"
                         height={"30px"}
