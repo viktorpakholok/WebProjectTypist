@@ -1,5 +1,5 @@
 .theme-bth {
-    width: 200px;
+    width: 20%;
     height: 50px;
     border-radius: 3px;
     font-size: 30px;
@@ -28,6 +28,11 @@
 .theme-1 {
     background-color: white;
     color: pink;
+}
+
+.theme-2 {
+    background-color: #d1d0c5;
+    color: #323437;
 }
 
 .caret {

@@ -48,6 +48,9 @@ function LineChart(props) {
     // console.log(objArr);
     // console.log(xValues);
 
+    let style = getComputedStyle(document.body);
+    let fontColor = style.getPropertyValue('--ft-color');
+
     const options = {
         legend: { display: false },
         plugins: {
@@ -57,7 +60,7 @@ function LineChart(props) {
             legend: {
                 labels: {
                     font: {
-                        fontColor: "#d1d0c5",
+                        fontColor: fontColor,
                     },
                 },
             },
@@ -81,7 +84,7 @@ function LineChart(props) {
         datasets: objArr,
     };
 
-    ChartJs.defaults.color = "#d1d0c5";
+    ChartJs.defaults.color = fontColor;
     ChartJs.defaults.borderColor = "#36A2EB";
 
     return <Line className="right" options={options} data={data} />;

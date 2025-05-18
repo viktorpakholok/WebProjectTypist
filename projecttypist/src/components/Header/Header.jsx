@@ -27,7 +27,7 @@ function Header() {
             <div className="jst-btw nav">
                 <Logo></Logo>
                 {/* <ButtonIcon text='text Bohdan' title='' icon={KeyBoardIcon}></ButtonIcon> */}
-                <Link aria-label="go to keyboard" to="/" className="link">
+                <Link aria-label="go to keyboard" to="/" className="link icon">
                     <svg
                         className="icons"
                         height={"40px"}
@@ -71,7 +71,7 @@ function Header() {
                         </g>
                     </svg>
                 </Link>
-                <Link aria-label="go to about us" to="/aboutus" className="link">
+                <Link aria-label="go to about us" to="/aboutus" className="link icon">
                     <svg
                         className="icons"
                         width="30px"
@@ -94,7 +94,7 @@ function Header() {
                         </g>
                     </svg>
                 </Link>
-                <Link aria-label="go to settings" to="/settings" className="link">
+                <Link aria-label="go to settings" to="/settings" className="link icon">
                     <svg
                         className="icons"
                         height={"30px"}
@@ -139,7 +139,7 @@ function Header() {
                         </g>
                     </svg>
                 </Link>
-                <Link aria-label="go to statistics" to='/logs' className="link">
+                <Link aria-label="go to statistics" to='/logs' className="link icon">
                     <svg
                         className="icons"
                         width="30px"
@@ -169,7 +169,7 @@ function Header() {
                 <><a href="/registration"></a><button onClick={handleLogout} className="logout-button">Logout</button></>
 
                     ) : (
-                     <Link aria-label="registration" to="/registration" className="link">
+                     <Link aria-label="registration" to="/registration" className="link icon">
                     <svg
                         className="icons ic-stroke"
                         height={"30px"}

@@ -8,6 +8,13 @@
     margin: auto 0;
 }
 
+.icon:hover {
+    animation-name: rotation;
+    animation-duration: 0.5s;
+    animation-iteration-count: 1;
+    /* animation-timing-function: ease-in; */
+}
+
 .sign-in {
     width: 100px;
     align-self: center;
@@ -27,6 +34,14 @@
 
 .color {
     fill: blue;
+}
+
+@keyframes rotation {
+    0% {transform: rotate(0);}
+    /* 25% {transform: rotate(90deg);}
+    50% {transform: rotate(180deg);}
+    75% {transform: rotate(270deg);} */
+    100% {transform: rotate(360deg);}
 }
 
 .logout-button {

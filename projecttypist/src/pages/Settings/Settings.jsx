@@ -18,7 +18,7 @@ function Settings() {
         let backColor = window.getComputedStyle(event.currentTarget).backgroundColor
 
         let theme = { "fontColor": fontColor, "backColor": backColor, "atenColor": "yellow", "wronColor": "red", "fontStyle": "" }
-        let settings = { ...userContext.settings, theme };
+        let settings = { ...userContext.user.settings, theme };
 
         let newUser = { ...userContext.user, settings }
 
@@ -31,18 +31,19 @@ function Settings() {
     return (
         <div>
             <Header></Header>
-            <h1 className="pad-bot-20">Settings:</h1>
+            <h1 className="pad-bot-20">Settings</h1>
 
             {/* <button onClick={changeColor}>Change color</button> */}
 
-            <h2 className="pad-bot-10">Theme:</h2>
+            <h2 className="pad-bot-10">Theme</h2>
 
             <div className="flex gap-20">
                 
                 <button className="theme-bth theme-0" onClick={changeColor}>default</button>
                 <button className="theme-bth theme-1" onClick={changeColor}>magic girl</button>
-                <button className="theme-bth" onClick={changeColor}>theme 2</button>
+                <button className="theme-bth theme-2" onClick={changeColor}>inverted default</button>
                 <button className="theme-bth" onClick={changeColor}>theme 3</button>
+
             </div>
 
             {/* <Logs data={arr}></Logs> */}
