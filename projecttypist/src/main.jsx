@@ -37,17 +37,17 @@ function Main() {
       localStorage.removeItem("user");
     }
   }, [user]);
-  // if (user == null) {
-  //   let theme = "backColor"
-  // } else {
-  //   let theme = user["settings"]["theme"]
-  // }
-  const root = document.documentElement;
 
-  // root.style.setProperty("--bg-color", theme["backColor"]);
-  // root.style.setProperty("--ft-color", theme["fontColor"]);
-  // root.style.setProperty("--ac-color", theme["atenColor"]);
-  // root.style.setProperty("--wr-color", theme["wronColor"]);
+  if (user) {
+    let theme = user["settings"]["theme"]
+
+    const root = document.documentElement;
+
+    root.style.setProperty("--bg-color", theme["backColor"]);
+    root.style.setProperty("--ft-color", theme["fontColor"]);
+    root.style.setProperty("--ac-color", theme["atenColor"]);
+    root.style.setProperty("--wr-color", theme["wronColor"]);
+  }
 
   const [email, setEmail] = useState(user? user.email: null);
 
