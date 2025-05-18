@@ -10,8 +10,10 @@ import { UserContext } from "../../main.jsx";
 
 function Header() {
     const { user, setUser } = useContext(UserContext); 
-    console.log("USER:")
+    // console.log("USER:")
     // console.log(user.email)
+
+    let currentPath = window.location.pathname;
 
     const handleLogout = () => {
         const confirmed = window.confirm("Are you sure you want to log out?");
@@ -27,7 +29,7 @@ function Header() {
             <div className="jst-btw nav">
                 <Logo></Logo>
                 {/* <ButtonIcon text='text Bohdan' title='' icon={KeyBoardIcon}></ButtonIcon> */}
-                <Link aria-label="go to keyboard" to="/" className="link icon">
+                <Link aria-label="go to keyboard" to="/" className={"link" + (currentPath == "/" ? " disabled" : " icon")}>
                     <svg
                         className="icons"
                         height={"40px"}
@@ -71,7 +73,7 @@ function Header() {
                         </g>
                     </svg>
                 </Link>
-                <Link aria-label="go to about us" to="/aboutus" className="link icon">
+                <Link aria-label="go to about us" to="/aboutus" className={"link" + (currentPath == "/aboutus" ? " disabled" : " icon")}>
                     <svg
                         className="icons"
                         width="30px"
@@ -94,7 +96,7 @@ function Header() {
                         </g>
                     </svg>
                 </Link>
-                <Link aria-label="go to settings" to="/settings" className="link icon">
+                <Link aria-label="go to settings" to="/settings" className={"link" + (currentPath == "/settings" ? " disabled" : " icon")}>
                     <svg
                         className="icons"
                         height={"30px"}
@@ -139,7 +141,7 @@ function Header() {
                         </g>
                     </svg>
                 </Link>
-                <Link aria-label="go to statistics" to='/logs' className="link icon">
+                <Link aria-label="go to statistics" to='/logs' className={"link" + (currentPath == "/logs" ? " disabled" : " icon")}>
                     <svg
                         className="icons"
                         width="30px"
@@ -169,7 +171,7 @@ function Header() {
                 <><a href="/registration"></a><button onClick={handleLogout} className="logout-button">Logout</button></>
 
                     ) : (
-                     <Link aria-label="registration" to="/registration" className="link icon">
+                     <Link aria-label="registration" to="/registration" className={"link" + (currentPath == "/registration" ? " disabled" : " icon")}>
                     <svg
                         className="icons ic-stroke"
                         height={"30px"}
