@@ -1,39 +1,34 @@
 .typing-div {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 40px;
-  text-align: left;
-  white-space: pre-wrap;
-  line-height: 2em;
-  /* position: relative; */
+    font-family: "Courier New", Courier, monospace;
+    font-size: 40px;
+    text-align: left;
+    white-space: pre-wrap;
+    line-height: 2em;
+    /* position: relative; */
 }
 
-
-
-.typing-div>button {
-  padding: 10px;
-  border-radius: 20px;
-  border: 2px solid black;
-  background-color: rgb(32, 32, 32);
-  color: white;
+.typing-div > button {
+    padding: 10px;
+    border-radius: 20px;
+    border: 2px solid black;
+    background-color: rgb(32, 32, 32);
+    color: white;
 }
-
-
 
 #input {
-  cursor: default;
-  user-select: none;
-  display: flex;
-  flex-wrap: wrap;
-  caret-color: white;
-  background-color: transparent;
+    cursor: default;
+    user-select: none;
+    display: flex;
+    flex-wrap: wrap;
+    caret-color: white;
+    background-color: transparent;
 }
 
 #input:focus {
-  outline:none
+    outline: none;
 }
 
-
 .word {
-  margin-right: 0.5em;
-  color: grey;
+    margin-right: 0.5em;
+    color: grey;
 }

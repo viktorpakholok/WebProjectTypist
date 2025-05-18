@@ -6,7 +6,7 @@
 }
 
 * {
-    color: var(--ft-color)
+    color: var(--ft-color);
 }
 
 #root {

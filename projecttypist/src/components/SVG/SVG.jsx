@@ -8,8 +8,8 @@ function SVG(props) {
 
     const styledChild = React.cloneElement(children, {
         style: {
-        //   ...(childern.props.style || {}),
-          fill: props.color,
+            //   ...(childern.props.style || {}),
+            fill: props.color,
         },
     });
 

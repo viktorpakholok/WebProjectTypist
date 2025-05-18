@@ -16,11 +16,11 @@ import TypingCaret from "../TypingCaret/TypingCaret";
 
 import { UserContext } from "../../main.jsx";
 
-import { 
+import {
     getActualWords, getTypedWords, getTimeStat,
     getRandomWord, getNewWords, isLetter, prevLetterIndex,
     getNewWordIndex, removeLetter, saveStats, getNewCaretPos,
-    nextLetterIndex, getNewIndex, lastLetterInWord, getTypingElements, 
+    nextLetterIndex, getNewIndex, lastLetterInWord, getTypingElements,
     getStatsHelper
 } from "../../functions/helper_functions.jsx";
 
@@ -101,7 +101,7 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
 
 
     useEffect(() => {
-        console.log("useEffect [hasStarted]")
+        // console.log("useEffect [hasStarted]")
         if (!hasStarted) return;
         timeStats.current = [];
         timerRef.current.setTimerStarted(true)
@@ -180,7 +180,7 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
             setTypedWords(typedWordsCopy);
             newIndex = getNewIndex(index, prevLetterIndex(actualWords, index.word, index.letter))
             setIndex(newIndex);
-        } 
+        }
         const newSpacePressed = index.letter == 0
         setSpacePressed(newSpacePressed);
         const newCaretPos = getNewCaretPos(inputRef.current, actualWords, newIndex, newSpacePressed, closed);
@@ -370,14 +370,14 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
                 ...prev,
                 Array.from({ length: newWord.length }, () => null),
             ]);
-            
-            
+
+
         }
     }
 
 
     renderingIter.current += 1
-    console.log("render: TypingInput", renderingIter.current, new Date().getTime(), wordsCount, timeLimit)
+    // console.log("render: TypingInput", renderingIter.current, new Date().getTime(), wordsCount, timeLimit)
     // console.log({ typingWords: typingWords, actualWords: actualWords, typedWords: typedWords, isFocused: isFocused, timeTyping: timeTyping, index: index, hasStarted: hasStarted, spacePressed: spacePressed, caretClassName: caretClassName, caretLeft: caretLeft, caretTop: caretTop, closed: closed })
     return (
         <>

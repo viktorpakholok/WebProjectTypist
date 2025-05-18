@@ -1,7 +1,7 @@
 import "./TypingLetter.css"
 import { useEffect, useState, memo } from "react"
 
-const TypingLetter = memo(function TypingLetter({actualLetter, typedLetter}) {
+const TypingLetter = memo(function TypingLetter({ actualLetter, typedLetter }) {
     const [letter, setLetter] = useState();
     const [hintLetter, setHintLetter] = useState();
     const [curClassName, setCurClassName] = useState("")
@@ -31,7 +31,7 @@ const TypingLetter = memo(function TypingLetter({actualLetter, typedLetter}) {
 
     // console.log("rendering", actualLetter, typedLetter)
 
-    return <span style={{'--hint_letter': `"${hintLetter}"`}} className={curClassName}>{letter}</span>
+    return <span style={{ '--hint_letter': `"${hintLetter}"` }} className={curClassName}>{letter}</span>
 })
 
 export default TypingLetter;

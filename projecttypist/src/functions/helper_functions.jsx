@@ -85,7 +85,7 @@ export async function saveStats(curCharacters, curWords, curEmail, timeTyping) {
         Math.round(
             (curCharacters.correct /
                 (curCharacters.correct + curCharacters.incorrect)) *
-                100
+            100
         ) / 100;
 
     const dateInfo = new Date();
@@ -95,19 +95,19 @@ export async function saveStats(curCharacters, curWords, curEmail, timeTyping) {
         `http://localhost:3001/statsExample?email=${curEmail}`
     );
     let prevArr = res.data[0];
-    
+
 
     if (res.data.length === 0) {
-        prevArr = {email: curEmail, dates: [date], WPM: [wpm], rawWPM: [rawwpm], accuracy: [accuracy]}
+        prevArr = { email: curEmail, dates: [date], WPM: [wpm], rawWPM: [rawwpm], accuracy: [accuracy] }
         await axios.post(`http://localhost:3001/statsExample/`, prevArr);
         return
     }
-    
+
     prevArr.dates.push(date);
     prevArr.WPM.push(wpm);
     prevArr.rawWPM.push(rawwpm);
     prevArr.accuracy.push(accuracy);
-    
+
     await axios.put(
         `http://localhost:3001/statsExample/${prevArr.id}`,
         prevArr
@@ -115,9 +115,9 @@ export async function saveStats(curCharacters, curWords, curEmail, timeTyping) {
 }
 
 export function getNewCaretPos(inputEl, curActualWords, curIndex, curSpacePressed, curClosed) {
-    console.log("updating")
+    // console.log("updating")
     if (curClosed || inputEl.childNodes?.length == null) {
-        console.log("not updated")
+        // console.log("not updated")
         return;
     }
     const width =
@@ -129,7 +129,7 @@ export function getNewCaretPos(inputEl, curActualWords, curIndex, curSpacePresse
             inputEl.firstElementChild.firstElementChild;
         const rect = targetEl.getBoundingClientRect();
 
-        const newCaretPos = {top: rect.top + root.scrollTop, left: rect.left - width / 2};
+        const newCaretPos = { top: rect.top + root.scrollTop, left: rect.left - width / 2 };
         window.scrollTo({
             top: 0,
             left: 0,
@@ -142,7 +142,7 @@ export function getNewCaretPos(inputEl, curActualWords, curIndex, curSpacePresse
             inputEl.childNodes[curIndex.word + 1].childNodes[0];
         const rect = targetEl.getBoundingClientRect();
 
-        const newCaretPos = {top: rect.top + root.scrollTop, left: rect.left - width / 2};
+        const newCaretPos = { top: rect.top + root.scrollTop, left: rect.left - width / 2 };
         window.scrollTo({
             top: rect.top + root.scrollTop - 400,
             left: 0,
@@ -152,11 +152,11 @@ export function getNewCaretPos(inputEl, curActualWords, curIndex, curSpacePresse
     }
     const targetEl =
         inputEl.childNodes[curIndex.word].childNodes[
-            curIndex.letter
+        curIndex.letter
         ];
     const rect = targetEl.getBoundingClientRect();
 
-    const newCaretPos = {top: rect.top + root.scrollTop, left: rect.left + width / 2};
+    const newCaretPos = { top: rect.top + root.scrollTop, left: rect.left + width / 2 };
     window.scrollTo({
         top: rect.top + root.scrollTop - 400,
         left: 0,

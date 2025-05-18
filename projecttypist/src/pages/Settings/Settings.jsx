@@ -38,7 +38,7 @@ function Settings() {
             <h2 className="pad-bot-10">Theme</h2>
 
             <div className="flex gap-20">
-                
+
                 <button className="theme-bth theme-0" onClick={changeColor}>default</button>
                 <button className="theme-bth theme-1" onClick={changeColor}>magic girl</button>
                 <button className="theme-bth theme-2" onClick={changeColor}>inverted default</button>

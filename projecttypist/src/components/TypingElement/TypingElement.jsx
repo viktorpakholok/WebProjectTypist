@@ -7,7 +7,7 @@ import Timer from "../Timer/Timer.jsx";
 function TypingElement() {
     const modeValues = useContext(ModeContext);
     // console.log("context", modeValues)
-    
+
     const [inputValue, setInputValue] = useState(`${modeValues.value}`)
     const [wrongInputText, setWrongInputText] = useState("")
     const [wordsClass, setWordsClass] = useState("")
@@ -66,11 +66,7 @@ function TypingElement() {
         return (modeValues.mode === "words") ? modeValues.value : 0
     }
 
-    console.log("render: TypingElement")
-
-
-
-    
+    // console.log("render: TypingElement")
 
     return <>
         <div className="modes-manager">
@@ -87,7 +83,7 @@ function TypingElement() {
 
         <TypingInput refference={typingInputRef} wordsCount={getWordsValue()} timeLimit={getTimeValue()} timerRef={timerRef}></TypingInput>
     </>
-    
+
 }
 
 export default TypingElement;

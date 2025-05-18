@@ -22,14 +22,14 @@ function AboutUs() {
         fetchArr()
     }, []);
 
-    console.log(arr)
+    // console.log(arr)
 
     if (arr === null) return <div>Loading...</div>
 
     let res = {}
 
     for (let account of arr) {
-        console.log(account)
+        // console.log(account)
 
         if (!("dates" in account)) {
             continue

@@ -49,7 +49,7 @@
     transition: background-color 0.2s ease;
 }
 
-.checkbox-container input[type="checkbox"]:checked+.checkmark::before {
+.checkbox-container input[type="checkbox"]:checked + .checkmark::before {
     content: "✔";
     color: #fbbc04;
     font-size: 14px;
