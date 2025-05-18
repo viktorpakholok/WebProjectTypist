@@ -144,7 +144,6 @@ function Registration() {
       const loggedInUser = res.data[0];
       setUser(loggedInUser);
 
-      // ensure stats, then redirect once
       await ensureStatsExist(loggedInUser.email);
       alert("Login successful!");
       navigate("/");
