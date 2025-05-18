@@ -1,5 +1,5 @@
 import axios from "axios";
-import TypingWord from "../components/TypingWord/TypingWord";
+import TypingWord from "../components/Typing/TypingWord/TypingWord";
 
 export function randomInt(lowerBound, upperBound) {
     const numRange = upperBound - lowerBound;

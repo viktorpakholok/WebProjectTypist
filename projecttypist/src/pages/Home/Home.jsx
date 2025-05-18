@@ -1,5 +1,5 @@
 import Header from "../../components/Header/Header";
-import TypingElement from "../../components/TypingElement/TypingElement.jsx";
+import TypingElement from "../../components/Typing/TypingElement/TypingElement.jsx";
 
 function Home() {
 

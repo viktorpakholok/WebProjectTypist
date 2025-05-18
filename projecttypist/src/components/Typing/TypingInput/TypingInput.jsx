@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 import TypingCaret from "../TypingCaret/TypingCaret";
 
-import { UserContext } from "../../main.jsx";
+import { UserContext } from "../../../main.jsx";
 
 import {
     getActualWords, getTypedWords, getTimeStat,
@@ -22,7 +22,7 @@ import {
     getNewWordIndex, removeLetter, saveStats, getNewCaretPos,
     nextLetterIndex, getNewIndex, lastLetterInWord, getTypingElements,
     getStatsHelper
-} from "../../functions/helper_functions.jsx";
+} from "../../../functions/helper_functions.jsx";
 
 
 const dictionaryWords = await fetch("/english1000.txt")
@@ -257,6 +257,7 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
         setCaretPos(newCaretPos.top, newCaretPos.left)
     }
 
+
     function renderResultPage() {
         setClosed(true);
         if (!hasStarted) {
@@ -270,11 +271,12 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
             });
             return;
         }
-        // updateTimeStats()
+
         const [characters, words] = getStats();
 
-
-        saveStats(characters, words, userContext.user.email, timeTyping.current);
+        if (userContext.user != null && Object.hasOwn(userContext.user, "id")) {
+            saveStats(characters, words, userContext.user.email, timeTyping.current);
+        }
         navigate("/info", {
             state: {
                 characters,
@@ -362,7 +364,7 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
         if (!hasStarted) setHasStarted(true);
         addLetter(typedLetter);
 
-        if (wordsCount === 0 && typingWords.length - index.word < 3) {
+        if (wordsCount === 0 && typingWords.length - index.word < maxWordsAfterCursor) {
             const newWord = getRandomWord(dictionaryWords);
             setTypingWords((prev) => [...prev, newWord]);
             setActualWords((prev) => [...prev, newWord.split("")]);

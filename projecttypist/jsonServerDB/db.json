@@ -26,6 +26,23 @@
       "username": "who?",
       "email": "bohdan@ndm",
       "password": "123"
+    },
+    {
+      "id": "df7a",
+      "username": "asdlk",
+      "email": "typer@gmail.com",
+      "password": "1234",
+      "settings": {
+        "theme": {
+          "fontColor": "#d1d0c5",
+          "backColor": "#323437",
+          "atenColor": "yellow",
+          "wronColor": "red",
+          "fontStyle": ""
+        },
+        "difficulty": 0,
+        "sound": 0
+      }
     }
   ],
   "statsExample": [
@@ -205,7 +222,8 @@
         "21:01:42 18.05.2025",
         "21:02:05 18.05.2025",
         "21:02:11 18.05.2025",
-        "21:02:18 18.05.2025"
+        "21:02:18 18.05.2025",
+        "22:06:16 18.05.2025"
       ],
       "WPM": [
         60,
@@ -213,7 +231,8 @@
         30,
         3.75,
         60,
-        30
+        30,
+        60
       ],
       "rawWPM": [
         60,
@@ -221,9 +240,11 @@
         30,
         3.75,
         60,
-        30
+        30,
+        60
       ],
       "accuracy": [
+        1,
         1,
         1,
         1,

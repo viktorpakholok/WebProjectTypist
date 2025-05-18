@@ -1,7 +1,7 @@
-import TypingInput from "../../components/TypingInput/TypingInput.jsx"
+import TypingInput from "../TypingInput/TypingInput.jsx";
 import "./TypingElement.css"
 import { useCallback, useContext, useEffect, useState, useRef } from "react";
-import { ModeContext } from "../../main.jsx";
+import { ModeContext } from "../../../main.jsx";
 import Timer from "../Timer/Timer.jsx";
 
 function TypingElement() {
@@ -17,7 +17,6 @@ function TypingElement() {
 
     const typingInputRef = useRef(null)
     const timerRef = useRef(null)
-
 
 
     useEffect(() => {
@@ -66,7 +65,8 @@ function TypingElement() {
         return (modeValues.mode === "words") ? modeValues.value : 0
     }
 
-    // console.log("render: TypingElement")
+    console.log("render: TypingElement")
+
 
     return <>
         <div className="modes-manager">
@@ -74,7 +74,6 @@ function TypingElement() {
             <button className={timeClass + " button-type"} value="time" onClick={(e) => changeMode(e)}>time</button>
             <input type="text" onChange={(e) => updateInputValue(e)} value={inputValue} />
             <div>{wrongInputText}</div>
-
         </div>
 
         <button className="button-type" onClick={() => typingInputRef.current.resetTypingInput()}>new text</button>
