@@ -1,25 +1,87 @@
 import Header from "../../components/Header/Header";
-import TypingElement from "../../components/TypingElement/TypingElement.jsx";
+
+import { useState, useEffect } from "react";
+
+import { Bar } from 'react-chartjs-2';
+
+import axios from "axios";
+
 
 import "../../main.css"
 
 function AboutUs() {
 
+    const [arr, setArr] = useState(null)
+
+    useEffect(() => {
+        async function fetchArr() {
+            const res = await axios.get(`http://localhost:3001/statsExample/`);
+            setArr(res.data)
+        }
+
+        fetchArr()
+    }, []);
+
+    console.log(arr)
+
+    if (arr === null) return <div>Loading...</div>
+
+    let res = {}
+
+    for (let account of arr) {
+        console.log(account)
+
+        if (!("dates" in account)) {
+            continue
+        }
+
+        for (let date of account["dates"]) {
+
+            date = date.split(" ")[1];
+
+            if (date in res) {
+                res[date] += 1
+            } else {
+                res[date] = 1
+            }
+        }
+    }
+
+    let data = { labels: Object.keys(res), datasets: [{ data: Object.values(res) }] }
+
+    const options = {
+        scales: {
+            y: { ticks: { stepSize: 1 } }
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: "Saved games by days"
+            },
+            legend: { display: false }
+        },
+
+    }
+
     return (
         <div>
             <Header></Header>
             {/* <TypingElement></TypingElement> */}
-            <h1>About Us:</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam rhoncus mi non arcu placerat scelerisque. Aliquam et pellentesque magna, et semper justo. Quisque posuere vel turpis a consectetur. Maecenas convallis metus non justo venenatis, quis maximus nibh efficitur. Donec vehicula libero risus, nec feugiat enim faucibus vel. Aliquam tempus ac turpis vel imperdiet. Aliquam congue posuere felis nec facilisis. Vestibulum sit amet mauris sapien. Sed in est porttitor, euismod nunc quis, eleifend erat. Nullam fermentum dignissim diam sed egestas. Sed pellentesque condimentum neque a egestas. Proin eleifend purus neque, eu dignissim neque fringilla sit amet. Vivamus aliquet ante varius, mollis dui a, suscipit sapien.
+            <section className="main-part">
+                <h1>About Us</h1>
 
-Sed pretium efficitur est id elementum. Suspendisse eu porta dui, non tempor ligula. Maecenas dictum dui eget orci semper viverra. Duis vel lobortis nulla. Ut quis odio felis. Suspendisse potenti. Nunc porta augue sit amet ex lobortis, a varius mi aliquet. Mauris accumsan lorem mauris, vel vestibulum lectus accumsan id. Nulla id sollicitudin nulla. Sed a aliquam odio. Duis ac velit hendrerit, iaculis libero eu, auctor lorem.
-            </p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam rhoncus mi non arcu placerat scelerisque. Aliquam et pellentesque magna, et semper justo. Quisque posuere vel turpis a consectetur. Maecenas convallis metus non justo venenatis, quis maximus nibh efficitur. Donec vehicula libero risus, nec feugiat enim faucibus vel. Aliquam tempus ac turpis vel imperdiet. Aliquam congue posuere felis nec facilisis. Vestibulum sit amet mauris sapien. Sed in est porttitor, euismod nunc quis, eleifend erat. Nullam fermentum dignissim diam sed egestas. Sed pellentesque condimentum neque a egestas. Proin eleifend purus neque, eu dignissim neque fringilla sit amet. Vivamus aliquet ante varius, mollis dui a, suscipit sapien.
+                <div className="bar hor-center">
+                    <Bar data={data} options={options}></Bar>
+                </div>
 
-Sed pretium efficitur est id elementum. Suspendisse eu porta dui, non tempor ligula. Maecenas dictum dui eget orci semper viverra. Duis vel lobortis nulla. Ut quis odio felis. Suspendisse potenti. Nunc porta augue sit amet ex lobortis, a varius mi aliquet. Mauris accumsan lorem mauris, vel vestibulum lectus accumsan id. Nulla id sollicitudin nulla. Sed a aliquam odio. Duis ac velit hendrerit, iaculis libero eu, auctor lorem.
-            </p>
+                <p>ProjectTypist is student project from Web course. Our team consists of 3 people: Lev, Viktor and Bohdan.</p>
+                <p>Our main goal was to try to make some typing trainer and for that we heavily took inspiration from <a href="https://monkeytype.com/">MonkeyType</a>.</p>
+                <p>We decided to select this project to increase our knowledge about React in applied sphere and to have some interesting thing to show.</p>
+
+            </section>
+
         </div>
-        );
+    );
 }
 
 export default AboutUs;
