@@ -27,7 +27,10 @@ function Header() {
     return (
         <div className="jst-btw header-main">
             <div className="jst-btw nav">
-                <Logo></Logo>
+                <Link aria-label="go to keyboard" to="/" className={"no-underline link" + (currentPath == "/" ? " disabled" : "")}>
+                    <Logo/>
+                </Link>
+                
                 {/* <ButtonIcon text='text Bohdan' title='' icon={KeyBoardIcon}></ButtonIcon> */}
                 <Link aria-label="go to keyboard" to="/" className={"link" + (currentPath == "/" ? " disabled" : " icon")}>
                     <svg

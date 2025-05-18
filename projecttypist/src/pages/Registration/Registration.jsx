@@ -240,7 +240,7 @@ function Registration() {
                     </form>
                 </aside>
             </section>
-            <Footer />
+            {/* <Footer /> */}
         </div>
     );
 }
