@@ -17,7 +17,7 @@ export const EmailContext = createContext();
 
 function ProtectedRoute({ children }) {
   const { user } = useContext(UserContext);
-  return user ? children : <Navigate to="/registration" replace />;
+  return Object.hasOwn(user, "id") ? children : <Navigate to="/registration" replace />;
 }
 
 function Main() {

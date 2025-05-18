@@ -18,7 +18,7 @@ function Settings() {
         let backColor = window.getComputedStyle(event.currentTarget).backgroundColor
 
         let theme = { "fontColor": fontColor, "backColor": backColor, "atenColor": "yellow", "wronColor": "red", "fontStyle": "" }
-        let settings = { ...userContext.user.settings, theme };
+        let settings = { ...userContext.user?.settings, theme };
 
         let newUser = { ...userContext.user, settings }
 
