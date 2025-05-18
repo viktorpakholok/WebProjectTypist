@@ -136,7 +136,7 @@ export function getNewCaretPos(inputEl, curActualWords, curIndex, curSpacePresse
             behavior: "smooth",
         });
         return newCaretPos
-    } 
+    }
     if (lastLetterInWord(curActualWords, curIndex.word, curIndex.letter) && curSpacePressed) {
         const targetEl =
             inputEl.childNodes[curIndex.word + 1].childNodes[0];

@@ -6,8 +6,11 @@ export default function Timer({timeLimit, refference, typingInputRef}) {
     const [time, setTime] = useState(0)
     const [timerStarted, setTimerStarted] = useState(false)
 
+
+
     useEffect(() => {
         if (!timerStarted) return;
+        typingInputRef.current.updateTimeStats(0)
         const intervalId = setInterval(() => {
             setTime((prev) => prev + 1)
         }, 1000)

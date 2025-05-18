@@ -60,31 +60,6 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
     const timeTyping = useRef(0);
 
 
-    useEffect(() => {
-        resetTypingInput();
-    }, [wordsCount, timeLimit]);
-
-
-    useEffect(() => {
-        function handleMouseClick(event) {
-            let clickOnInput = inputRef.current.contains(event.target);
-            clickOnInput ? focus() : blur();
-        }
-
-        document.addEventListener("click", handleMouseClick);
-
-        return () => {
-            document.removeEventListener("click", handleMouseClick);
-        };
-    }, []);
-
-    useEffect(() => {
-        if (hasStarted) return;
-        setActualWords(getActualWords(typingWords));
-        setTypedWords(getTypedWords(typingWords));
-    }, [typingWords]);
-
-
     const getStats = useCallback(() => {
         return getStatsHelper(actualWords, typedWords)
     }, [actualWords, typedWords])
@@ -107,10 +82,29 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
 
 
     useEffect(() => {
+        function handleMouseClick(event) {
+            let clickOnInput = inputRef.current.contains(event.target);
+            clickOnInput ? focus() : blur();
+        }
+
+        document.addEventListener("click", handleMouseClick);
+
+        return () => {
+            document.removeEventListener("click", handleMouseClick);
+        };
+    }, []);
+
+
+    useEffect(() => {
+        resetTypingInput();
+    }, [wordsCount, timeLimit]);
+
+
+    useEffect(() => {
+        console.log("useEffect [hasStarted]")
         if (!hasStarted) return;
         timeStats.current = [];
         timerRef.current.setTimerStarted(true)
-        updateTimeStats(0)
     }, [hasStarted]);
 
 
@@ -141,6 +135,7 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
         setCaretPos(newCaretPos.top, newCaretPos.left)
     }, [actualWords, closed]);
 
+
     function resetTypingInput() {
         setClosed(false)
         setHasStarted(false);
@@ -149,7 +144,10 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
         timeTyping.current = 0
         const newIndex = { word: -1, letter: -1 }
         setIndex(newIndex);
-        setTypingWords(() => getNewWords(wordsCount, startingWordsCount, dictionaryWords));
+        const newTypingWords = getNewWords(wordsCount, startingWordsCount, dictionaryWords)
+        setTypingWords(() => newTypingWords);
+        setActualWords(getActualWords(newTypingWords));
+        setTypedWords(getTypedWords(newTypingWords));
     }
 
     function focus() {
@@ -295,8 +293,7 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
         }
         if (event.key.length > 1) return;
         if (event.key === " ") event.preventDefault();
-        if (event.key === " ") {
-        }
+
         if (
             event.key === " " &&
             !spacePressed &&
@@ -380,7 +377,7 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
 
 
     renderingIter.current += 1
-    console.log("render: TypingInput", renderingIter.current, new Date().getTime())
+    console.log("render: TypingInput", renderingIter.current, new Date().getTime(), wordsCount, timeLimit)
     // console.log({ typingWords: typingWords, actualWords: actualWords, typedWords: typedWords, isFocused: isFocused, timeTyping: timeTyping, index: index, hasStarted: hasStarted, spacePressed: spacePressed, caretClassName: caretClassName, caretLeft: caretLeft, caretTop: caretTop, closed: closed })
     return (
         <>
