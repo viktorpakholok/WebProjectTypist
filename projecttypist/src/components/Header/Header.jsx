@@ -5,7 +5,23 @@ import Logo from "../Logo/Logo";
 
 import { Link } from "react-router-dom";
 
+import { useContext } from "react";
+import { UserContext } from "../../main.jsx";
+
 function Header() {
+    const { user, setUser } = useContext(UserContext); 
+    console.log("USER:")
+    // console.log(user.email)
+
+    const handleLogout = () => {
+        const confirmed = window.confirm("Are you sure you want to log out?");
+        if (confirmed) {
+        setUser(null);
+        localStorage.removeItem("user");
+        navigate("/registration");
+        }
+    };
+
     return (
         <div className="jst-btw header-main">
             <div className="jst-btw nav">
@@ -148,7 +164,12 @@ function Header() {
                 </Link>
             </div>
             <div className="flex sign-in">
-                <Link aria-label="go to profile" to="/registration" className="link">
+                {user ? (  
+                    
+                <><a href="/registration"></a><button onClick={handleLogout} className="logout-button">Logout</button></>
+
+                    ) : (
+                     <Link aria-label="profile" to="/profile" className="link">
                     <svg
                         className="icons ic-stroke"
                         height={"30px"}
@@ -194,9 +215,11 @@ function Header() {
                         </g>
                     </svg>
                 </Link>
+                )}
             </div>
         </div>
     );
 }
+
 
 export default Header;
