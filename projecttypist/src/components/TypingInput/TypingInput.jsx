@@ -5,46 +5,48 @@ import {
     useRef,
     useLayoutEffect,
     useCallback,
-    Fragment,
+    useImperativeHandle,
+    useMemo,
+    memo
 } from "react";
 import "./TypingInput.css";
 import { useNavigate } from "react-router-dom";
-// import TypingLetter from "../TypingLetter/TypingLetter";
+
 import TypingCaret from "../TypingCaret/TypingCaret";
-import TypingWord from "../TypingWord/TypingWord";
+
 import { EmailContext } from "../../main.jsx";
 
-import axios from "axios";
+import { 
+    getActualWords, getTypedWords, getTimeStat,
+    getRandomWord, getNewWords, isLetter, prevLetterIndex,
+    getNewWordIndex, removeLetter, saveStats, getNewCaretPos,
+    nextLetterIndex, getNewIndex, lastLetterInWord, getTypingElements, 
+    getStatsHelper
+} from "../../functions/helper_functions.jsx";
 
-// console.log(new Date())
+
 const dictionaryWords = await fetch("/english1000.txt")
     .then((res) => res.text())
     .then((res) => {
         return res.split(/\n|\r\n/);
     });
-// console.log("read")
-// console.log(new Date())
-// console.log(dictionaryWords)
 
 const startingWordsCount = 3;
+const maxWordsAfterCursor = 1000;
 
-function TypingInput({ wordsCount, timeLimit }) {
+const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
 
     const emailContext = useContext(EmailContext);
-    // console.log(emailContext)
 
     const navigate = useNavigate();
-    const [typingWords, setTypingWords] = useState(getNewWords());
-    const [actualWords, setActualWords] = useState(getActualWords());
-    const [typedWords, setTypedWords] = useState(getTypedWords());
+    const [typingWords, setTypingWords] = useState(getNewWords(wordsCount, startingWordsCount, dictionaryWords));
+    const [actualWords, setActualWords] = useState(getActualWords(typingWords));
+    const [typedWords, setTypedWords] = useState(getTypedWords(typingWords));
 
     const [isFocused, setIsFocused] = useState(true);
-    const [timeTyping, setTimeTyping] = useState(0);
     const [index, setIndex] = useState({ word: -1, letter: -1 });
-    const [lastIndex, setLastIndex] = useState({ word: -1, letter: -1 });
 
     const [hasStarted, setHasStarted] = useState(false);
-    const [dateTime, setDateTime] = useState('');
 
     const inputRef = useRef(null);
     const [spacePressed, setSpacePressed] = useState(false);
@@ -54,11 +56,14 @@ function TypingInput({ wordsCount, timeLimit }) {
     const [closed, setClosed] = useState(false);
 
     const timeStats = useRef([]);
+    const renderingIter = useRef(0);
+    const timeTyping = useRef(0);
+
 
     useEffect(() => {
-        setClosed(false);
         resetTypingInput();
     }, [wordsCount, timeLimit]);
+
 
     useEffect(() => {
         function handleMouseClick(event) {
@@ -75,66 +80,39 @@ function TypingInput({ wordsCount, timeLimit }) {
 
     useEffect(() => {
         if (hasStarted) return;
-        setActualWords(getActualWords());
-        setTypedWords(getTypedWords());
+        setActualWords(getActualWords(typingWords));
+        setTypedWords(getTypedWords(typingWords));
     }, [typingWords]);
 
+
     const getStats = useCallback(() => {
-        const characters = {
-            correct: 0,
-            incorrect: 0,
-            extra: 0,
-        };
+        return getStatsHelper(actualWords, typedWords)
+    }, [actualWords, typedWords])
 
-        let wrongWords = 0;
-        let totalWords = 0;
-        for (const i in actualWords) {
-            let wordHasMistake = false;
-            let wasFullyWritten = true;
-            for (const k in actualWords[i]) {
-                const actualLetter = actualWords[i][k];
-                const typedLetter = typedWords[i][k];
-                if (typedLetter === null) {
-                    wasFullyWritten = false;
-                    break;
-                }
-                if (actualLetter === typedLetter) {
-                    characters.correct++;
-                    continue;
-                }
-                wordHasMistake = true;
-                if (actualLetter === null) characters.extra++;
-                else {
-                    characters.incorrect++;
-                }
-            }
-            if (!wasFullyWritten) break;
-            if (wordHasMistake) wrongWords++;
-            totalWords++;
+
+    const updateTimeStats = useCallback((curTime) => {
+        timeTyping.current = curTime
+        const words = getStats()[1];
+        const timeStat = getTimeStat(words, timeTyping.current)
+        timeStats.current.push(timeStat);
+    }, [getStats])
+
+    useImperativeHandle(refference, () => {
+        return {
+            updateTimeStats: updateTimeStats,
+            renderResultPage: renderResultPage,
+            resetTypingInput: resetTypingInput
         }
+    }, [updateTimeStats])
 
-        const words = {
-            correct: totalWords - wrongWords,
-            incorrect: wrongWords,
-        };
-        return [characters, words];
-    }, [index, actualWords, typedWords, spacePressed]);
-
-    useEffect(() => {
-        // console.log(spacePressed)
-    }, [spacePressed]);
 
     useEffect(() => {
         if (!hasStarted) return;
         timeStats.current = [];
-
-        const timeTypingId = setInterval(() => {
-            setTimeTyping((prev) => prev + 1);
-        }, 1000);
-        return () => {
-            clearInterval(timeTypingId);
-        };
+        timerRef.current.setTimerStarted(true)
+        updateTimeStats(0)
     }, [hasStarted]);
+
 
     function handleKeyDown(event) {
         if (event.key === "Tab") {
@@ -146,6 +124,7 @@ function TypingInput({ wordsCount, timeLimit }) {
         handleInputKeyDown(event);
     }
 
+
     useEffect(() => {
         document.addEventListener("keydown", handleKeyDown);
         return () => {
@@ -153,57 +132,24 @@ function TypingInput({ wordsCount, timeLimit }) {
         };
     }, [handleKeyDown]);
 
-    useEffect(() => {
-        const words = getStats()[1];
-        // console.log(words)
-        let wpm = Math.round((words.correct / timeTyping) * 60);
-        wpm = isNaN(wpm) ? 0 : wpm;
-        let rawwpm = Math.round(
-            ((words.correct + words.incorrect) / timeTyping) * 60
-        );
-        rawwpm = isNaN(rawwpm) ? 0 : rawwpm;
-        timeStats.current.push([timeTyping, wpm, rawwpm]);
-    }, [timeTyping]);
-
-    useEffect(() => {
-        if (timeLimit == 0) return;
-        if (timeTyping >= timeLimit) renderResultPage();
-    }, [timeTyping]);
-
-    useEffect(() => {
-        // if (index.word < lastIndex.word && lastLetterInWord(index.word, index.letter)) {
-        //   setSpacePressed(true)
-        // }
-        setLastIndex(index);
-    }, [index]);
 
     useEffect(() => {
         if (closed) return;
-        updateCaretPos();
-    }, [index, spacePressed, closed]);
 
-    function getActualWords() {
-        let newActualWords = [];
-        for (const word of typingWords) {
-            newActualWords.push(word.split(""));
-        }
-        return newActualWords;
-    }
-
-    function getTypedWords() {
-        let newTypedWords = [];
-        for (const word of typingWords) {
-            newTypedWords.push(Array.from({ length: word.length }, () => null));
-        }
-        return newTypedWords;
-    }
+        const newCaretPos = getNewCaretPos(inputRef.current, actualWords, index, spacePressed, closed);
+        if (newCaretPos == null) return
+        setCaretPos(newCaretPos.top, newCaretPos.left)
+    }, [actualWords, closed]);
 
     function resetTypingInput() {
+        setClosed(false)
         setHasStarted(false);
-        setSpacePressed(false);
-        setTimeTyping(0);
-        setIndex({ word: -1, letter: -1 });
-        setTypingWords(() => getNewWords());
+        const newSpacePressed = false
+        setSpacePressed(newSpacePressed);
+        timeTyping.current = 0
+        const newIndex = { word: -1, letter: -1 }
+        setIndex(newIndex);
+        setTypingWords(() => getNewWords(wordsCount, startingWordsCount, dictionaryWords));
     }
 
     function focus() {
@@ -222,72 +168,25 @@ function TypingInput({ wordsCount, timeLimit }) {
         setCaretTop(`${top}px`);
     }
 
-    function randomInt(lowerBound, upperBound) {
-        const numRange = upperBound - lowerBound;
-        return Math.floor(Math.random() * (numRange + 1)) + lowerBound;
-    }
-
-    function getRandomWord() {
-        return dictionaryWords[randomInt(0, dictionaryWords.length - 1)];
-    }
-
-    function getNewWords() {
-        let newWords = [];
-        const curWordsCount =
-            wordsCount === 0 ? startingWordsCount : wordsCount;
-        for (let i = 0; i < curWordsCount; i++) {
-            newWords.push(getRandomWord());
-        }
-        return newWords;
-    }
-
-    function isLetter(char) {
-        return /^\p{L}$/u.test(char);
-    }
-
-    function prevLetterIndex(curIndex) {
-        if (curIndex > 0) return curIndex - 1;
-        if (index.word == 0) return -1;
-        const prevWordIndex = index.word - 1;
-        return actualWords[prevWordIndex].length - 1;
-    }
-
-    function getNewWordIndex(curWordIndex, newLetterIndex, curLetterIndex) {
-        if (newLetterIndex === -1) return -1;
-        if (newLetterIndex >= curLetterIndex) {
-            return curWordIndex - 1;
-        }
-        return curWordIndex;
-    }
-
-    function removeLetter(
-        actualWordsCopy,
-        typedWordsCopy,
-        givenWordIndex,
-        givenLetterIndex
-    ) {
-        if (actualWordsCopy[givenWordIndex][givenLetterIndex] === null) {
-            actualWordsCopy[givenWordIndex].pop();
-            typedWordsCopy[givenWordIndex].pop();
-        } else {
-            typedWordsCopy[givenWordIndex][givenLetterIndex] = null;
-        }
-    }
 
     function deleteOne() {
         if (index.word == -1) return;
-        if (spacePressed) {
-            setSpacePressed(false);
-            return;
-        }
 
-        const typedWordsCopy = structuredClone(typedWords);
-        const actualWordsCopy = structuredClone(actualWords);
-        removeLetter(actualWordsCopy, typedWordsCopy, index.word, index.letter);
-        setActualWords(actualWordsCopy);
-        setTypedWords(typedWordsCopy);
-        if (index.letter === 0 && index.word >= 0) setSpacePressed(true);
-        setIndex((prev) => getNewIndex(prev, prevLetterIndex(prev.letter)));
+        let newIndex = index
+        if (!spacePressed) {
+            const typedWordsCopy = structuredClone(typedWords);
+            const actualWordsCopy = structuredClone(actualWords);
+
+            removeLetter(actualWordsCopy, typedWordsCopy, index.word, index.letter);
+            setActualWords(actualWordsCopy);
+            setTypedWords(typedWordsCopy);
+            newIndex = getNewIndex(index, prevLetterIndex(actualWords, index.word, index.letter))
+            setIndex(newIndex);
+        } 
+        const newSpacePressed = index.letter == 0
+        setSpacePressed(newSpacePressed);
+        const newCaretPos = getNewCaretPos(inputRef.current, actualWords, newIndex, newSpacePressed, closed);
+        setCaretPos(newCaretPos.top, newCaretPos.left)
     }
 
     function handleDeletion(event) {
@@ -317,7 +216,7 @@ function TypingInput({ wordsCount, timeLimit }) {
                 curWordIndex,
                 curLetterIndex
             );
-            const newLetterIndex = prevLetterIndex(curLetterIndex);
+            const newLetterIndex = prevLetterIndex(actualWords, index.word, curLetterIndex);
             curWordIndex = getNewWordIndex(
                 curWordIndex,
                 newLetterIndex,
@@ -325,7 +224,7 @@ function TypingInput({ wordsCount, timeLimit }) {
             );
             curLetterIndex = newLetterIndex;
             deletedNonLetter = true;
-            if (lastLetterInWord(curWordIndex, curLetterIndex)) break;
+            if (lastLetterInWord(actualWords, curWordIndex, curLetterIndex)) break;
         }
 
         if (!deletedNonLetter) {
@@ -339,24 +238,25 @@ function TypingInput({ wordsCount, timeLimit }) {
                     curWordIndex,
                     curLetterIndex
                 );
-                const newLetterIndex = prevLetterIndex(curLetterIndex);
+                const newLetterIndex = prevLetterIndex(actualWords, index.word, curLetterIndex);
                 curWordIndex = getNewWordIndex(
                     curWordIndex,
                     newLetterIndex,
                     curLetterIndex
                 );
                 curLetterIndex = newLetterIndex;
-                if (lastLetterInWord(curWordIndex, curLetterIndex)) break;
+                if (lastLetterInWord(actualWords, curWordIndex, curLetterIndex)) break;
             }
         }
         setActualWords(actualWordsCopy);
         setTypedWords(typedWordsCopy);
-        if (index.word > curWordIndex) setSpacePressed(true);
-        setIndex({ word: curWordIndex, letter: curLetterIndex });
-    }
-
-    function formatTime(time) {
-        return time.toString().padStart(2, '0');
+        const newIndex = { word: curWordIndex, letter: curLetterIndex }
+        const curNextLetterIndex = nextLetterIndex(actualWords, curWordIndex, curLetterIndex)
+        const newSpacePressed = (curWordIndex != -1) && (curNextLetterIndex == 0)
+        setSpacePressed(newSpacePressed);
+        setIndex(newIndex);
+        const newCaretPos = getNewCaretPos(inputRef.current, actualWords, newIndex, newSpacePressed, closed);
+        setCaretPos(newCaretPos.top, newCaretPos.left)
     }
 
     function renderResultPage() {
@@ -372,65 +272,21 @@ function TypingInput({ wordsCount, timeLimit }) {
             });
             return;
         }
+        // updateTimeStats()
         const [characters, words] = getStats();
-        // console.log(timeStats.current)
-        async function saveStats() {
-            // console.log("saved")
-            const wpm =
-                Math.round((words.correct / timeTyping) * 60 * 100) / 100;
-            const rawwpm =
-                Math.round(
-                    ((words.correct + words.incorrect) / timeTyping) * 60 * 100
-                ) / 100;
-            const accuracy =
-                Math.round(
-                    (characters.correct /
-                        (characters.correct + characters.incorrect)) *
-                        100
-                ) / 100;
 
-            const dateInfo = new Date();
-            const date = `${formatTime(dateInfo.getHours())}:${formatTime(dateInfo.getMinutes())}:${formatTime(dateInfo.getSeconds())} ${formatTime(dateInfo.getDate())}.${formatTime(dateInfo.getMonth() + 1)}.${dateInfo.getFullYear()}`
 
-            let res = await axios.get(
-                `http://localhost:3001/statsExample?email=${emailContext.email}`
-            );
-            console.log("last data", res.data)
-
-            let prevArr = res.data[0];
-            
-
-            if (res.data.length === 0) {
-                prevArr = {email: emailContext.email, dates: [date], WPM: [wpm], rawWPM: [rawwpm], accuracy: [accuracy]}
-
-                console.log(prevArr)
-
-                await axios.post(`http://localhost:3001/statsExample/`, prevArr);
-                return
-            }
-            
-            prevArr.dates.push(date);
-            prevArr.WPM.push(wpm);
-            prevArr.rawWPM.push(rawwpm);
-            prevArr.accuracy.push(accuracy);
-            // console.log("new arr", prevArr)
-            
-            await axios.put(
-                `http://localhost:3001/statsExample/${prevArr.id}`,
-                prevArr
-            );
-        }
-        // console.log("saving")
-        saveStats();
+        saveStats(characters, words, emailContext.email, timeTyping.current);
         navigate("/info", {
             state: {
                 characters,
                 words,
-                time: timeTyping,
+                time: timeTyping.current,
                 timeSteps: timeStats.current,
             },
         });
     }
+
 
     function handleInputKeyDown(event) {
         if (event.key === "Backspace" || event.key === "Delete") {
@@ -440,88 +296,34 @@ function TypingInput({ wordsCount, timeLimit }) {
         if (event.key.length > 1) return;
         if (event.key === " ") event.preventDefault();
         if (event.key === " ") {
-            // console.log(spacePressed, nextLetterIndex(index.letter), index.letter, actualWords)
         }
         if (
             event.key === " " &&
             !spacePressed &&
-            nextLetterIndex(index.letter) <= index.letter
+            nextLetterIndex(actualWords, index.word, index.letter) <= index.letter
         ) {
-            setSpacePressed(true);
-            if (nextLetterIndex(index.letter) === index.letter) {
+            const newSpacePressed = true
+            setSpacePressed(newSpacePressed);
+            if (nextLetterIndex(actualWords, index.word, index.letter) === index.letter) {
+                const words = getStats()[1];
+                const timeStat = getTimeStat(words, timeTyping.current)
+                const timeStatsLength = timeStats.current.length
+                if (timeStatsLength != 0) {
+                    timeStats.current[timeStatsLength - 1] = timeStat
+                }
                 renderResultPage();
+                return;
             }
+            const newCaretPos = getNewCaretPos(inputRef.current, actualWords, index, newSpacePressed, closed);
+            setCaretPos(newCaretPos.top, newCaretPos.left)
             return;
         }
         writeToInput(event.key);
     }
 
-    function updateCaretPos() {
-        if (inputRef.current.childNodes?.length == null) {
-            return;
-        }
-        const width =
-            inputRef.current.firstElementChild.firstElementChild.offsetWidth;
-
-        const root = document.documentElement;
-        if (index.word === -1) {
-            const targetEl =
-                inputRef.current.firstElementChild.firstElementChild;
-            const rect = targetEl.getBoundingClientRect();
-
-            setCaretPos(rect.top + root.scrollTop, rect.left - width / 2);
-            window.scrollTo({
-                top: 0,
-                left: 0,
-                behavior: "smooth",
-            });
-        } else if (lastLetterInWord(index.word, index.letter) && spacePressed) {
-            const targetEl =
-                inputRef.current.childNodes[index.word + 1].childNodes[0];
-            const rect = targetEl.getBoundingClientRect();
-            setCaretPos(rect.top + root.scrollTop, rect.left - width / 2);
-            window.scrollTo({
-                top: rect.top + root.scrollTop - 400,
-                left: 0,
-                behavior: "smooth",
-            });
-        } else {
-            const targetEl =
-                inputRef.current.childNodes[index.word].childNodes[
-                    index.letter
-                ];
-            const rect = targetEl.getBoundingClientRect();
-            setCaretPos(rect.top + root.scrollTop, rect.left + width / 2);
-            window.scrollTo({
-                top: rect.top + root.scrollTop - 400,
-                left: 0,
-                behavior: "smooth",
-            });
-        }
-    }
-
-    function nextLetterIndex(curLetterIndex) {
-        if (index.word === -1) return 0;
-        if (actualWords[index.word][curLetterIndex + 1] === undefined) {
-            if (actualWords[index.word + 1] === undefined) {
-                return curLetterIndex;
-            }
-            return 0;
-        }
-        return curLetterIndex + 1;
-    }
-
-    function getNewIndex(prevIndex, newLetterIndex) {
-        const newWordIndex = getNewWordIndex(
-            prevIndex.word,
-            newLetterIndex,
-            prevIndex.letter
-        );
-        return { word: newWordIndex, letter: newLetterIndex };
-    }
 
     function addLetter(typedLetter) {
-        let newLetterIndex = nextLetterIndex(index.letter);
+        let newLetterIndex = nextLetterIndex(actualWords, index.word, index.letter);
         let newWordIndex = index.word;
         if (newLetterIndex === index.letter) {
             if (typedLetter === actualWords[newWordIndex][index.letter]) {
@@ -532,9 +334,11 @@ function TypingInput({ wordsCount, timeLimit }) {
         }
         const actualWordsCopy = structuredClone(actualWords);
         const typedWordsCopy = structuredClone(typedWords);
+        let newSpacePressed = spacePressed;
         if (index.letter !== -1 && newLetterIndex === 0) {
             if (spacePressed) {
-                setSpacePressed(false);
+                newSpacePressed = false
+                setSpacePressed(newSpacePressed);
                 newWordIndex++;
                 typedWordsCopy[newWordIndex][newLetterIndex] = typedLetter;
             } else {
@@ -550,71 +354,37 @@ function TypingInput({ wordsCount, timeLimit }) {
             typedWordsCopy[newWordIndex][newLetterIndex] = typedLetter;
         }
         setTypedWords(typedWordsCopy);
-        setIndex({ word: newWordIndex, letter: newLetterIndex });
+        const newIndex = { word: newWordIndex, letter: newLetterIndex }
+        setIndex(newIndex);
+        const newCaretPos = getNewCaretPos(inputRef.current, actualWords, newIndex, newSpacePressed, closed);
+        setCaretPos(newCaretPos.top, newCaretPos.left)
     }
 
-    function lastLetterInWord(wordIndex, letterIndex) {
-        if (wordIndex === -1) return false;
-        return actualWords[wordIndex][letterIndex + 1] === undefined;
-    }
 
     function writeToInput(typedLetter) {
         if (!hasStarted) setHasStarted(true);
         addLetter(typedLetter);
 
         if (wordsCount === 0 && typingWords.length - index.word < 3) {
-            const newWord = getRandomWord();
+            const newWord = getRandomWord(dictionaryWords);
             setTypingWords((prev) => [...prev, newWord]);
             setActualWords((prev) => [...prev, newWord.split("")]);
             setTypedWords((prev) => [
                 ...prev,
                 Array.from({ length: newWord.length }, () => null),
             ]);
-            // setTypingWords((prevWords) => [...prevWords, newWord]);
-            // appendWordsToInput([newWord]);
+            
+            
         }
     }
 
-    function getTypingElements() {
-        let wordsComponents = [];
-        for (let i in actualWords) {
-            if (i > index.word + 50) break;
-            wordsComponents.push(
-                <TypingWord
-                    key={i}
-                    actualLetters={actualWords[i]}
-                    typedLetters={typedWords[i]}
-                ></TypingWord>
-            );
-        }
-        return wordsComponents;
-        // let words = []
-        // for (let i in actualWords) {
-        //   const word = actualWords[i]
-        //   let curLetters = []
-        //   for (let k in word) {
-        //     curLetters.push(<TypingLetter key={k} actualLetter={actualWords[i][k]} typedLetter={typedWords[i][k]}></TypingLetter>)
-        //   }
-        //   words.push(<span key={i} className="word">{curLetters}</span>)
-        // }
-        // return words;
-    }
 
-    // function updateIncorrectLetters(value) {
-    //   if (value === 1) {
-    //     incorrectLetters.current += 1
-    //   }
-    //   else {
-    //     incorrectLetters.current -= 1
-    //   }
-    // }
-
+    renderingIter.current += 1
+    console.log("render: TypingInput", renderingIter.current, new Date().getTime())
+    // console.log({ typingWords: typingWords, actualWords: actualWords, typedWords: typedWords, isFocused: isFocused, timeTyping: timeTyping, index: index, hasStarted: hasStarted, spacePressed: spacePressed, caretClassName: caretClassName, caretLeft: caretLeft, caretTop: caretTop, closed: closed })
     return (
         <>
             <div className="typing-div">
-                <button onClick={() => resetTypingInput()}>new text</button>
-                <p>time: {timeTyping}s</p>
-
                 <TypingCaret
                     className={caretClassName}
                     left={caretLeft}
@@ -622,14 +392,11 @@ function TypingInput({ wordsCount, timeLimit }) {
                 ></TypingCaret>
 
                 <div ref={inputRef} id="input">
-                    {getTypingElements()}
-                    {/* {actualWords.map((word, i) => (
-            <TypingWord key={i} actualLetters={word} typedLetters={typedWords[i]}></TypingWord>
-          ))} */}
+                    {getTypingElements(actualWords, typedWords, maxWordsAfterCursor, index.word)}
                 </div>
             </div>
         </>
     );
-}
+})
 
 export default TypingInput;

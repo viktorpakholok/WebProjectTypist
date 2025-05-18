@@ -1,17 +1,23 @@
 import TypingInput from "../../components/TypingInput/TypingInput.jsx"
 import "./TypingElement.css"
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState, useRef } from "react";
 import { ModeContext } from "../../main.jsx";
+import Timer from "../Timer/Timer.jsx";
 
 function TypingElement() {
     const modeValues = useContext(ModeContext);
     // console.log("context", modeValues)
-    const [curWordsCount, setCurWordsCount] = useState();
-    const [curTimeLimit, setCurTimeLimit] = useState((modeValues.mode === "time") ? modeValues.value : 0);
+    
     const [inputValue, setInputValue] = useState(`${modeValues.value}`)
     const [wrongInputText, setWrongInputText] = useState("")
     const [wordsClass, setWordsClass] = useState("")
     const [timeClass, setTimeClass] = useState("")
+    const [timeTyping, setTimeTyping] = useState(0)
+    // const [typingStarted, setTypingStarted] = useState(false)
+
+    const typingInputRef = useRef(null)
+    const timerRef = useRef(null)
+
 
 
     useEffect(() => {
@@ -39,6 +45,7 @@ function TypingElement() {
         }
         modeValues.setValue(parsedValue)
         setWrongInputText("")
+        timerRef.current.setTimerStarted(false)
     }, [modeValues.mode, inputValue])
 
     function changeMode(event) {
@@ -59,17 +66,26 @@ function TypingElement() {
         return (modeValues.mode === "words") ? modeValues.value : 0
     }
 
+    console.log("render: TypingElement")
+
+
+
+    
+
     return <>
         <div className="modes-manager">
             <button className={wordsClass + " button-type"} value="words" onClick={(e) => changeMode(e)}>words</button>
             <button className={timeClass + " button-type"} value="time" onClick={(e) => changeMode(e)}>time</button>
             <input type="text" onChange={(e) => updateInputValue(e)} value={inputValue} />
             <div>{wrongInputText}</div>
-            {/* <div style={{fontSize: "30px"}}>cur mode: {mode}, {curTimeLimit || curWordsCount}</div> */}
 
         </div>
 
-        <TypingInput wordsCount={getWordsValue()} timeLimit={getTimeValue()}></TypingInput>
+        <button className="button-type" onClick={() => typingInputRef.current.resetTypingInput()}>new text</button>
+        <Timer refference={timerRef} timeLimit={getTimeValue()} typingInputRef={typingInputRef}></Timer>
+        {/* <p className="time-text">time: {timeTyping}s</p> */}
+
+        <TypingInput refference={typingInputRef} wordsCount={getWordsValue()} timeLimit={getTimeValue()} timerRef={timerRef}></TypingInput>
     </>
     
 }
