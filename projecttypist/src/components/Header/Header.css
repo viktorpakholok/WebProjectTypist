@@ -5,6 +5,7 @@
 }
 
 .link {
+    cursor: pointer;
     margin: auto 0;
 }
 
@@ -53,8 +54,6 @@
 }
 
 .logout-button {
-    font-family: "Times New Roman", Georgia, serif;
-    font-size: 1.5rem;
     background: none;
     border: none;
     color: #e0ddd5;
