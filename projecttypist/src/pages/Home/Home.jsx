@@ -8,7 +8,7 @@ function Home() {
             <Header></Header>
             <TypingElement></TypingElement>
         </div>
-        );
+    );
 }
 
 export default Home;

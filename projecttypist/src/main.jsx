@@ -11,95 +11,92 @@ import HistoryPerUser from "./pages/HistoryPerUser/HistoryPerUser.jsx";
 import Settings from "./pages/Settings/Settings.jsx";
 import AboutUs from "./pages/AboutUs/AboutUs.jsx";
 
-export const UserContext = createContext({ user: null, setUser: () => {} });
+export const UserContext = createContext({ user: null, setUser: () => { } });
 export const ModeContext = createContext();
-export const EmailContext = createContext();
 
 function ProtectedRoute({ children }) {
-  const { user } = useContext(UserContext);
-  return Object.hasOwn(user, "id") ? children : <Navigate to="/registration" replace />;
+    const { user } = useContext(UserContext);
+    return (user && Object.hasOwn(user, "id")) ? children : <Navigate to="/registration" replace />;
 }
 
 function Main() {
-  const [mode, setMode] = useState("words");
-  const [value, setValue] = useState(5);
-  
+    const [mode, setMode] = useState("words");
+    const [value, setValue] = useState(5);
 
-  const [user, setUser] = useState(() => {
-    const saved = localStorage.getItem("user");
-    return saved ? JSON.parse(saved) : null;
-  });
 
-  useEffect(() => {
+    const [user, setUser] = useState(() => {
+        const saved = localStorage.getItem("user");
+        return saved ? JSON.parse(saved) : null;
+    });
+
+    useEffect(() => {
+        if (user) {
+            localStorage.setItem("user", JSON.stringify(user));
+        } else {
+            localStorage.removeItem("user");
+        }
+    }, [user]);
+
     if (user) {
-      localStorage.setItem("user", JSON.stringify(user));
-    } else {
-      localStorage.removeItem("user");
+        let theme = user["settings"]["theme"]
+
+        const root = document.documentElement;
+
+        root.style.setProperty("--bg-color", theme["backColor"]);
+        root.style.setProperty("--ft-color", theme["fontColor"]);
+        root.style.setProperty("--ac-color", theme["atenColor"]);
+        root.style.setProperty("--wr-color", theme["wronColor"]);
     }
-  }, [user]);
 
-  if (user) {
-    let theme = user["settings"]["theme"]
+    const [email, setEmail] = useState(user ? user.email : null);
 
-    const root = document.documentElement;
+    const router = createBrowserRouter([
+        {
+            path: '/',
+            element: (
+                <Home />
+            ),
+            errorElement: <ErrorPage />,
+        },
+        {
+            path: '/info',
+            element: (
+                <Info />
+            ),
+        },
+        {
+            path: '/registration',
+            element: <Registration />,
+        },
+        {
+            path: '/logs',
+            element: (
+                <ProtectedRoute>
+                    <HistoryPerUser />
+                </ProtectedRoute>
+            ),
+        },
+        {
+            path: '/settings',
+            element: (
+                <Settings />
+            ),
+        },
+        {
+            path: '/aboutus',
+            element: <AboutUs />,
+        }
+    ]);
 
-    root.style.setProperty("--bg-color", theme["backColor"]);
-    root.style.setProperty("--ft-color", theme["fontColor"]);
-    root.style.setProperty("--ac-color", theme["atenColor"]);
-    root.style.setProperty("--wr-color", theme["wronColor"]);
-  }
-
-  const [email, setEmail] = useState(user? user.email: null);
-
-  const router = createBrowserRouter([
-    {
-      path: '/',
-      element: (
-          <Home />
-      ),
-      errorElement: <ErrorPage />,
-    },
-    {
-      path: '/info',
-      element: (
-          <Info />
-      ),
-    },
-    {
-      path: '/registration',
-      element: <Registration />,
-    },
-    {
-      path: '/logs',
-      element: (
-        <ProtectedRoute>
-          <HistoryPerUser />
-        </ProtectedRoute>
-      ),
-    },
-    {
-      path: '/settings',
-      element: (
-          <Settings />
-      ),
-    },
-    {
-      path: '/aboutus',
-      element: <AboutUs />,
-    }
-  ]);
-
-  return (
-    <React.StrictMode>
-      <UserContext.Provider value={{ user, setUser }}>
-        <ModeContext.Provider value={{ mode, setMode, value, setValue }}>
-          <EmailContext.Provider value={{ email, setEmail }}>
-            <RouterProvider router={router} />
-          </EmailContext.Provider>
-        </ModeContext.Provider>
-      </UserContext.Provider>
-    </React.StrictMode>
-  );
+    return (
+        <React.StrictMode>
+            <UserContext.Provider value={{ user, setUser }}>
+                <ModeContext.Provider value={{ mode, setMode, value, setValue }}>
+                    <RouterProvider router={router} />
+                </ModeContext.Provider>
+            </UserContext.Provider>
+        </React.StrictMode>
+    );
 }
 
 createRoot(document.getElementById("root")).render(<Main />);

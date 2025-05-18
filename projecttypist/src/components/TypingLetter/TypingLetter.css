@@ -3,23 +3,23 @@
 } */
 
 .good-letter {
-  /* color: white; */
-  opacity: 0.3;
+    /* color: white; */
+    opacity: 0.3;
 }
 
 .off-word-letter {
-  color: darkred;
+    color: darkred;
 }
 
-.actual-letter{
-  position: relative;
-  color: red;
+.actual-letter {
+    position: relative;
+    color: red;
 }
 
-.actual-letter::after{
-  content: var(--hint_letter, "_");
-  position: absolute;
-  top: 0.5em;
-  left:0;
-  color: grey;
+.actual-letter::after {
+    content: var(--hint_letter, "_");
+    position: absolute;
+    top: 0.5em;
+    left: 0;
+    color: grey;
 }

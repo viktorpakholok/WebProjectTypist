@@ -10,7 +10,7 @@ function compare(lst1, lst2) {
     })
 }
 
-const TypingWord = memo(function TypingWord({actualLetters, typedLetters, isChanged}) {
+const TypingWord = memo(function TypingWord({ actualLetters, typedLetters, isChanged }) {
     // console.log("rendering", actualLetters.join(""))
 
     return <>

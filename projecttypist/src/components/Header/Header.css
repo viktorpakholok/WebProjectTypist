@@ -41,15 +41,19 @@
 }
 
 @keyframes rotation {
-    0% {transform: rotate(0);}
+    0% {
+        transform: rotate(0);
+    }
     /* 25% {transform: rotate(90deg);}
     50% {transform: rotate(180deg);}
     75% {transform: rotate(270deg);} */
-    100% {transform: rotate(360deg);}
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .logout-button {
-    font-family: 'Times New Roman', Georgia, serif;
+    font-family: "Times New Roman", Georgia, serif;
     font-size: 1.5rem;
     background: none;
     border: none;

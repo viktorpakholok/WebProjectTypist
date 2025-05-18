@@ -2,12 +2,15 @@ import { useCallback, useEffect, useImperativeHandle, useState } from "react"
 
 
 
-export default function Timer({timeLimit, refference, typingInputRef}) {
+export default function Timer({ timeLimit, refference, typingInputRef }) {
     const [time, setTime] = useState(0)
     const [timerStarted, setTimerStarted] = useState(false)
 
+
+
     useEffect(() => {
         if (!timerStarted) return;
+        typingInputRef.current.updateTimeStats(0)
         const intervalId = setInterval(() => {
             setTime((prev) => prev + 1)
         }, 1000)
@@ -27,7 +30,7 @@ export default function Timer({timeLimit, refference, typingInputRef}) {
 
 
     useImperativeHandle(refference, () => {
-        return {setTimerStarted: setTimerStarted}
+        return { setTimerStarted: setTimerStarted }
     }, [time])
 
     return <>

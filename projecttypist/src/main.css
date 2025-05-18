@@ -6,7 +6,7 @@
 }
 
 * {
-    color: var(--ft-color)
+    color: var(--ft-color);
 }
 
 #root {
@@ -63,4 +63,8 @@ button {
 
 .bar {
     width: 80%;
+}
+
+.no-underline {
+    text-decoration: none;
 }
