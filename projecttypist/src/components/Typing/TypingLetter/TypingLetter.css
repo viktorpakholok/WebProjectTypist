@@ -1,9 +1,12 @@
-/* span {
-  color:#565861;
-} */
+span {
+  /* opacity: 0.5; */
+}
 
 .good-letter {
-    /* color: white; */
+
+}
+
+.untyped-letter {
     opacity: 0.3;
 }
 
