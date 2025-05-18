@@ -26,6 +26,108 @@
       "username": "who?",
       "email": "bohdan@ndm",
       "password": "123"
+    },
+    {
+      "id": "e243",
+      "username": "333",
+      "email": "3@3",
+      "password": "3",
+      "settings": {
+        "theme": {
+          "fontColor": "#d1d0c5",
+          "backColor": "#323437",
+          "atenColor": "yellow",
+          "wronColor": "red",
+          "fontStyle": ""
+        },
+        "difficulty": 0,
+        "sound": 0
+      }
+    },
+    {
+      "id": "ba7f",
+      "username": "555",
+      "email": "5@5",
+      "password": "5",
+      "settings": {
+        "theme": {
+          "fontColor": "#d1d0c5",
+          "backColor": "#323437",
+          "atenColor": "yellow",
+          "wronColor": "red",
+          "fontStyle": ""
+        },
+        "difficulty": 0,
+        "sound": 0
+      }
+    },
+    {
+      "id": "fdfc",
+      "username": "666",
+      "email": "6@6",
+      "password": "6",
+      "settings": {
+        "theme": {
+          "fontColor": "#d1d0c5",
+          "backColor": "#323437",
+          "atenColor": "yellow",
+          "wronColor": "red",
+          "fontStyle": ""
+        },
+        "difficulty": 0,
+        "sound": 0
+      }
+    },
+    {
+      "id": "bbc3",
+      "username": "777",
+      "email": "7@7",
+      "password": "7",
+      "settings": {
+        "theme": {
+          "fontColor": "#d1d0c5",
+          "backColor": "#323437",
+          "atenColor": "yellow",
+          "wronColor": "red",
+          "fontStyle": ""
+        },
+        "difficulty": 0,
+        "sound": 0
+      }
+    },
+    {
+      "id": "fa6e",
+      "username": "888",
+      "email": "8@8",
+      "password": "8",
+      "settings": {
+        "theme": {
+          "fontColor": "#d1d0c5",
+          "backColor": "#323437",
+          "atenColor": "yellow",
+          "wronColor": "red",
+          "fontStyle": ""
+        },
+        "difficulty": 0,
+        "sound": 0
+      }
+    },
+    {
+      "id": "323f",
+      "username": "101010",
+      "email": "10@10",
+      "password": "10",
+      "settings": {
+        "theme": {
+          "fontColor": "#d1d0c5",
+          "backColor": "#323437",
+          "atenColor": "yellow",
+          "wronColor": "red",
+          "fontStyle": ""
+        },
+        "difficulty": 0,
+        "sound": 0
+      }
     }
   ],
   "statsExample": [
@@ -102,6 +204,66 @@
       "accuracy": [
         1,
         1
+      ]
+    },
+    {
+      "id": "3789",
+      "email": "3@3",
+      "dates": [],
+      "WPM": [],
+      "rawWPM": [],
+      "accuracy": []
+    },
+    {
+      "id": "8745",
+      "email": "5@5",
+      "dates": [],
+      "WPM": [],
+      "rawWPM": [],
+      "accuracy": []
+    },
+    {
+      "id": "b487",
+      "email": "6@6",
+      "dates": [],
+      "WPM": [],
+      "rawWPM": [],
+      "accuracy": []
+    },
+    {
+      "id": "1377",
+      "email": "7@7",
+      "dates": [],
+      "WPM": [],
+      "rawWPM": [],
+      "accuracy": []
+    },
+    {
+      "id": "b82c",
+      "email": "8@8",
+      "dates": [],
+      "WPM": [],
+      "rawWPM": [],
+      "accuracy": []
+    },
+    {
+      "id": "ff8f",
+      "email": "10@10",
+      "dates": [
+        "14:54:49 18.05.2025",
+        "14:54:58 18.05.2025"
+      ],
+      "WPM": [
+        15,
+        0
+      ],
+      "rawWPM": [
+        25,
+        60
+      ],
+      "accuracy": [
+        0.93,
+        0.6
       ]
     }
   ]
