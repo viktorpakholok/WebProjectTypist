@@ -5,16 +5,16 @@ import HistoryTable from "../../components/HistoryTable/HistoryTable.jsx";
 import { useState, useEffect, useRef, useContext,useLayoutEffect, useCallback, Fragment } from "react";
 import axios from "axios";
 
-import { EmailContext } from "../../main.jsx";
+import { UserContext } from "../../main.jsx";
 
 function HistoryPerUser() {
 
-    const emailContext = useContext(EmailContext);
+    const userContext = useContext(UserContext);
     const [arr, setArr] = useState(null)
 
     useEffect(() => {
         async function fetchArr() {
-            const res = await axios.get(`http://localhost:3001/statsExample/?email=${emailContext.email}`);
+            const res = await axios.get(`http://localhost:3001/statsExample/?email=${userContext.user.email}`);
             // console.log(res, res.data)
             // console.log(res.data)
             setArr(res.data)

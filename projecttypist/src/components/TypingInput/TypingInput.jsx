@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 import TypingCaret from "../TypingCaret/TypingCaret";
 
-import { EmailContext } from "../../main.jsx";
+import { UserContext } from "../../main.jsx";
 
 import { 
     getActualWords, getTypedWords, getTimeStat,
@@ -36,7 +36,7 @@ const maxWordsAfterCursor = 1000;
 
 const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
 
-    const emailContext = useContext(EmailContext);
+    const userContext = useContext(UserContext);
 
     const navigate = useNavigate();
     const [typingWords, setTypingWords] = useState(getNewWords(wordsCount, startingWordsCount, dictionaryWords));
@@ -274,7 +274,7 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
         const [characters, words] = getStats();
 
 
-        saveStats(characters, words, emailContext.email, timeTyping.current);
+        saveStats(characters, words, userContext.user.email, timeTyping.current);
         navigate("/info", {
             state: {
                 characters,

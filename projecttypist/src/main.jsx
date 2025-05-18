@@ -13,11 +13,10 @@ import AboutUs from "./pages/AboutUs/AboutUs.jsx";
 
 export const UserContext = createContext({ user: null, setUser: () => {} });
 export const ModeContext = createContext();
-export const EmailContext = createContext();
 
 function ProtectedRoute({ children }) {
   const { user } = useContext(UserContext);
-  return Object.hasOwn(user, "id") ? children : <Navigate to="/registration" replace />;
+  return (user && Object.hasOwn(user, "id")) ? children : <Navigate to="/registration" replace />;
 }
 
 function Main() {
@@ -93,9 +92,7 @@ function Main() {
     <React.StrictMode>
       <UserContext.Provider value={{ user, setUser }}>
         <ModeContext.Provider value={{ mode, setMode, value, setValue }}>
-          <EmailContext.Provider value={{ email, setEmail }}>
             <RouterProvider router={router} />
-          </EmailContext.Provider>
         </ModeContext.Provider>
       </UserContext.Provider>
     </React.StrictMode>
