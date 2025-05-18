@@ -18,7 +18,6 @@ function Registration() {
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
 
-  // ——— Hoisted helper ———
   async function ensureStatsExist(email) {
     try {
       const res = await axios.get(
@@ -41,7 +40,6 @@ function Registration() {
     }
   }
 
-  // ——— Form state ———
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -51,7 +49,6 @@ function Registration() {
   });
   const [loginData, setLoginData] = useState({ email: "", password: "" });
 
-  // ——— Handlers ———
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((fd) => ({ ...fd, [name]: value }));
@@ -65,7 +62,6 @@ function Registration() {
     e.preventDefault();
     const { username, email, verifyEmail, password, verifyPassword } = formData;
 
-    // basic validation
     if (!username || !email || !verifyEmail || !password || !verifyPassword) {
       return alert("Please fill in all fields.");
     }
@@ -77,7 +73,6 @@ function Registration() {
     }
 
     try {
-      // check duplicates
       let res = await axios.get(
         `http://localhost:3001/users?email=${encodeURIComponent(email)}`
       );
@@ -91,7 +86,6 @@ function Registration() {
         return alert("A user with this username already exists!");
       }
 
-      // create user
       const settings = {
         theme: {
           fontColor: "#d1d0c5",
@@ -112,12 +106,10 @@ function Registration() {
       const newUser = postRes.data;
       setUser(newUser);
 
-      // ensure stats, then redirect once
       await ensureStatsExist(newUser.email);
       alert("Registration successful! You are now logged in.");
       navigate("/");
 
-      // reset forms
       setFormData({
         username: "",
         email: "",
@@ -166,7 +158,6 @@ function Registration() {
     <div className="registrationPage">
       <Header />
       <section className="informationPlaceholder">
-        {/* Registration Form */}
         <form
           className="informationPlaceholder-left"
           onSubmit={handleRegister}
@@ -221,7 +212,6 @@ function Registration() {
           />
         </form>
 
-        {/* Login Form */}
         <aside className="informationPlaceholder-right">
           <form onSubmit={handleLoginSubmit}>
             <div className="informationPlaceholder-right-text">
