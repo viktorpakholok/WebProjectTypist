@@ -46,6 +46,26 @@ function Settings() {
 
             </div>
 
+            <h2 className="pad-bot-10 mar-top-40">Font</h2>
+
+            <div className="flex gap-20">
+
+            </div>
+
+
+            <h2 className="pad-bot-10 mar-top-40">Difficulty</h2>
+
+            <div className="flex gap-20">
+
+            </div>
+
+
+            <h2 className="pad-bot-10 mar-top-40">Sound</h2>
+
+            <div className="flex gap-20">
+
+            </div>
+
             {/* <Logs data={arr}></Logs> */}
 
             {/* <Footer></Footer> */}

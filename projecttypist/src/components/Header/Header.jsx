@@ -10,7 +10,7 @@ import { useContext } from "react";
 import { UserContext } from "../../main.jsx";
 
 function Header() {
-    const { user, setUser } = useContext(UserContext); 
+    const { user, setUser } = useContext(UserContext);
     // console.log("USER:")
     // console.log(user.email)
     // const navigate = useNavigate();
@@ -20,16 +20,18 @@ function Header() {
     const handleLogout = () => {
         const confirmed = window.confirm("Are you sure you want to log out?");
         if (confirmed) {
-        setUser(null);
-        localStorage.removeItem("user");
-        navigate("/registration");
+            setUser(null);
+            localStorage.removeItem("user");
+            navigate("/registration");
         }
     };
 
     return (
         <div className="jst-btw header-main">
             <div className="jst-btw nav">
-                <Logo></Logo>
+                <Link aria-label="go to keyboard" to="/" className={"no-underline link" + (currentPath == "/" ? " disabled" : "")}>
+                    <Logo />
+                </Link>
                 {/* <ButtonIcon text='text Bohdan' title='' icon={KeyBoardIcon}></ButtonIcon> */}
                 <Link aria-label="go to keyboard" to="/" className={"link" + (currentPath == "/" ? " disabled" : " icon")}>
                     <svg
@@ -168,57 +170,57 @@ function Header() {
                 </Link>
             </div>
             <div className="flex sign-in">
-                {user ? (  
-                <button className="logout-btn icon" onClick={handleLogout}>
-        <img src={LogOut} alt="Log out" className="icons" />
-    </button>
-) : (
-                     <Link aria-label="registration" to="/registration" className={"link" + (currentPath == "/registration" ? " disabled" : " icon")}>
-                    <svg
-                        className="icons ic-stroke"
-                        height={"30px"}
-                        width={"30px"}
-                        viewBox="0 0 32 32"
-                        enableBackground="new 0 0 32 32"
-                        id="Stock_cut"
-                        version="1.1"
-                        xmlSpace="preserve"
-                        xmlns="http://www.w3.org/2000/svg"
-                        xmlnsXlink="http://www.w3.org/1999/xlink"
-                    >
-                        <desc />
+                {(user && Object.hasOwn("id")) ? (
+                    <button className="logout-btn icon" onClick={handleLogout}>
+                        <img src={LogOut} alt="Log out" className="icons" />
+                    </button>
+                ) : (
+                    <Link aria-label="registration" to="/registration" className={"link" + (currentPath == "/registration" ? " disabled" : " icon")}>
+                        <svg
+                            className="icons ic-stroke"
+                            height={"30px"}
+                            width={"30px"}
+                            viewBox="0 0 32 32"
+                            enableBackground="new 0 0 32 32"
+                            id="Stock_cut"
+                            version="1.1"
+                            xmlSpace="preserve"
+                            xmlns="http://www.w3.org/2000/svg"
+                            xmlnsXlink="http://www.w3.org/1999/xlink"
+                        >
+                            <desc />
 
-                        <g>
-                            <circle
-                                cx="16"
-                                cy="16"
-                                fill="none"
-                                r="15"
-                                strokeLinejoin="round"
-                                strokeMiterlimit="10"
-                                strokeWidth="2"
-                            />
+                            <g>
+                                <circle
+                                    cx="16"
+                                    cy="16"
+                                    fill="none"
+                                    r="15"
+                                    strokeLinejoin="round"
+                                    strokeMiterlimit="10"
+                                    strokeWidth="2"
+                                />
 
-                            <path
-                                d="M26,27L26,27   c0-5.523-4.477-10-10-10h0c-5.523,0-10,4.477-10,10v0"
-                                fill="none"
-                                strokeLinejoin="round"
-                                strokeMiterlimit="10"
-                                strokeWidth="2"
-                            />
+                                <path
+                                    d="M26,27L26,27   c0-5.523-4.477-10-10-10h0c-5.523,0-10,4.477-10,10v0"
+                                    fill="none"
+                                    strokeLinejoin="round"
+                                    strokeMiterlimit="10"
+                                    strokeWidth="2"
+                                />
 
-                            <circle
-                                cx="16"
-                                cy="11"
-                                fill="none"
-                                r="6"
-                                strokeLinejoin="round"
-                                strokeMiterlimit="10"
-                                strokeWidth="2"
-                            />
-                        </g>
-                    </svg>
-                </Link>
+                                <circle
+                                    cx="16"
+                                    cy="11"
+                                    fill="none"
+                                    r="6"
+                                    strokeLinejoin="round"
+                                    strokeMiterlimit="10"
+                                    strokeWidth="2"
+                                />
+                            </g>
+                        </svg>
+                    </Link>
                 )}
             </div>
         </div>

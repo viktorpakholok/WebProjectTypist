@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 
 import { Bar } from 'react-chartjs-2';
 
+import { Chart as ChartJs } from "chart.js/auto";
+
 import axios from "axios";
 
 
@@ -49,6 +51,9 @@ function AboutUs() {
 
     let data = { labels: Object.keys(res), datasets: [{ data: Object.values(res) }] }
 
+    let style = getComputedStyle(document.body);
+    let fontColor = style.getPropertyValue('--ft-color');
+
     const options = {
         scales: {
             y: { ticks: { stepSize: 1 } }
@@ -63,6 +68,8 @@ function AboutUs() {
 
     }
 
+    ChartJs.defaults.color = fontColor;
+
     return (
         <div>
             <Header></Header>
@@ -74,7 +81,7 @@ function AboutUs() {
                     <Bar data={data} options={options}></Bar>
                 </div>
 
-                <p>ProjectTypist is student project from Web course. Our team consists of 3 people: Lev, Viktor and Bohdan.</p>
+                <p className="mar-top-20">ProjectTypist is student project from Web course. Our team consists of 3 people: Lev, Viktor and Bohdan.</p>
                 <p>Our main goal was to try to make some typing trainer and for that we heavily took inspiration from <a href="https://monkeytype.com/">MonkeyType</a>.</p>
                 <p>We decided to select this project to increase our knowledge about React in applied sphere and to have some interesting thing to show.</p>
 
