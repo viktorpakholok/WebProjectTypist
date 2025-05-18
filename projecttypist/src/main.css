@@ -1,7 +1,8 @@
 :root {
     --bg-color: #323437;
     --ft-color: #d1d0c5;
-    --ic-color: #d1d0c5;
+    --ac-color: yellow;
+    --wr-color: red;
 }
 
 * {
@@ -41,11 +42,11 @@ button {
 }
 
 .icons {
-    fill: var(--ic-color);
+    fill: var(--ft-color);
 }
 
 .ic-stroke {
-    stroke: var(--ic-color);
+    stroke: var(--ft-color);
 }
 
 .text_auto {

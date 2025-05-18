@@ -3,18 +3,29 @@ import Footer from "../../components/Footer/Footer";
 
 import "./Settings.css"
 
+import { useContext } from "react";
+
+import { UserContext } from "../../main.jsx";
+
 function Settings() {
+
+    const userContext = useContext(UserContext);
     const root = document.documentElement;
 
-    function changeColor(event){
+    function changeColor(event) {
 
         let fontColor = window.getComputedStyle(event.currentTarget).color;
         let backColor = window.getComputedStyle(event.currentTarget).backgroundColor
 
+        let theme = { "fontColor": fontColor, "backColor": backColor, "atenColor": "yellow", "wronColor": "red", "fontStyle": "" }
+        let settings = { ...userContext.settings, theme };
+
+        let newUser = { ...userContext.user, settings }
+
+        userContext.setUser(newUser)
+
         root.style.setProperty("--bg-color", backColor);
         root.style.setProperty("--ft-color", fontColor);
-        root.style.setProperty("--ic-color", fontColor);
-
     };
 
     return (

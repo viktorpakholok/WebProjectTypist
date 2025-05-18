@@ -76,11 +76,13 @@ function Registration() {
                 return;
             }
 
+            let settings = {"theme": {"fontColor": "#d1d0c5", "backColor": "#323437", "atenColor": "yellow", "wronColor": "red", "fontStyle": ""}, "difficulty": 0, "sound": 0};
 
             const postRes = await axios.post("http://localhost:3001/users", {
                 username,
                 email,
                 password,
+                settings
             });
 
             const newUser = postRes.data;

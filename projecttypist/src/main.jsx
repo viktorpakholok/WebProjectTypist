@@ -38,24 +38,29 @@ function Main() {
     }
   }, [user]);
 
-  const [email, setEmail] = useState(user.email);
+  let theme = user["settings"]["theme"]
+
+  const root = document.documentElement;
+
+  root.style.setProperty("--bg-color", theme["backColor"]);
+  root.style.setProperty("--ft-color", theme["fontColor"]);
+  root.style.setProperty("--ac-color", theme["atenColor"]);
+  root.style.setProperty("--wr-color", theme["wronColor"]);
+
+  const [email, setEmail] = useState(user? user.email: null);
 
   const router = createBrowserRouter([
     {
       path: '/',
       element: (
-        <ProtectedRoute>
           <Home />
-        </ProtectedRoute>
       ),
       errorElement: <ErrorPage />,
     },
     {
       path: '/info',
       element: (
-        <ProtectedRoute>
           <Info />
-        </ProtectedRoute>
       ),
     },
     {
@@ -73,9 +78,7 @@ function Main() {
     {
       path: '/settings',
       element: (
-        <ProtectedRoute>
           <Settings />
-        </ProtectedRoute>
       ),
     },
     {

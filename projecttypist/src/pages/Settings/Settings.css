@@ -5,6 +5,7 @@
     font-size: 30px;
     color: #d1d0c5;
     background-color: #323437;
+    position: relative;
 }
 
 .pad-bot-20 {
@@ -27,4 +28,11 @@
 .theme-1 {
     background-color: white;
     color: pink;
+}
+
+.caret {
+    /* position: relative; */
+    position: absolute;
+    color: yellow;
+    left: 2px;
 }
