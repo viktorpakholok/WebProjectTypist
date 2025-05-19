@@ -11,12 +11,18 @@ import Button from "../../components/Button/Button";
 import Header from "../../components/Header/Header";
 import Text from "../../components/Text/Text";
 import Footer from "../../components/Footer/Footer";
+import { useEffect } from "react";
 
 import { UserContext } from "../../main.jsx";
 
 function Registration() {
     const navigate = useNavigate();
     const { user, setUser } = useContext(UserContext);
+    useEffect(() => {
+        if (user) {
+            navigate("/");
+        }
+    }, [user]);
 
     async function ensureStatsExist(email) {
         try {
@@ -81,6 +87,7 @@ function Registration() {
             if (res.data.length > 0) {
                 return alert("A user with this email already exists!");
             }
+
             res = await axios.get(
                 `http://localhost:3001/users?username=${encodeURIComponent(username)}`
             );
@@ -99,20 +106,19 @@ function Registration() {
                 difficulty: 0,
                 sound: 0,
             };
+
             const postRes = await axios.post("http://localhost:3001/users", {
                 username,
                 email,
                 password,
                 settings,
             });
+
             const newUser = postRes.data;
-            
-            setUser(newUser);
-            console.log("New user saved:", postRes.data)
+            console.log("New user saved:", newUser);
+
             await ensureStatsExist(newUser.email);
-            navigate('/');
             alert("Registration successful! You are now logged in.");
-            
 
             setFormData({
                 username: "",
@@ -122,11 +128,12 @@ function Registration() {
                 verifyPassword: "",
             });
             setLoginData({ email: "", password: "" });
+
+            setUser(newUser);
         } catch (err) {
             console.error("Registration error:", err);
             alert("Something went wrong. Try again.");
         }
-        
     };
 
     const handleLoginSubmit = async (e) => {
@@ -138,9 +145,7 @@ function Registration() {
 
         try {
             const res = await axios.get(
-                `http://localhost:3001/users?email=${encodeURIComponent(
-                    email
-                )}&password=${encodeURIComponent(password)}`
+                `http://localhost:3001/users?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
             );
             if (res.data.length === 0) {
                 return alert("Invalid email or password.");
@@ -150,14 +155,13 @@ function Registration() {
             setUser(loggedInUser);
 
             await ensureStatsExist(loggedInUser.email);
-            alert("Login successful!");
-            navigate("/");
         } catch (err) {
             console.error("Login error:", err);
             alert("Login failed. Please try again.");
         }
     };
 
+    // navigate('/aboutus');
     return (
         <div className="registrationPage">
             <Header />

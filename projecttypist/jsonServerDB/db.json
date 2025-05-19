@@ -349,6 +349,23 @@
         "difficulty": 0,
         "sound": 0
       }
+    },
+    {
+      "id": "809c",
+      "username": "26@26",
+      "email": "26@26",
+      "password": "26",
+      "settings": {
+        "theme": {
+          "fontColor": "#d1d0c5",
+          "backColor": "#323437",
+          "atenColor": "yellow",
+          "wronColor": "red",
+          "fontStyle": ""
+        },
+        "difficulty": 0,
+        "sound": 0
+      }
     }
   ],
   "statsExample": [
@@ -614,6 +631,14 @@
     {
       "id": "7c57",
       "email": "25@25",
+      "dates": [],
+      "WPM": [],
+      "rawWPM": [],
+      "accuracy": []
+    },
+    {
+      "id": "721e",
+      "email": "26@26",
       "dates": [],
       "WPM": [],
       "rawWPM": [],
