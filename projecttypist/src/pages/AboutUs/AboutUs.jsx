@@ -69,6 +69,7 @@ function AboutUs() {
     }
 
     ChartJs.defaults.color = fontColor;
+    ChartJs.defaults.backgroundColor = fontColor;
 
     return (
         <div>
