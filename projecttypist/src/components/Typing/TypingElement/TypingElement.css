@@ -21,10 +21,12 @@
     border: 2px solid var(--ft-color);
     background-color: var(--bg-color);
     /* color: grey; */
+    transition: transform 0.2s;
 }
 
 .button-type:hover {
-    color: white;
+    cursor: pointer;
+    transform: scale(1.05);
 }
 
 .button-type.active {

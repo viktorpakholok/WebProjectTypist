@@ -22,7 +22,7 @@
   }
 }
 
-@media (min-width: 800px) {
+@media (min-width: 800px) and (max-width: 1199px) {
   .theme-bth {
     font-size: 20px;
   }
