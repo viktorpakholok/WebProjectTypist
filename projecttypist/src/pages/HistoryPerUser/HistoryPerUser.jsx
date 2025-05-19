@@ -31,10 +31,19 @@ function HistoryPerUser() {
         toSend.push([arr["dates"][i], arr["WPM"][i]])
     }
 
+    if (toSend.length == 0) {
+        return <div>
+            <Header></Header>
+            <h1>Your stats:</h1>
+
+            <h2 className="mar-top-20">No stats yet go play some games</h2>
+        </div>
+    }
+
     return (
         <div>
             <Header></Header>
-            <h1>Here you can see your stats:</h1>
+            <h1>Your stats</h1>
 
             <Graph timeSteps={toSend}></Graph>
 

@@ -117,7 +117,6 @@ function Registration() {
             });
 
             const newUser = postRes.data;
-            console.log("New user saved:", newUser);
 
             await ensureStatsExist(newUser.email);
             alert("Registration successful! You are now logged in.");

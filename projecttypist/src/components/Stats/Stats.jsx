@@ -17,8 +17,6 @@ function Stats(props) {
     const wpm = wordsCorr / (timeSeconds / 60);
     const raw_wpm = (wordsCorr + wordsIncorr) / (timeSeconds / 60);
 
-    // console.log(props);
-
     return (
         <div>
             <div className="jst-btw main-info">

@@ -55,7 +55,7 @@ function Settings() {
 
                 <button className="theme-bth theme-0" onClick={changeColor}>default</button>
                 <button className="theme-bth theme-1" onClick={changeColor}>magic girl</button>
-                <button className="theme-bth theme-2" onClick={changeColor}>inverted default</button>
+                <button className="theme-bth theme-2" onClick={changeColor}>inverted</button>
                 <button className="theme-bth theme-3" onClick={changeColor}>arctic smoke</button>
 
             </div>
@@ -68,13 +68,6 @@ function Settings() {
                 <button className="theme-bth font-bth font-1" onClick={changeFont}>roboto mono</button>
                 <button className="theme-bth font-bth font-2" onClick={changeFont}>vt323</button>
                 <button className="theme-bth font-bth font-3" onClick={changeFont}>xanh mono</button>
-
-            </div>
-
-
-            <h2 className="pad-bot-10 mar-top-40">Difficulty</h2>
-
-            <div className="flex gap-20">
 
             </div>
 
