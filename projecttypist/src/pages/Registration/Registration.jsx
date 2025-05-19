@@ -1,6 +1,7 @@
 import "./Registration.css";
-import personImage from "../../assets/person_login.svg";
-import loginImage from "../../assets/regular_login.svg";
+
+import Login from "../../components/SVG/Login.jsx";
+import Person from "../../components/SVG/Person.jsx";
 
 import React, { useState, useContext } from "react";
 import axios from "axios";
@@ -170,13 +171,9 @@ function Registration() {
                     className="informationPlaceholder-left"
                     onSubmit={handleRegister}
                 >
-                    <div className="informationPlaceholder-left-text">
-                        <img
-                            className="register-image"
-                            src={personImage}
-                            alt="Register"
-                        />
-                        <Text text="register" />
+                    <div className="informationPlaceholder-left-text align-center">
+                        <Person classes="icons"></Person>
+                        <Text text="register"/>
                     </div>
                     <Input
                         name="username"
@@ -215,14 +212,14 @@ function Registration() {
                     <Button
                         type="submit"
                         text="sign up"
-                        image={personImage}
+                        component={<Person classes="icons"></Person>}
                         className="registerButton"
                     />
                 </form>
 
                 <form className="informationPlaceholder-right" onSubmit={handleLoginSubmit}>
-                    <div className="informationPlaceholder-right-text">
-                        <img className="logIn-image" src={loginImage} alt="Login" />
+                    <div className="informationPlaceholder-right-text align-center">
+                        <Login classes="icons"></Login>
                         <Text text="login" />
                     </div>
                     <Input
@@ -242,7 +239,7 @@ function Registration() {
                     <Button
                         type="submit"
                         text="sign in"
-                        image={loginImage}
+                        component={<Login classes="icons"/>}
                         className="loginButton"
                     />
                 </form>

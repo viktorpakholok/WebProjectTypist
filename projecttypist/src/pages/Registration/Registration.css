@@ -60,6 +60,11 @@
     color: #ccc;
 }
 
+.align-center {
+    display: flex;
+    align-items: center;
+}
+
 .informationPlaceholder-right-forgotPassword {
     justify-content: flex-end;
     margin-top: 10px;
