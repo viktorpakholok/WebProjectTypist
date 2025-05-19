@@ -18,10 +18,10 @@ import React from "react";
 import "./Button.css";
 import Text from "../Text/Text";
 
-function Button({ text, image, onClick, type = "button", className = "" }) {
+function Button({ text, component, onClick, type = "button", className = "" }) {
     return (
         <button type={type} className={`customButton ${className}`} onClick={onClick} >
-            {image && (<img className="customButton-image" src={image} alt={text} />)}
+            {component}
             <Text text={text} />
         </button>
     );
