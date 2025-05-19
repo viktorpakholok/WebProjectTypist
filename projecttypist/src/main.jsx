@@ -20,14 +20,26 @@ function ProtectedRoute({ children }) {
 }
 
 function Main() {
-    const [mode, setMode] = useState("words");
-    const [value, setValue] = useState(5);
+    const [mode, setMode] = useState(() => {
+        const saved = localStorage.getItem("mode_value");
+        console.log(JSON.parse(saved))
+        return saved ? JSON.parse(saved).mode : "words";
+    });
+    // const [value, setValue] = useState(5);
+    const [value, setValue] = useState(() => {
+        const saved = localStorage.getItem("mode_value");
+        return saved ? JSON.parse(saved).value : 5;
+    });
 
 
     const [user, setUser] = useState(() => {
         const saved = localStorage.getItem("user");
         return saved ? JSON.parse(saved) : null;
     });
+
+    useEffect(() => {
+        localStorage.setItem("mode_value", JSON.stringify({mode: mode, value: value}));
+    }, [mode, value]);
 
     useEffect(() => {
         if (user) {

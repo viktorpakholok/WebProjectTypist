@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useImperativeHandle, useState } from "react"
+import "./Timer.css"
 
 
 
@@ -7,9 +8,11 @@ export default function Timer({ timeLimit, refference, typingInputRef }) {
     const [timerStarted, setTimerStarted] = useState(false)
 
 
-
     useEffect(() => {
-        if (!timerStarted) return;
+        if (!timerStarted) {
+            setTime(0)
+            return
+        };
         typingInputRef.current.updateTimeStats(0)
         const intervalId = setInterval(() => {
             setTime((prev) => prev + 1)
@@ -34,6 +37,6 @@ export default function Timer({ timeLimit, refference, typingInputRef }) {
     }, [time])
 
     return <>
-        <div>cur time:{time}</div>
+        <div className="timer-div">Time: {time}s</div>
     </>
 }

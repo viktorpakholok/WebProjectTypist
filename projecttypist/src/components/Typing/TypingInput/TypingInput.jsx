@@ -15,6 +15,8 @@ import { useNavigate } from "react-router-dom";
 import TypingCaret from "../TypingCaret/TypingCaret";
 
 import { UserContext } from "../../../main.jsx";
+// import typingSound from "../../../assets/sfx/typing.mp3"
+import typingSound from "../../../assets/sfx/typing2.wav"
 
 import {
     getActualWords, getTypedWords, getTimeStat,
@@ -112,9 +114,9 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
 
     useEffect(() => {
         // console.log("useEffect [hasStarted]")
+        timerRef.current.setTimerStarted(hasStarted)
         if (!hasStarted) return;
         timeStats.current = [];
-        timerRef.current.setTimerStarted(true)
     }, [hasStarted]);
 
 
@@ -297,6 +299,11 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
         });
     }
 
+    function playSound(sound) {
+        const audio = new Audio(sound)
+        audio.play()
+    }
+
 
     function handleInputKeyDown(event) {
         if (event.key === "Backspace" || event.key === "Delete") {
@@ -304,6 +311,7 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
             return;
         }
         if (event.key.length > 1) return;
+        
         if (event.key === " ") event.preventDefault();
 
         if (
@@ -323,6 +331,7 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
                 renderResultPage();
                 return;
             }
+            playSound(typingSound)
             return;
         }
         writeToInput(event.key);
@@ -339,7 +348,7 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
             }
             newLetterIndex = 0;
         }
-        const actualWordsCopy = structuredClone(actualWords);
+        // const actualWordsCopy = structuredClone(actualWords);
         const typedWordsCopy = structuredClone(typedWords);
         let newSpacePressed = spacePressed;
         if (index.letter !== -1 && newLetterIndex === 0) {
@@ -348,17 +357,20 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
                 setSpacePressed(newSpacePressed);
                 newWordIndex++;
                 typedWordsCopy[newWordIndex][newLetterIndex] = typedLetter;
+                playSound(typingSound)
             } else {
-                typedWordsCopy[newWordIndex].push(typedLetter);
-                actualWordsCopy[newWordIndex].push(null);
-                newLetterIndex = index.letter + 1;
-                setActualWords(actualWordsCopy);
+                // space not pressed
+                // typedWordsCopy[newWordIndex].push(typedLetter);
+                // actualWordsCopy[newWordIndex].push(null);
+                // setActualWords(actualWordsCopy);
+                newLetterIndex = index.letter;
             }
         } else {
             if (index.letter === -1) {
                 newWordIndex++;
             }
             typedWordsCopy[newWordIndex][newLetterIndex] = typedLetter;
+            playSound(typingSound)
         }
         setTypedWords(typedWordsCopy);
         const newIndex = { word: newWordIndex, letter: newLetterIndex }

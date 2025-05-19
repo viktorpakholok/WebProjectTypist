@@ -10,8 +10,8 @@ function TypingElement() {
 
     const [inputValue, setInputValue] = useState(`${modeValues.value}`)
     const [wrongInputText, setWrongInputText] = useState("")
-    const [wordsClass, setWordsClass] = useState("active")
-    const [timeClass, setTimeClass] = useState("")
+    const [wordsClass, setWordsClass] = useState(modeValues.mode === "words" ? "active": "")
+    const [timeClass, setTimeClass] = useState(modeValues.mode === "time" ? "active": "")
 
     const typingInputRef = useRef(null)
     const timerRef = useRef(null)
