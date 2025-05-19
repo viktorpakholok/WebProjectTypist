@@ -28,8 +28,11 @@
 
 .header-main {
     height: 50px;
-    padding-bottom: 30px;
+    background-color: var(--bg-color);
+    margin-bottom: 20px;
     vertical-align: middle;
+    position: sticky;
+    top: 0;
 }
 
 .keyboard {

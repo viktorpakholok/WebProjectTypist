@@ -82,8 +82,8 @@ function AboutUs() {
                 </div>
 
                 <p className="mar-top-20">ProjectTypist is student project from Web course. Our team consists of 3 people: Lev, Viktor and Bohdan.</p>
-                <p>Our main goal was to try to make some typing trainer and for that we heavily took inspiration from <a href="https://monkeytype.com/">MonkeyType</a>.</p>
-                <p>We decided to select this project to increase our knowledge about React in applied sphere and to have some interesting thing to show.</p>
+                <p className="mar-top-20">Our main goal was to try to make some typing trainer and for that we heavily took inspiration from <a href="https://monkeytype.com/">MonkeyType</a>.</p>
+                <p className="mar-top-20 pad-bot-20">We decided to select this project to increase our knowledge about React in applied sphere and to have some interesting thing to show.</p>
 
             </section>
 
