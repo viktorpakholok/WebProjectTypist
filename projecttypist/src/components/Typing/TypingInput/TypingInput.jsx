@@ -17,6 +17,7 @@ import TypingCaret from "../TypingCaret/TypingCaret";
 import { UserContext } from "../../../main.jsx";
 // import typingSound from "../../../assets/sfx/typing.mp3"
 import typingSound from "../../../assets/sfx/typing2.wav"
+import errorSound from "../../../assets/sfx/error.wav"
 
 import {
     getActualWords, getTypedWords, getTimeStat,
@@ -203,6 +204,7 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
 
     function handleDeletion(event) {
         if (index.word == -1) return;
+        playSound(errorSound)
         if (!event.altKey) {
             deleteOne();
         } else {
@@ -357,20 +359,31 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
                 setSpacePressed(newSpacePressed);
                 newWordIndex++;
                 typedWordsCopy[newWordIndex][newLetterIndex] = typedLetter;
-                playSound(typingSound)
+                if (typedLetter === actualWords[newWordIndex][newLetterIndex]) {
+                    playSound(typingSound)
+                }
+                else {
+                    playSound(errorSound)
+                }
             } else {
                 // space not pressed
                 // typedWordsCopy[newWordIndex].push(typedLetter);
                 // actualWordsCopy[newWordIndex].push(null);
                 // setActualWords(actualWordsCopy);
                 newLetterIndex = index.letter;
+                playSound(errorSound)
             }
         } else {
             if (index.letter === -1) {
                 newWordIndex++;
             }
             typedWordsCopy[newWordIndex][newLetterIndex] = typedLetter;
-            playSound(typingSound)
+            if (typedLetter === actualWords[newWordIndex][newLetterIndex]) {
+                playSound(typingSound)
+            }
+            else {
+                playSound(errorSound)
+            }
         }
         setTypedWords(typedWordsCopy);
         const newIndex = { word: newWordIndex, letter: newLetterIndex }
