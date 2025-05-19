@@ -72,7 +72,7 @@ function TypingElement() {
         <div className="modes-manager">
             <button className={wordsClass + " button-type"} value="words" onClick={(e) => changeMode(e)}>words</button>
             <button className={timeClass + " button-type"} value="time" onClick={(e) => changeMode(e)}>time</button>
-            <input type="text" onChange={(e) => updateInputValue(e)} value={inputValue} />
+            <input className="mode-input" type="text" onChange={(e) => updateInputValue(e)} value={inputValue} />
             <div>{wrongInputText}</div>
         </div>
 

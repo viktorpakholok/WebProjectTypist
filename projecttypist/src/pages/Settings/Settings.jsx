@@ -42,7 +42,7 @@ function Settings() {
                 <button className="theme-bth theme-0" onClick={changeColor}>default</button>
                 <button className="theme-bth theme-1" onClick={changeColor}>magic girl</button>
                 <button className="theme-bth theme-2" onClick={changeColor}>inverted default</button>
-                <button className="theme-bth" onClick={changeColor}>theme 3</button>
+                <button className="theme-bth theme-3" onClick={changeColor}>arctic smoke</button>
 
             </div>
 

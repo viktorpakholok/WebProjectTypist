@@ -27,6 +27,11 @@
     color: #323437;
 }
 
+.theme-3 {
+    background-color: #50586C;
+    color: #DCE2F0;
+}
+
 .caret {
     /* position: relative; */
     position: absolute;

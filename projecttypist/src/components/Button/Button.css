@@ -1,16 +1,19 @@
 .customButton {
-    width: 320px;
+    /* width: 320px; */
+    /* width: 50%; */
     height: 40px;
-    padding: 10px;
     font-size: 1em;
-    background-color: #2b2b2b;
-    border: none;
-    border-radius: 4%;
-    color: #757575;
+    background-color: var(--bg-color);
+    border-color: var(--ft-color);
+    /* border-width: 2px; */
+    border-radius: 6px;
+    border: solid 2px;
+    color: var(--ft-color);
     display: flex;
     align-items: center;
+    /* align-self: center; */
     justify-content: center;
-    opacity: 0.8;
+    /* opacity: 0.8; */
     margin-top: 10px;
     transition: background-color 0.3s, color 0.3s, opacity 0.3s;
 }
@@ -18,7 +21,7 @@
 .customButton:hover {
     background-color: #3c3c3c;
     color: #ffffff;
-    opacity: 1;
+    /* opacity: 1; */
     cursor: pointer;
 }
 
