@@ -15,9 +15,6 @@ function LineChart(props) {
 
     const arr = props.timeSteps;
 
-    // console.log("inside mychart");
-    // console.log(arr);
-
     const xValues = [];
     const objArr = [];
     const colors = ["red", "green", "blue"];
@@ -44,9 +41,6 @@ function LineChart(props) {
         }
     }
 
-    // console.log("here");
-    // console.log(objArr);
-    // console.log(xValues);
 
     let style = getComputedStyle(document.body);
     let fontColor = style.getPropertyValue('--ft-color');
