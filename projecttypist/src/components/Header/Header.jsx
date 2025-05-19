@@ -3,6 +3,7 @@ import "../../main.css";
 
 import Logo from "../Logo/Logo";
 import LogOut from "../../assets/log_out.svg"
+import { useNavigate } from "react-router-dom";
 
 import { Link } from "react-router-dom";
 
@@ -13,7 +14,7 @@ function Header() {
     const { user, setUser } = useContext(UserContext);
     // console.log("USER:")
     // console.log(user.email)
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     let currentPath = window.location.pathname;
 

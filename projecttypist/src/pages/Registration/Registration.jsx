@@ -20,9 +20,11 @@ function Registration() {
 
     async function ensureStatsExist(email) {
         try {
+            // console.log("Email: " + email)
             const res = await axios.get(
-                `http://localhost:3001/statsExample?email=${encodeURIComponent(email)}`
+                `http://localhost:3001/statsExample?email=${email}`
             );
+            // console.log("Res data: " + res.data)
             if (res.data.length === 0) {
                 await axios.post("http://localhost:3001/statsExample", {
                     email,
@@ -36,7 +38,7 @@ function Registration() {
                 // console.log("Stats already exist for:", email);
             }
         } catch (err) {
-            console.error("Error initializing stats:", err);
+            // console.error("Error initializing stats:", err);
         }
     }
 
@@ -104,11 +106,13 @@ function Registration() {
                 settings,
             });
             const newUser = postRes.data;
+            
             setUser(newUser);
-
+            console.log("New user saved:", postRes.data)
             await ensureStatsExist(newUser.email);
+            navigate('/');
             alert("Registration successful! You are now logged in.");
-            navigate("/");
+            
 
             setFormData({
                 username: "",
@@ -122,6 +126,7 @@ function Registration() {
             console.error("Registration error:", err);
             alert("Something went wrong. Try again.");
         }
+        
     };
 
     const handleLoginSubmit = async (e) => {
