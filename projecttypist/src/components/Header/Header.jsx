@@ -21,8 +21,11 @@ function Header() {
     const handleLogout = () => {
         const confirmed = window.confirm("Are you sure you want to log out?");
         if (confirmed) {
-            setUser(null);
-            localStorage.removeItem("user");
+
+            const {id, email, username, password, ...newUser} = user
+
+            setUser(newUser);
+            // localStorage.removeItem("user");
             navigate("/registration");
         }
     };

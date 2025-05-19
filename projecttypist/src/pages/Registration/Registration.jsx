@@ -96,7 +96,7 @@ function Registration() {
                 return alert("A user with this username already exists!");
             }
 
-            const settings = (user && Object.hasOwn(user, settings)) ? user.settings : {
+            const settings = (user && Object.hasOwn(user, "settings")) ? user.settings : {
                 theme: {
                     fontColor: "#d1d0c5",
                     backColor: "#323437",
