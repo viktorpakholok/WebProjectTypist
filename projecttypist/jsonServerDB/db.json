@@ -366,6 +366,60 @@
         "difficulty": 0,
         "sound": 0
       }
+    },
+    {
+      "id": "8a49",
+      "username": "bb3@bb3",
+      "email": "bb3@bb3",
+      "password": "bbb",
+      "settings": {
+        "theme": {
+          "fontColor": "#d1d0c5",
+          "backColor": "#323437",
+          "atenColor": "yellow",
+          "wronColor": "red",
+          "fontStyle": ""
+        },
+        "fontFamily": "Courier New",
+        "difficulty": 0,
+        "sound": 0
+      }
+    },
+    {
+      "id": "f71b",
+      "username": "bb4@bb4",
+      "email": "bb4@bb4",
+      "password": "bbb",
+      "settings": {
+        "theme": {
+          "fontColor": "#d1d0c5",
+          "backColor": "#323437",
+          "atenColor": "yellow",
+          "wronColor": "red",
+          "fontStyle": ""
+        },
+        "fontFamily": "Courier New",
+        "difficulty": 0,
+        "sound": 0
+      }
+    },
+    {
+      "id": "d9e2",
+      "username": "Bohdan",
+      "email": "bb5@bb5",
+      "password": "bbb",
+      "settings": {
+        "theme": {
+          "fontColor": "#d1d0c5",
+          "backColor": "#323437",
+          "atenColor": "yellow",
+          "wronColor": "red",
+          "fontStyle": ""
+        },
+        "fontFamily": "Courier New",
+        "difficulty": 0,
+        "sound": 0
+      }
     }
   ],
   "statsExample": [
@@ -643,6 +697,94 @@
       "WPM": [],
       "rawWPM": [],
       "accuracy": []
+    },
+    {
+      "id": "7336",
+      "email": "bbb2@bbb2",
+      "dates": [
+        "13:18:22 19.05.2025"
+      ],
+      "WPM": [
+        25
+      ],
+      "rawWPM": [
+        25
+      ],
+      "accuracy": [
+        1
+      ]
+    },
+    {
+      "id": "7d4e",
+      "email": "bb3@bb3",
+      "dates": [
+        "13:28:15 19.05.2025",
+        "13:28:30 19.05.2025",
+        "13:29:01 19.05.2025",
+        "13:29:16 19.05.2025",
+        "13:29:21 19.05.2025",
+        "13:29:31 19.05.2025"
+      ],
+      "WPM": [
+        0,
+        0,
+        null,
+        0,
+        0,
+        0
+      ],
+      "rawWPM": [
+        150,
+        30,
+        null,
+        108,
+        270,
+        90
+      ],
+      "accuracy": [
+        0.06,
+        0.03,
+        1,
+        0.05,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "a7d7",
+      "email": "bb4@bb4",
+      "dates": [
+        "13:33:40 19.05.2025",
+        "13:36:20 19.05.2025"
+      ],
+      "WPM": [
+        30,
+        0
+      ],
+      "rawWPM": [
+        30,
+        10
+      ],
+      "accuracy": [
+        1,
+        0.27
+      ]
+    },
+    {
+      "id": "3b4e",
+      "email": "bb5@bb5",
+      "dates": [
+        "14:01:45 19.05.2025"
+      ],
+      "WPM": [
+        36
+      ],
+      "rawWPM": [
+        36
+      ],
+      "accuracy": [
+        1
+      ]
     }
   ]
 }

@@ -30,20 +30,21 @@ function HistoryPerUser() {
     for (let i = 0; i < len; i++) {
         toSend.push([arr["dates"][i], arr["WPM"][i]])
     }
-
+    const userName = userContext.user.username
     if (toSend.length == 0) {
         return <div>
             <Header></Header>
-            <h1>Your stats:</h1>
+            <h1>{userName}, your stats:</h1>
 
             <h2 className="mar-top-20">No stats yet go play some games</h2>
         </div>
     }
+    
 
     return (
         <div>
             <Header></Header>
-            <h1>Your stats</h1>
+            <h1>{userName}, your stats:</h1>
 
             <Graph timeSteps={toSend}></Graph>
 
