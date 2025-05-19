@@ -343,13 +343,6 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
     function addLetter(typedLetter) {
         let newLetterIndex = nextLetterIndex(actualWords, index.word, index.letter);
         let newWordIndex = index.word;
-        if (newLetterIndex === index.letter) {
-            if (typedLetter === actualWords[newWordIndex][index.letter]) {
-                renderResultPage();
-                return;
-            }
-            newLetterIndex = 0;
-        }
         // const actualWordsCopy = structuredClone(actualWords);
         const typedWordsCopy = structuredClone(typedWords);
         let newSpacePressed = spacePressed;
@@ -385,6 +378,10 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
                 playSound(errorSound)
             }
         }
+        if (newWordIndex === actualWords.length - 1 && newLetterIndex === actualWords[newWordIndex].length - 1) {
+            renderResultPage();
+            return;
+        }
         setTypedWords(typedWordsCopy);
         const newIndex = { word: newWordIndex, letter: newLetterIndex }
         setIndex(newIndex);
@@ -395,7 +392,7 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
         if (!hasStarted) setHasStarted(true);
         addLetter(typedLetter);
 
-        if (wordsCount === 0 && typingWords.length - index.word < maxWordsAfterCursor) {
+        if (wordsCount === 0 && typingWords.length - index.word < startingWordsCount) {
             const newWord = getRandomWord(dictionaryWords);
             setTypingWords((prev) => [...prev, newWord]);
             setActualWords((prev) => [...prev, newWord.split("")]);
