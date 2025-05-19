@@ -3,6 +3,12 @@
   /* margin-top: 20%; */
 /* }  */
 
+.wrongInputText {
+    display: block;
+    position:relative;
+    height: 30px;
+}
+
 .button-type {
     padding: 10px;
     margin-right: 10px;

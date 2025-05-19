@@ -10,26 +10,16 @@ function TypingElement() {
 
     const [inputValue, setInputValue] = useState(`${modeValues.value}`)
     const [wrongInputText, setWrongInputText] = useState("")
-    const [wordsClass, setWordsClass] = useState("")
+    const [wordsClass, setWordsClass] = useState("active")
     const [timeClass, setTimeClass] = useState("")
-    const [timeTyping, setTimeTyping] = useState(0)
-    // const [typingStarted, setTypingStarted] = useState(false)
 
     const typingInputRef = useRef(null)
     const timerRef = useRef(null)
 
 
-    useEffect(() => {
-        if (modeValues.mode === "words") {
-            setWordsClass("active")
-            setTimeClass("")
-        }
-        else {
-            setTimeClass("active")
-            setWordsClass("")
-        }
-        if (!inputValue) return
-        const parsedValue = parseInt(inputValue)
+    const applyInputValue = useCallback((newInputValue) => {
+        if (!newInputValue) return
+        const parsedValue = parseInt(newInputValue)
         if (isNaN(parsedValue)) {
             setWrongInputText("Wrong input")
             return
@@ -45,16 +35,26 @@ function TypingElement() {
         modeValues.setValue(parsedValue)
         setWrongInputText("")
         timerRef.current.setTimerStarted(false)
-    }, [modeValues.mode, inputValue])
+    }, [])
 
     function changeMode(event) {
         const newMode = event.target.value
         if (newMode === modeValues.mode) return
+        if (newMode === "words") {
+            setWordsClass("active")
+            setTimeClass("")
+        }
+        else {
+            setTimeClass("active")
+            setWordsClass("")
+        }
         modeValues.setMode(event.target.value)
     }
 
     function updateInputValue(event) {
-        setInputValue(event.target.value)
+        const newInputValue = event.target.value
+        applyInputValue(newInputValue)
+        setInputValue(newInputValue)
     }
 
     function getTimeValue() {
@@ -65,7 +65,9 @@ function TypingElement() {
         return (modeValues.mode === "words") ? modeValues.value : 0
     }
 
-    console.log("render: TypingElement")
+    const renderingIter = useRef(0);
+    renderingIter.current += 1
+    console.log("render: TypingElement", renderingIter.current)
 
 
     return <>
@@ -73,7 +75,7 @@ function TypingElement() {
             <button className={wordsClass + " button-type"} value="words" onClick={(e) => changeMode(e)}>words</button>
             <button className={timeClass + " button-type"} value="time" onClick={(e) => changeMode(e)}>time</button>
             <input type="text" onChange={(e) => updateInputValue(e)} value={inputValue} />
-            <div>{wrongInputText}</div>
+            <div className="wrongInputText">{wrongInputText}</div>
         </div>
 
         <button className="button-type" onClick={() => typingInputRef.current.resetTypingInput()}>new text</button>

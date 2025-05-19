@@ -31,4 +31,5 @@
 .word {
     margin-right: 0.5em;
     color: grey;
+    position: relative;
 }

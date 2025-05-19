@@ -19,7 +19,7 @@ import { UserContext } from "../../../main.jsx";
 import {
     getActualWords, getTypedWords, getTimeStat,
     getRandomWord, getNewWords, isLetter, prevLetterIndex,
-    getNewWordIndex, removeLetter, saveStats, getNewCaretPos,
+    getNewWordIndex, removeLetter, saveStats,
     nextLetterIndex, getNewIndex, lastLetterInWord, getTypingElements,
     getStatsHelper
 } from "../../../functions/helper_functions.jsx";
@@ -35,7 +35,6 @@ const startingWordsCount = 3;
 const maxWordsAfterCursor = 1000;
 
 const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
-
     const userContext = useContext(UserContext);
 
     const navigate = useNavigate();
@@ -51,13 +50,14 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
     const inputRef = useRef(null);
     const [spacePressed, setSpacePressed] = useState(false);
     const [caretClassName, setCaretClassName] = useState("");
-    const [caretLeft, setCaretLeft] = useState(0);
-    const [caretTop, setCaretTop] = useState(0);
+    // const [caretLeft, setCaretLeft] = useState(0);
+    // const [caretTop, setCaretTop] = useState(0);
     const [closed, setClosed] = useState(false);
+    const [windowResized, setWindowResized] = useState(false)
 
     const timeStats = useRef([]);
-    const renderingIter = useRef(0);
     const timeTyping = useRef(0);
+    const caretRef = useRef(null)
 
 
     const getStats = useCallback(() => {
@@ -80,6 +80,9 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
         }
     }, [updateTimeStats])
 
+    useEffect(() => {
+        console.log(spacePressed)
+    }, [spacePressed])
 
     useEffect(() => {
         function handleMouseClick(event) {
@@ -87,10 +90,16 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
             clickOnInput ? focus() : blur();
         }
 
-        document.addEventListener("click", handleMouseClick);
+        function handleWindowChange() {
+            setWindowResized((prev) => !prev)
+        }
+
+        window.addEventListener("click", handleMouseClick);
+        window.addEventListener("resize", handleWindowChange)
 
         return () => {
-            document.removeEventListener("click", handleMouseClick);
+            window.removeEventListener("click", handleMouseClick);
+            window.removeEventListener("resize", handleWindowChange) 
         };
     }, []);
 
@@ -98,6 +107,7 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
     useEffect(() => {
         resetTypingInput();
     }, [wordsCount, timeLimit]);
+
 
 
     useEffect(() => {
@@ -127,14 +137,18 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
     }, [handleKeyDown]);
 
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (closed) return;
+        requestAnimationFrame(() => {
+            caretRef.current.updateCaretPos(inputRef.current, actualWords, index, spacePressed, closed)
+        })
+        
+    }, [typedWords, index, spacePressed, closed, windowResized, isFocused]);
 
-        const newCaretPos = getNewCaretPos(inputRef.current, actualWords, index, spacePressed, closed);
-        if (newCaretPos == null) return
-        setCaretPos(newCaretPos.top, newCaretPos.left)
-    }, [actualWords, closed]);
 
+    const doUpdateCaretPos = useCallback(() => {
+        setWindowResized((prev) => !prev)
+    }, [])
 
     function resetTypingInput() {
         setClosed(false)
@@ -181,10 +195,8 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
             newIndex = getNewIndex(index, prevLetterIndex(actualWords, index.word, index.letter))
             setIndex(newIndex);
         }
-        const newSpacePressed = index.letter == 0
+        const newSpacePressed = index.letter == 0 && index.word != 0
         setSpacePressed(newSpacePressed);
-        const newCaretPos = getNewCaretPos(inputRef.current, actualWords, newIndex, newSpacePressed, closed);
-        setCaretPos(newCaretPos.top, newCaretPos.left)
     }
 
     function handleDeletion(event) {
@@ -253,8 +265,6 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
         const newSpacePressed = (curWordIndex != -1) && (curNextLetterIndex == 0)
         setSpacePressed(newSpacePressed);
         setIndex(newIndex);
-        const newCaretPos = getNewCaretPos(inputRef.current, actualWords, newIndex, newSpacePressed, closed);
-        setCaretPos(newCaretPos.top, newCaretPos.left)
     }
 
 
@@ -313,8 +323,6 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
                 renderResultPage();
                 return;
             }
-            const newCaretPos = getNewCaretPos(inputRef.current, actualWords, index, newSpacePressed, closed);
-            setCaretPos(newCaretPos.top, newCaretPos.left)
             return;
         }
         writeToInput(event.key);
@@ -355,8 +363,6 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
         setTypedWords(typedWordsCopy);
         const newIndex = { word: newWordIndex, letter: newLetterIndex }
         setIndex(newIndex);
-        const newCaretPos = getNewCaretPos(inputRef.current, actualWords, newIndex, newSpacePressed, closed);
-        setCaretPos(newCaretPos.top, newCaretPos.left)
     }
 
 
@@ -378,16 +384,18 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
     }
 
 
+    const renderingIter = useRef(0);
     renderingIter.current += 1
-    // console.log("render: TypingInput", renderingIter.current, new Date().getTime(), wordsCount, timeLimit)
+    console.log("render: TypingInput", renderingIter.current, new Date().getTime(), wordsCount, timeLimit)
     // console.log({ typingWords: typingWords, actualWords: actualWords, typedWords: typedWords, isFocused: isFocused, timeTyping: timeTyping, index: index, hasStarted: hasStarted, spacePressed: spacePressed, caretClassName: caretClassName, caretLeft: caretLeft, caretTop: caretTop, closed: closed })
     return (
         <>
             <div className="typing-div">
                 <TypingCaret
+                    refference={caretRef}
                     className={caretClassName}
-                    left={caretLeft}
-                    top={caretTop}
+                    inputRef={inputRef.current?.childNodes}
+                    doUpdateCaretPos={doUpdateCaretPos}
                 ></TypingCaret>
 
                 <div ref={inputRef} id="input">

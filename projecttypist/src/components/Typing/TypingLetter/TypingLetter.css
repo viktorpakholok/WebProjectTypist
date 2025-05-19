@@ -2,12 +2,27 @@
   color:#565861;
 } */
 
+
+
 .good-letter {
+    position: relative;
     /* color: white; */
     opacity: 0.3;
 }
 
+caret-letter-before::before {
+    position: absolute;
+    left: -12px;
+    color: yellow !important;
+    content: "|";
+}
+
+/* .good-letter::before {
+    
+} */
+
 .off-word-letter {
+    position:relative;
     color: darkred;
 }
 

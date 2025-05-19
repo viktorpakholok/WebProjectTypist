@@ -114,7 +114,7 @@ export async function saveStats(curCharacters, curWords, curEmail, timeTyping) {
     );
 }
 
-export function getNewCaretPos(inputEl, curActualWords, curIndex, curSpacePressed, curClosed) {
+export function getNewCaretPos(inputEl, curTypedWords, curIndex, curSpacePressed, curClosed) {
     // console.log("updating")
     if (curClosed || inputEl.childNodes?.length == null) {
         // console.log("not updated")
@@ -137,7 +137,7 @@ export function getNewCaretPos(inputEl, curActualWords, curIndex, curSpacePresse
         });
         return newCaretPos
     }
-    if (lastLetterInWord(curActualWords, curIndex.word, curIndex.letter) && curSpacePressed) {
+    if (lastLetterInWord(curTypedWords, curIndex.word, curIndex.letter) && curSpacePressed) {
         const targetEl =
             inputEl.childNodes[curIndex.word + 1].childNodes[0];
         const rect = targetEl.getBoundingClientRect();
