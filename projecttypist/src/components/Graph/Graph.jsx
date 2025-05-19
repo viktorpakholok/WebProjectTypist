@@ -10,7 +10,7 @@ function Graph(props) {
     return (
         <div className="graph">
             {/* <p className="bigtext">Graph</p> */}
-            <LineChart className='right' timeSteps={props.timeSteps}></LineChart>
+            <LineChart timeSteps={props.timeSteps}></LineChart>
         </div>
     );
 }

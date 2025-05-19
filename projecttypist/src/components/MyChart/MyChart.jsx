@@ -87,6 +87,6 @@ function LineChart(props) {
     ChartJs.defaults.color = fontColor;
     ChartJs.defaults.borderColor = "#36A2EB";
 
-    return <Line className="right" options={options} data={data} />;
+    return <Line options={options} data={data} />;
 }
 export default LineChart;

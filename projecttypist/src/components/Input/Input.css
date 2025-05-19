@@ -1,15 +1,15 @@
 .BohdanInput {
-    width: 300px;
     height: 20px;
     padding: 10px;
     font-size: 1em;
-    background-color: #2b2b2b;
-    border: none;
-    border-radius: 4%;
-    color: #757575;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0.8;
+    background-color: var(--bg-color);
+    border: solid 2px var(--ft-color);
+    border-radius: 6px;
+    color: var(--ft-color);
     margin-top: 10px;
+}
+
+.BohdanInput::placeholder {
+    color: var(--ft-color);
+    opacity: 0.8;
 }

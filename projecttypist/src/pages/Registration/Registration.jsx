@@ -211,34 +211,32 @@ function Registration() {
                     />
                 </form>
 
-                <aside className="informationPlaceholder-right">
-                    <form onSubmit={handleLoginSubmit}>
-                        <div className="informationPlaceholder-right-text">
-                            <img className="logIn-image" src={loginImage} alt="Login" />
-                            <Text text="login" />
-                        </div>
-                        <Input
-                            name="email"
-                            type="email"
-                            placeholderText="email"
-                            value={loginData.email}
-                            onChange={handleLoginChange}
-                        />
-                        <Input
-                            name="password"
-                            type="password"
-                            placeholderText="password"
-                            value={loginData.password}
-                            onChange={handleLoginChange}
-                        />
-                        <Button
-                            type="submit"
-                            text="sign in"
-                            image={loginImage}
-                            className="loginButton"
-                        />
-                    </form>
-                </aside>
+                <form className="informationPlaceholder-right" onSubmit={handleLoginSubmit}>
+                    <div className="informationPlaceholder-right-text">
+                        <img className="logIn-image" src={loginImage} alt="Login" />
+                        <Text text="login" />
+                    </div>
+                    <Input
+                        name="email"
+                        type="email"
+                        placeholderText="email"
+                        value={loginData.email}
+                        onChange={handleLoginChange}
+                    />
+                    <Input
+                        name="password"
+                        type="password"
+                        placeholderText="password"
+                        value={loginData.password}
+                        onChange={handleLoginChange}
+                    />
+                    <Button
+                        type="submit"
+                        text="sign in"
+                        image={loginImage}
+                        className="loginButton"
+                    />
+                </form>
             </section>
             {/* <Footer /> */}
         </div>
