@@ -15,7 +15,7 @@ function Info() {
     useEffect(() => {
         function handleKeyDown(event) {
             if (event.key == "Tab") {
-                navigate("/")
+                navigate("/");
             }
         }
 

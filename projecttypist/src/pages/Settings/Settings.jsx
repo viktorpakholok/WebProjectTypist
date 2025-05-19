@@ -15,14 +15,14 @@ function Settings() {
     function changeColor(event) {
 
         let fontColor = window.getComputedStyle(event.currentTarget).color;
-        let backColor = window.getComputedStyle(event.currentTarget).backgroundColor
+        let backColor = window.getComputedStyle(event.currentTarget).backgroundColor;
 
-        let theme = { "fontColor": fontColor, "backColor": backColor, "atenColor": "yellow", "wronColor": "red", "fontStyle": "" }
+        let theme = { "fontColor": fontColor, "backColor": backColor, "atenColor": "yellow", "wronColor": "red", "fontStyle": "" };
         let settings = { ...userContext.user?.settings, theme };
 
-        let newUser = { ...userContext.user, settings }
+        let newUser = { ...userContext.user, settings };
 
-        userContext.setUser(newUser)
+        userContext.setUser(newUser);
 
         root.style.setProperty("--bg-color", backColor);
         root.style.setProperty("--ft-color", fontColor);
@@ -34,9 +34,9 @@ function Settings() {
 
         let settings = { ...userContext.user?.settings, fontFamily };
 
-        let newUser = { ...userContext.user, settings }
+        let newUser = { ...userContext.user, settings };
 
-        userContext.setUser(newUser)
+        userContext.setUser(newUser);
 
         root.style.setProperty("--ft-family", fontFamily);
         // root.style.setProperty("--ft-family", fontFamily);

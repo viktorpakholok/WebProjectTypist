@@ -100,7 +100,7 @@ export async function saveStats(curCharacters, curWords, curEmail, timeTyping) {
     if (res.data.length === 0) {
         prevArr = { email: curEmail, dates: [date], WPM: [wpm], rawWPM: [rawwpm], accuracy: [accuracy] }
         await axios.post(`http://localhost:3001/statsExample/`, prevArr);
-        return
+        return;
     }
 
     prevArr.dates.push(date);
@@ -148,7 +148,7 @@ export function getNewCaretPos(inputEl, curTypedWords, curIndex, curSpacePressed
             left: 0,
             behavior: "smooth",
         });
-        return newCaretPos
+        return newCaretPos;
     }
     const targetEl =
         inputEl.childNodes[curIndex.word].childNodes[
@@ -162,7 +162,7 @@ export function getNewCaretPos(inputEl, curTypedWords, curIndex, curSpacePressed
         left: 0,
         behavior: "smooth",
     });
-    return newCaretPos
+    return newCaretPos;
 
 }
 
@@ -255,5 +255,5 @@ export function getTimeStat(words, timeTyping) {
         ((words.correct + words.incorrect) / timeTyping) * 60
     );
     rawwpm = isNaN(rawwpm) ? 0 : rawwpm;
-    return [timeTyping, wpm, rawwpm]
+    return [timeTyping, wpm, rawwpm];
 }

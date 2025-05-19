@@ -11,26 +11,26 @@ import { UserContext } from "../../main.jsx";
 function HistoryPerUser() {
 
     const userContext = useContext(UserContext);
-    const [arr, setArr] = useState(null)
+    const [arr, setArr] = useState(null);
 
     useEffect(() => {
         async function fetchArr() {
             const res = await axios.get(`http://localhost:3001/statsExample/?email=${userContext.user.email}`);
-            setArr(res.data[0])
+            setArr(res.data[0]);
         }
 
-        fetchArr()
+        fetchArr();
     }, []);
 
-    if (arr === null) return <div>Loading...</div>
+    if (arr === null) return <div>Loading...</div>;
 
-    const toSend = []
-    const len = arr["dates"].length
+    const toSend = [];
+    const len = arr["dates"].length;
 
     for (let i = 0; i < len; i++) {
-        toSend.push([arr["dates"][i], arr["WPM"][i]])
+        toSend.push([arr["dates"][i], arr["WPM"][i]]);
     }
-    const userName = userContext.user.username
+    const userName = userContext.user.username;
     if (toSend.length == 0) {
         return <div>
             <Header></Header>
@@ -38,7 +38,7 @@ function HistoryPerUser() {
 
             <h2 className="mar-top-20">No stats yet go play some games</h2>
         </div>
-    }
+    };
     
 
     return (

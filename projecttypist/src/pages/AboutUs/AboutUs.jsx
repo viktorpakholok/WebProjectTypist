@@ -9,16 +9,16 @@ import { Chart as ChartJs } from "chart.js/auto";
 import axios from "axios";
 
 
-import "../../main.css"
+import "../../main.css";
 
 function AboutUs() {
 
-    const [arr, setArr] = useState(null)
+    const [arr, setArr] = useState(null);
 
     useEffect(() => {
         async function fetchArr() {
             const res = await axios.get(`http://localhost:3001/statsExample/`);
-            setArr(res.data)
+            setArr(res.data);
         }
 
         fetchArr()
@@ -28,13 +28,13 @@ function AboutUs() {
 
     if (arr === null) return <div>Loading...</div>
 
-    let res = {}
+    let res = {};
 
     for (let account of arr) {
         // console.log(account)
 
         if (!("dates" in account)) {
-            continue
+            continue;
         }
 
         for (let date of account["dates"]) {
@@ -42,14 +42,14 @@ function AboutUs() {
             date = date.split(" ")[1];
 
             if (date in res) {
-                res[date] += 1
+                res[date] += 1;
             } else {
-                res[date] = 1
+                res[date] = 1;
             }
         }
     }
 
-    let data = { labels: Object.keys(res), datasets: [{ data: Object.values(res) }] }
+    let data = { labels: Object.keys(res), datasets: [{ data: Object.values(res) }] };
 
     let style = getComputedStyle(document.body);
     let fontColor = style.getPropertyValue('--ft-color');
