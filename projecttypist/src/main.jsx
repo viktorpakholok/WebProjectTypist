@@ -22,7 +22,6 @@ function ProtectedRoute({ children }) {
 function Main() {
     const [mode, setMode] = useState(() => {
         const saved = localStorage.getItem("mode_value");
-        console.log(JSON.parse(saved))
         return saved ? JSON.parse(saved).mode : "words";
     });
     // const [value, setValue] = useState(5);

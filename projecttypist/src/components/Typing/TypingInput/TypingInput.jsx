@@ -84,10 +84,6 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
     }, [updateTimeStats])
 
     useEffect(() => {
-        console.log(spacePressed)
-    }, [spacePressed])
-
-    useEffect(() => {
         function handleMouseClick(event) {
             let clickOnInput = inputRef.current.contains(event.target);
             clickOnInput ? focus() : blur();
@@ -406,9 +402,9 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
     }
 
 
-    const renderingIter = useRef(0);
-    renderingIter.current += 1
-    console.log("render: TypingInput", renderingIter.current, new Date().getTime(), wordsCount, timeLimit)
+    // const renderingIter = useRef(0);
+    // renderingIter.current += 1
+    // console.log("render: TypingInput", renderingIter.current, new Date().getTime(), wordsCount, timeLimit)
     // console.log({ typingWords: typingWords, actualWords: actualWords, typedWords: typedWords, isFocused: isFocused, timeTyping: timeTyping, index: index, hasStarted: hasStarted, spacePressed: spacePressed, caretClassName: caretClassName, caretLeft: caretLeft, caretTop: caretTop, closed: closed })
     return (
         <>

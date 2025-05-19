@@ -16,10 +16,10 @@ const TypingCaret = memo(function TypingCaret({ refference, className, inputRef,
         }
     }, [updateCaretPos])
 
-    console.log("inputRef", inputRef)
+    // console.log("inputRef", inputRef)
 
     useEffect(() => {
-        console.log("useEffect [inputRef]")
+        // console.log("useEffect [inputRef]")
         doUpdateCaretPos()
 
     }, [inputRef])
