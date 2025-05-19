@@ -15,14 +15,15 @@
     justify-content: center;
     /* opacity: 0.8; */
     margin-top: 10px;
-    transition: background-color 0.3s, color 0.3s, opacity 0.3s;
+    transition: transform 0.2s;
 }
 
 .customButton:hover {
-    background-color: #3c3c3c;
-    color: #ffffff;
+    /* background-color: #3c3c3c; */
+    /* color: #ffffff; */
     /* opacity: 1; */
     cursor: pointer;
+    transform: translateY(-3px);
 }
 
 .customButton i {
