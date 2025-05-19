@@ -29,8 +29,8 @@ function TypingElement() {
             // alert("Input value is larget than 10000!");
             return
         }
-        if (parsedValue < 2) {
-            setWrongInputText("Input value is smaller than 2!")
+        if (parsedValue < 1) {
+            setWrongInputText("Input value is smaller than 1!")
             // alert("Input value is smaller than 2!")
             return
         }

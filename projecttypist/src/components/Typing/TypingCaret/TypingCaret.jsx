@@ -2,7 +2,7 @@ import { getNewCaretPos } from "../../../functions/helper_functions"
 import "./TypingCaret.css"
 import { memo, useCallback, useEffect, useImperativeHandle, useState } from "react"
 
-const TypingCaret = memo(function TypingCaret({ refference, className, inputRef, doUpdateCaretPos }) {
+const TypingCaret = memo(function TypingCaret({ refference, className }) {
     const [pos, setPos] = useState({left: 0, top: 0})
 
     const updateCaretPos = useCallback((inputEl, typedWords, index, spacePressed, closed) => {
@@ -15,14 +15,6 @@ const TypingCaret = memo(function TypingCaret({ refference, className, inputRef,
             updateCaretPos: updateCaretPos
         }
     }, [updateCaretPos])
-
-    // console.log("inputRef", inputRef)
-
-    useEffect(() => {
-        // console.log("useEffect [inputRef]")
-        doUpdateCaretPos()
-
-    }, [inputRef])
 
     return (
         <>

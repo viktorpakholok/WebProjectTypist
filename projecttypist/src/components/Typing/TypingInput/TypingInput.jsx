@@ -35,7 +35,7 @@ const dictionaryWords = await fetch("/english1000.txt")
     });
 
 const startingWordsCount = 3;
-const maxWordsAfterCursor = 1000;
+const maxWordsAfterCursor = 30;
 
 const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
     const userContext = useContext(UserContext);
@@ -61,6 +61,7 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
     const timeStats = useRef([]);
     const timeTyping = useRef(0);
     const caretRef = useRef(null)
+    const timeAfterSecond = useRef(null)
 
 
     const getStats = useCallback(() => {
@@ -70,6 +71,8 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
 
     const updateTimeStats = useCallback((curTime) => {
         timeTyping.current = curTime
+        const newTimeAfterSecond = new Date().getTime()
+        timeAfterSecond.current = newTimeAfterSecond
         const words = getStats()[1];
         const timeStat = getTimeStat(words, timeTyping.current)
         timeStats.current.push(timeStat);
@@ -111,10 +114,32 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
 
     useEffect(() => {
         // console.log("useEffect [hasStarted]")
-        timerRef.current.setTimerStarted(hasStarted)
-        if (!hasStarted) return;
+        if (!hasStarted) {
+            timerRef.current.setTimerStarted(hasStarted)
+            return;
+        };
         timeStats.current = [];
+        timerRef.current.setTimerStarted(hasStarted)
     }, [hasStarted]);
+
+    useEffect(() => {
+        if (index.word !== actualWords.length - 1 || index.letter < actualWords[index.word].length - 1) return
+        const words = getStats()[1];
+        const newTimeAfterSecond = new Date().getTime()
+        const timeTaken = Math.round((newTimeAfterSecond - timeAfterSecond.current) / 100) / 10
+        // console.log("time", timeTaken / 1000)
+        timeAfterSecond.current = newTimeAfterSecond
+        timeTyping.current = timeTyping.current + timeTaken
+        const timeStat = getTimeStat(words, timeTyping.current)
+        const timeStatsLength = timeStats.current.length
+        if (timeStatsLength > 1) {
+            timeStats.current[timeStatsLength - 1] = timeStat
+        }
+        else {
+            timeStats.current.push(timeStat)
+        }
+        renderResultPage();
+    }, [index])
 
 
     function handleKeyDown(event) {
@@ -155,6 +180,7 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
         const newSpacePressed = false
         setSpacePressed(newSpacePressed);
         timeTyping.current = 0
+        timeAfterSecond.current = new Date().getTime()
         const newIndex = { word: -1, letter: -1 }
         setIndex(newIndex);
         const newTypingWords = getNewWords(wordsCount, startingWordsCount, dictionaryWords)
@@ -320,12 +346,7 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
             const newSpacePressed = true
             setSpacePressed(newSpacePressed);
             if (nextLetterIndex(actualWords, index.word, index.letter) === index.letter) {
-                const words = getStats()[1];
-                const timeStat = getTimeStat(words, timeTyping.current)
-                const timeStatsLength = timeStats.current.length
-                if (timeStatsLength != 0) {
-                    timeStats.current[timeStatsLength - 1] = timeStat
-                }
+                
                 renderResultPage();
                 return;
             }
@@ -374,10 +395,7 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
                 playSound(errorSound)
             }
         }
-        if (newWordIndex === actualWords.length - 1 && newLetterIndex === actualWords[newWordIndex].length - 1) {
-            renderResultPage();
-            return;
-        }
+        
         setTypedWords(typedWordsCopy);
         const newIndex = { word: newWordIndex, letter: newLetterIndex }
         setIndex(newIndex);
@@ -412,8 +430,6 @@ const TypingInput = memo(({ wordsCount, timeLimit, timerRef, refference }) => {
                 <TypingCaret
                     refference={caretRef}
                     className={caretClassName}
-                    inputRef={inputRef.current?.childNodes}
-                    doUpdateCaretPos={doUpdateCaretPos}
                 ></TypingCaret>
 
                 <div ref={inputRef} id="input">
