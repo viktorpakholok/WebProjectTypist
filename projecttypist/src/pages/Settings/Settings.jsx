@@ -28,6 +28,20 @@ function Settings() {
         root.style.setProperty("--ft-color", fontColor);
     };
 
+    function changeFont(event) {
+
+        let fontFamily = window.getComputedStyle(event.currentTarget).fontFamily;
+
+        let settings = { ...userContext.user?.settings, fontFamily };
+
+        let newUser = { ...userContext.user, settings }
+
+        userContext.setUser(newUser)
+
+        root.style.setProperty("--ft-family", fontFamily);
+        // root.style.setProperty("--ft-family", fontFamily);
+    }
+
     return (
         <div>
             <Header></Header>
@@ -49,6 +63,11 @@ function Settings() {
             <h2 className="pad-bot-10 mar-top-40">Font</h2>
 
             <div className="flex gap-20">
+
+                <button className="theme-bth font-bth font-0" onClick={changeFont}>courier new</button>
+                <button className="theme-bth font-bth font-1" onClick={changeFont}>roboto mono</button>
+                <button className="theme-bth font-bth font-2" onClick={changeFont}>vt323</button>
+                <button className="theme-bth font-bth font-3" onClick={changeFont}>xanh mono</button>
 
             </div>
 

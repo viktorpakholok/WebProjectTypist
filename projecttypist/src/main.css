@@ -3,10 +3,12 @@
     --ft-color: #d1d0c5;
     --ac-color: yellow;
     --wr-color: red;
+    --ft-family: "Courier New";
 }
 
 * {
     color: var(--ft-color);
+    font-family: var(--ft-family);
 }
 
 #root {

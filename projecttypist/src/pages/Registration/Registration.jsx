@@ -20,7 +20,7 @@ function Registration() {
     const navigate = useNavigate();
     const { user, setUser } = useContext(UserContext);
     useEffect(() => {
-        if (user) {
+        if (user && Object.hasOwn(user, "id")) {
             navigate("/");
         }
     }, [user]);
@@ -104,6 +104,7 @@ function Registration() {
                     wronColor: "red",
                     fontStyle: "",
                 },
+                fontFamily: "Courier New",
                 difficulty: 0,
                 sound: 0,
             };
@@ -173,7 +174,7 @@ function Registration() {
                 >
                     <div className="informationPlaceholder-left-text align-center">
                         <Person classes="icons"></Person>
-                        <Text text="register"/>
+                        <Text text="register" />
                     </div>
                     <Input
                         name="username"
@@ -239,7 +240,7 @@ function Registration() {
                     <Button
                         type="submit"
                         text="sign in"
-                        component={<Login classes="icons"/>}
+                        component={<Login classes="icons" />}
                         className="loginButton"
                     />
                 </form>

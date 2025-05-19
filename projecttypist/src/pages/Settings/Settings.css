@@ -1,10 +1,14 @@
 .theme-bth {
-    width: 20%;
+    width: 24%;
     height: 50px;
     border-radius: 3px;
     font-size: 30px;
-    color: #d1d0c5;
-    background-color: #323437;
+    color: var(--ft-color);
+    background-color: var(--bg-color);
+    vertical-align: middle;
+    text-align: center;
+    /* color: #d1d0c5;
+    background-color: #323437; */
     position: relative;
 }
 
@@ -25,11 +29,35 @@
 .theme-2 {
     background-color: #d1d0c5;
     color: #323437;
+    font-size: 26px;
 }
 
 .theme-3 {
-    background-color: #50586C;
-    color: #DCE2F0;
+    background-color: #50586c;
+    color: #dce2f0;
+}
+
+.font-0 {
+    font-family: "Courier New";
+}
+
+.font-1 {
+    font-family: "Roboto Mono", monospace;
+}
+
+.font-2 {
+    font-family: "VT323", monospace;
+}
+
+.font-3 {
+    font-family: "Xanh Mono", monospace;
+}
+
+.font-bth {
+    border: solid 2px;
+    border-color: var(--ft-color);
+    /* vertical-align: middle; */
+    /* line-height: 1em; */
 }
 
 .caret {
