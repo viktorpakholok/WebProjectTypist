@@ -2,7 +2,7 @@
     width: 24%;
     height: 50px;
     border-radius: 3px;
-    font-size: 30px;
+    font-size: 16px;
     color: var(--ft-color);
     background-color: var(--bg-color);
     vertical-align: middle;
@@ -14,6 +14,18 @@
 
 .theme-bth:hover {
     cursor: pointer;
+}
+
+@media (min-width: 1200px) {
+  .theme-bth {
+    font-size: 30px;
+  }
+}
+
+@media (min-width: 800px) {
+  .theme-bth {
+    font-size: 20px;
+  }
 }
 
 .theme-0 {
@@ -29,7 +41,6 @@
 .theme-2 {
     background-color: #d1d0c5;
     color: #323437;
-    font-size: 26px;
 }
 
 .theme-3 {

@@ -1,5 +1,5 @@
 function Person(props) {
-    return <svg width="20px" height="20px" className={props.classes} version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" enable-background="new 0 0 256 256" xml:space="preserve">
+    return <svg width="20px" height="20px" className={props.classes} version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" enableBackground="new 0 0 256 256" xmlSpace="preserve">
         <metadata> Svg Vector Icons : http://www.onlinewebfonts.com/icon </metadata>
         <g>
             <g>

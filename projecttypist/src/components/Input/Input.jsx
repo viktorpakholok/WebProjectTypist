@@ -21,8 +21,8 @@ function Input({ name, type = "text", placeholderText, value, onChange }) {
             placeholder={placeholderText}
             value={value}
             onChange={onChange}
-            minlength="3"
-            maxlength="25"
+            minLength="3"
+            maxLength="50"
         />
     );
 }

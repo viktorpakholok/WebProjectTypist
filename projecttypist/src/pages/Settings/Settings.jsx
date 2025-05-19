@@ -72,11 +72,11 @@ function Settings() {
             </div>
 
 
-            <h2 className="pad-bot-10 mar-top-40">Sound</h2>
+            {/* <h2 className="pad-bot-10 mar-top-40">Sound</h2>
 
             <div className="flex gap-20">
 
-            </div>
+            </div> */}
 
             {/* <Logs data={arr}></Logs> */}
 
